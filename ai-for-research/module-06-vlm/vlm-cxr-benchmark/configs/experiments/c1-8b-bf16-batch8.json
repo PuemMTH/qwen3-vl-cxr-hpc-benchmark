@@ -1,0 +1,30 @@
+{
+  "dataset": {
+    "source_split": "train",
+    "study_role": "development",
+    "limit": 1000,
+    "selection_seed": 42,
+    "verify_sha256": true,
+    "confirmatory_unlocked": false
+  },
+  "inference": {
+    "backend": "transformers",
+    "model_registry": "configs/models.lock.json",
+    "profile": "8b-bf16",
+    "batch_size": 8,
+    "max_image_edge": 512,
+    "max_new_tokens": 128,
+    "warmup_batches": 7,
+    "warmup_images_minimum": 50,
+    "local_files_only": true,
+    "seed": 42,
+    "prompt": "Classify this pediatric AP chest X-ray as NORMAL or PNEUMONIA. Return only one JSON object with exactly one key: {\"label\":\"NORMAL|PNEUMONIA|UNCERTAIN\"}. Use UNCERTAIN when the image is insufficient. Do not return Markdown or explanation."
+  },
+  "evaluation": {
+    "bootstrap_replicates": 2000,
+    "bootstrap_seed": 20260923,
+    "confidence_level": 0.95
+  },
+  "study_status": "development_pilot_only",
+  "confirmatory_test_accessed": false
+}

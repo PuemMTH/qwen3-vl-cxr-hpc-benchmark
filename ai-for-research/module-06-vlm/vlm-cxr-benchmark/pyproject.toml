@@ -1,0 +1,73 @@
+[project]
+name = "vlm-cxr-benchmark-pack"
+version = "0.1.0"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+  "numpy>=2.2,<3",
+  "pillow>=11,<13",
+  "scipy>=1.15,<2",
+]
+
+[project.optional-dependencies]
+inference = [
+  "accelerate==1.15.0",
+  "bitsandbytes==0.50.2",
+  "huggingface-hub==1.31.0",
+  "safetensors==0.8.0",
+  "torch==2.7.1",
+  "torchvision==0.22.1",
+  "transformers==5.17.0",
+]
+local-blackwell = [
+  "accelerate==1.15.0",
+  "bitsandbytes==0.50.2",
+  "huggingface-hub==1.31.0",
+  "safetensors==0.8.0",
+  "torch==2.14.0",
+  "torchvision==0.29.0",
+  "transformers==5.17.0",
+]
+dev = [
+  "pytest>=8.3,<10",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+package = true
+conflicts = [
+  [
+    { extra = "inference" },
+    { extra = "local-blackwell" },
+  ],
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cu126", extra = "inference" },
+  { index = "pytorch-cu130", extra = "local-blackwell" },
+]
+torchvision = [
+  { index = "pytorch-cu126", extra = "inference" },
+  { index = "pytorch-cu130", extra = "local-blackwell" },
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["vlm_cxr"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["."]

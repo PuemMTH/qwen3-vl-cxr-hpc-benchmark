@@ -1,0 +1,41 @@
+{
+  "registry": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/configs/models.lock.json",
+  "download_allowed": true,
+  "all_ready": true,
+  "profiles": [
+    {
+      "profile": "30b-a3b-bf16",
+      "model_id": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+      "revision": "9c4b90e1e4ba969fd3b5378b57d966d725f1b86c",
+      "precision": "bf16",
+      "architecture": "moe",
+      "minimum_gpus": 2,
+      "weight_bytes": 62141618016,
+      "license": "apache-2.0",
+      "snapshot_path": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/hf-home-vlm/hub/models--Qwen--Qwen3-VL-30B-A3B-Instruct/snapshots/9c4b90e1e4ba969fd3b5378b57d966d725f1b86c",
+      "snapshot_directory_name": "9c4b90e1e4ba969fd3b5378b57d966d725f1b86c",
+      "revision_matches_snapshot": true,
+      "weight_files": 13,
+      "config_present": true,
+      "preprocessor_config_present": true,
+      "ready": true
+    },
+    {
+      "profile": "32b-bf16",
+      "model_id": "Qwen/Qwen3-VL-32B-Instruct",
+      "revision": "0cfaf48183f594c314753d30a4c4974bc75f3ccb",
+      "precision": "bf16",
+      "architecture": "dense",
+      "minimum_gpus": 2,
+      "weight_bytes": 66714912872,
+      "license": "apache-2.0",
+      "snapshot_path": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/hf-home-vlm/hub/models--Qwen--Qwen3-VL-32B-Instruct/snapshots/0cfaf48183f594c314753d30a4c4974bc75f3ccb",
+      "snapshot_directory_name": "0cfaf48183f594c314753d30a4c4974bc75f3ccb",
+      "revision_matches_snapshot": true,
+      "weight_files": 14,
+      "config_present": true,
+      "preprocessor_config_present": true,
+      "ready": true
+    }
+  ]
+}

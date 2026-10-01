@@ -1,0 +1,58 @@
+{
+  "study_status": "development_pilot_only",
+  "selection_rule": "highest median pipeline throughput after five rounds, excluding OOM or non-ok outputs",
+  "selected_batch": 8,
+  "candidates": {
+    "1": {
+      "valid": true,
+      "round_pipeline_throughput_images_per_hour": [
+        10894.214399836525,
+        10807.094253449155,
+        10885.448481895219,
+        11132.532104627366,
+        11378.601739246056
+      ],
+      "median_pipeline_throughput_images_per_hour": 10894.214399836525,
+      "state": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch1/state.json"
+    },
+    "2": {
+      "valid": true,
+      "round_pipeline_throughput_images_per_hour": [
+        17544.23451413435,
+        17319.28560796824,
+        17265.65212318984,
+        17476.03470174561,
+        17727.84242156477
+      ],
+      "median_pipeline_throughput_images_per_hour": 17476.03470174561,
+      "state": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/state.json"
+    },
+    "4": {
+      "valid": true,
+      "round_pipeline_throughput_images_per_hour": [
+        27540.820904134252,
+        27260.502602642402,
+        27816.975259453582,
+        27447.909946373213,
+        27937.692258274863
+      ],
+      "median_pipeline_throughput_images_per_hour": 27540.820904134252,
+      "state": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch4/state.json"
+    },
+    "8": {
+      "valid": true,
+      "round_pipeline_throughput_images_per_hour": [
+        40705.46523449157,
+        41553.58415680119,
+        41614.39024108784,
+        41897.99593056296,
+        41695.677995144935
+      ],
+      "median_pipeline_throughput_images_per_hour": 41614.39024108784,
+      "state": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch8/state.json"
+    }
+  },
+  "selected_utc": "2026-09-22T19:32:57.839094+00:00",
+  "model_profile": "4b-bf16",
+  "model_selection_evidence": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/B-development/quality-summary.json"
+}

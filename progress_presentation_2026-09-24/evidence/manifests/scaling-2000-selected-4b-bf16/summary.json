@@ -1,0 +1,23 @@
+{
+  "dataset_manifest": "/home/puem/Desktop/HPCP/data/mendeley-v3-chest-xray/manifest.csv",
+  "dataset_manifest_sha256": "1b4cff13ee5615de5df283372bc91330cdc8ba4f4b5c2e95d1b878329ed5aff0",
+  "config": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/configs/experiments/c2-4b-bf16-batch1.json",
+  "config_sha256": "37f7c61601610ccc85a843afa4bc18ed010b7861fe8f9c244367becf03f11b24",
+  "source_split": "train",
+  "study_role": "development",
+  "images": 2000,
+  "patients": 1529,
+  "images_by_class": {
+    "NORMAL": 1000,
+    "PNEUMONIA": 1000
+  },
+  "patients_by_class": {
+    "NORMAL": 788,
+    "PNEUMONIA": 741
+  },
+  "blind_manifest": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/manifests/scaling-2000-selected-4b-bf16/blind_manifest.csv",
+  "blind_manifest_sha256": "594e4ebc7ea4827b0310e7bd577fb878ff7af48bec6cf1719bd7d318861a492a",
+  "labels_manifest": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/manifests/scaling-2000-selected-4b-bf16/labels.csv",
+  "labels_manifest_sha256": "416e76cad0e71d164daedbfc39efa6c125f250090cf45852d2ba6969b4d38445",
+  "labels_separated_from_inference_manifest": true
+}

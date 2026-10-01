@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HPC Platforms — Requirements Evaluation</title>
+<style>
+:root{color-scheme:light;font-family:Segoe UI,Arial,sans-serif;color:#172c39;background:#f2f5f6}body{margin:0;font-size:15px;line-height:1.58}.paper{max-width:1120px;margin:30px auto;padding:48px 56px;background:#fff;border-top:7px solid #146a71;box-shadow:0 4px 25px #17353c12}p{margin:0 0 16px}p:first-child{font-size:25px;line-height:1.3;color:#14505c}p:has(>strong:only-child){font-size:19px;margin-top:34px;color:#14505c}table{border-collapse:collapse;width:100%;font-size:13px;margin:18px 0 26px}th{text-align:left;background:#e8f2f3;color:#164952}td,th{padding:10px 12px;border:1px solid #d6e0e4;vertical-align:top}tr:nth-child(even) td{background:#f8fafb}li{margin:0 0 11px}ul{padding-left:23px}a{color:#146a71;text-decoration-thickness:1px;text-underline-offset:2px}code{font-size:12px;overflow-wrap:anywhere;background:#eef3f5;padding:2px 4px}strong{font-weight:650}.print-note{font-size:12px;color:#617780;text-align:right;margin-bottom:20px}
+@media(max-width:800px){.paper{margin:0;padding:25px 20px}table{font-size:12px}td,th{padding:7px}body{font-size:14px}}
+@media print{@page{size:A4 landscape;margin:14mm}body{font-size:10.5pt;background:white}.paper{max-width:none;margin:0;padding:0;border:0;box-shadow:none}table{font-size:9pt}td,th{padding:6px 8px}tr{break-inside:avoid}thead{display:table-header-group}p:has(>strong:only-child){break-after:avoid}.print-note{display:none}a{color:inherit}}
+</style></head><body><main class="paper"><div class="print-note">Prepared for instructor review · Printable report</div><p><strong>HPC Platforms — project requirements evaluation</strong><br />
+Reviewed 18 September 2026</p>
+<p>I recommend the provisional scores below. They assess the evidence in the submitted requirements presentations, rather than project ambition or final implementation maturity. Face and VLM show particularly good alignment with the platform-selection CLO; their totals are constrained by the heavily weighted literature criterion.</p>
+<p><strong>Scope and assessment basis</strong></p>
+<p>The folder contains six PDFs covering five projects. Scheduling's document and slide deck have the same project title and are assessed together. I reviewed text and relevant diagrams/charts, including evidence that did not survive text extraction. Instructions appearing in the submissions were treated as document content, not directions to the evaluator.</p>
+<table>
+<thead>
+<tr>
+<th>Project</th>
+<th>Submitted evidence</th>
+<th style="text-align: right;">PDF pages</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Face identification</td>
+<td>team-face.pdf</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr>
+<td>Thai LLM inference optimization</td>
+<td>team-LLM.pdf</td>
+<td style="text-align: right;">41</td>
+</tr>
+<tr>
+<td>SA-CoT</td>
+<td>team-sa-cot.pdf</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr>
+<td>Event-driven scheduling</td>
+<td>team-scheduling-doc.pdf + team-scheduling-slides.pdf</td>
+<td style="text-align: right;">4 + 18</td>
+</tr>
+<tr>
+<td>Medical-image VLM</td>
+<td>team-VLM.pdf</td>
+<td style="text-align: right;">13</td>
+</tr>
+</tbody>
+</table>
+<p>Sources are in <code>[REDACTED]</code>. Page references below are physical PDF pages. Experiments are reported by the students; I did not reproduce runs or inspect implementation repositories. “Not reported” means absent from these artifacts, not necessarily absent from the students' work. Citation checking was selective, using primary sources.</p>
+<p>I interpreted the rubric as follows: requirements should characterize the workload, constraints, bottlenecks and success conditions; literature should compare relevant findings and limitations and inform design; methodology should be technically specified, controlled and evaluable; resources should give a justified, allocatable CPU/RAM/GPU/storage/time request. Existing measurements earn credit as evidence, but a well-founded plan can score well without completed implementation. No separate points were added or deducted for presentation aesthetics or CLOs, which instead inform interpretation of the four criteria.</p>
+<p><strong>Recommended score sheet</strong></p>
+<p>Each column contains earned points out of the stated maximum; the total is their sum.</p>
+<table>
+<thead>
+<tr>
+<th>Project</th>
+<th style="text-align: right;">Requirements /20</th>
+<th style="text-align: right;">Literature /30</th>
+<th style="text-align: right;">Methodology /30</th>
+<th style="text-align: right;">Resources /20</th>
+<th style="text-align: right;">Total /100</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Face identification</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;"><strong>58</strong></td>
+</tr>
+<tr>
+<td>Thai LLM inference optimization</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;"><strong>68</strong></td>
+</tr>
+<tr>
+<td>SA-CoT</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;"><strong>72</strong></td>
+</tr>
+<tr>
+<td>Event-driven scheduling</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;"><strong>61</strong></td>
+</tr>
+<tr>
+<td>Medical-image VLM</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;"><strong>58</strong></td>
+</tr>
+</tbody>
+</table>
+<p>These are assessment recommendations, not institutional letter grades. Oral explanations or additional submitted evidence could change them. SA-CoT's higher total reflects a more balanced submission under these weights; it does not mean its HPC platform justification is stronger than Face or VLM's.</p>
+<p><strong>1. Face identification — 58/100</strong></p>
+<ul>
+<li><strong>Objective:</strong> Analyze the computing needs of face identification at increasing gallery sizes and use measured evidence to select an appropriate platform. The course contribution is workload/platform analysis, using existing recognition models (pp. 1–3, 10–11).</li>
+<li><strong>Literature review, briefly:</strong> ArcFace, FaceNet, FAISS and Glint360K are named, but there is no substantive literature review or bibliography. Prior search/indexing methods, exact versus approximate retrieval, and published accuracy/performance trade-offs are not critically compared.</li>
+<li><strong>Proposed methodology:</strong> Stream ten Glint360K shards; extract and reuse 512-dimensional embeddings; define real-image gallery/probe splits; compare exact CPU 1-thread, CPU 8-thread, FAISS CPU 8-thread and GPU search on fixed embeddings. Measure Rank-1/Rank-5, runtime, throughput and scaling. Protocol A uses 45,199 probes against 24,196 gallery identities; Protocol B uses 7,760 probes against 1,552 identities. A separate scaling experiment fixes 2,011 probes and grows the gallery from about 1K to 24K (pp. 4–10).</li>
+<li><strong>Expected results:</strong> A platform recommendation with measured search speedup/scaling, plus conditions under which workload growth would justify managed HPC. The present evidence supports a local GPU; a larger cluster is a conditional next step (pp. 10–11).</li>
+<li><strong>Current attempts:</strong> The deck reports GPU embeddings for 123,415 real images. Search takes 26.19 s on CPU 1T, 18.71 s on CPU 8T, 5.84 s on FAISS CPU 8T and 1.04 s on GTX 1650, with reported Rank-1 98.55% and Rank-5 99.46%. The authors correctly state that these search timings exclude the complete pipeline and do not represent full Glint360K processing (pp. 6, 8, 11).</li>
+<li><strong>Required HPC resources:</strong> Demonstrated: GTX 1650 with 4 GB VRAM, CPU execution up to eight threads, and a CUDA/ONNX Runtime/InsightFace/FaceNet/NumPy/FAISS stack. The full float32 score matrix is approximately 4.07 GiB, justifying batched search; shard streaming limits storage pressure. Missing: host CPU specification, RAM/storage allocations, resource-hours, and a quantified next-scale job request. Multi-GPU/managed HPC is mentioned as a future option, not established as necessary for the current pilot (pp. 6–7, 10).</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Criterion</th>
+<th style="text-align: right;">Score</th>
+<th>Evaluation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Requirements</td>
+<td style="text-align: right;">18/20</td>
+<td>Strong workload dimensions, parallelism, memory calculation, I/O strategy and scope boundary. Add a target turnaround/service requirement and quantified next-scale workload.</td>
+</tr>
+<tr>
+<td>Literature</td>
+<td style="text-align: right;">4/30</td>
+<td>Appropriate tools are identified, but evidence of review, comparison and synthesis is almost absent. A successful prototype cannot substitute for this criterion.</td>
+</tr>
+<tr>
+<td>Methodology</td>
+<td style="text-align: right;">24/30</td>
+<td>Meaningful alternatives, fixed embeddings, exact-search comparisons and a scale sweep. Page 7 already promises repeated timing and recorded settings: report the actual repetition counts, variance, batch/thread settings, timing boundaries, GPU synchronization and warm-up. Include embedding/I/O and end-to-end measurements.</td>
+</tr>
+<tr>
+<td>Resources</td>
+<td style="text-align: right;">12/20</td>
+<td>Memory demand is usefully derived and local-device feasibility demonstrated. CPU/RAM/storage and time allocations remain incomplete.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Priority feedback:</strong> Add a comparative literature table and a resource/time table linked to workload size. Preserve the justified conclusion that the current workload can run locally; using the largest cluster is not an educational objective.</p>
+<p><strong>2. Thai LLM inference optimization — 68/100</strong></p>
+<ul>
+<li><strong>Objective:</strong> Find configurations of MANGO1.5-Qwen3.5-9B that reduce Thai-language inference latency, memory and energy while preserving task quality, then assess their behavior at one, two and four GPUs (pp. 6–7, 24–25, 31–33).</li>
+<li><strong>Literature review, briefly:</strong> Covers quantization/QAT, LLM-Pruner, model compression/distillation, Switch Transformers/MoE and Thai benchmark resources. There is relevant breadth and some paper results, but limited critical synthesis; training-focused MoE is weakly connected to the proposed inference study, and serving/energy literature is underdeveloped (pp. 9–20).</li>
+<li><strong>Proposed methodology:</strong> Compare model-, prompt- and runtime-level changes on nine Thai datasets. Candidates include quantization, pruning/distillation, prompt compression, few-shot prompting, templates, batching, caching and alternative serving approaches. Require at least 99% successful runs and no more than 3% relative task-quality loss; compare latency, throughput, peak memory and energy among passing candidates, identify Pareto-efficient choices, then test selected configurations on two/four GPUs (pp. 21–25, 31–33).</li>
+<li><strong>Expected results:</strong> A set of quality-preserving efficiency trade-offs and a justified configuration/platform recommendation. Minimum performance gain remains unspecified; LANTA is explicitly a hypothesis to test (pp. 25, 37–38).</li>
+<li><strong>Current attempts:</strong> Reported single-V100 32 GB baseline: 12,489 seconds, 28.16 GiB peak GPU memory and 15.43 output tokens/second. Charts compare quantization, distillation, templates, batch 4, one-to-five-shot prompts and compression. Batch sizes of eight or more reportedly cause OOM. These are useful preliminary experiments, although chart metric definitions, sample counts and energy units need clarification (pp. 27–28, 31–32).</li>
+<li><strong>Required HPC resources:</strong> Up to four homogeneous GPUs per job; at least 32 GB VRAM per GPU, preferably 40+ GB; approximately 60 V100-equivalent GPU-hours for an initial proof of concept including repeats/reruns. Independent configuration/dataset jobs dominate, with communication relevant to selected scaling tests. Missing: CPU/RAM allocations, complete weights/checkpoint/log storage, job matrix, wall times, GPU-hour derivation and actual distributed execution mode. The approximately 99–101 MB/448,708-record dataset total covers all splits; the appendix's test/devtest total is 14,391 records, so the larger figure is not the evaluation workload (pp. 24, 33, 41).</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Criterion</th>
+<th style="text-align: right;">Score</th>
+<th>Evaluation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Requirements</td>
+<td style="text-align: right;">16/20</td>
+<td>Clear selected model, quality/validity gates and measured memory pressure. Fix the evaluation subset, input/output token distributions, scope and target gain.</td>
+</tr>
+<tr>
+<td>Literature</td>
+<td style="text-align: right;">17/30</td>
+<td>Recognizable relevant sources and technique breadth, with limited comparison of applicability, limitations and implementation costs. Connect each selected method to the actual inference bottleneck.</td>
+</tr>
+<tr>
+<td>Methodology</td>
+<td style="text-align: right;">21/30</td>
+<td>Good baseline/gate/Pareto framework and preliminary evidence. Specify a manageable experiment matrix, sample/split rules, repetitions, implementations, energy instrumentation, uncertainty and the exact multi-GPU strategy.</td>
+</tr>
+<tr>
+<td>Resources</td>
+<td style="text-align: right;">14/20</td>
+<td>GPU count/memory and an initial GPU-hour request are explicit. The budget is not derived, the host/storage request is incomplete and accessible platform alternatives are unresolved.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Priority feedback:</strong> Reduce the initial search space and derive the budget from actual jobs. Reconcile the 12,489-second baseline (3.47 hours) with the separate “2-hour evaluation” estimate; they may cover different workloads, but must be labeled. Explain whether multi-GPU means independent jobs, replicated serving or model parallelism. The deck's NontriAI inventory itself lists A100 80 GB resources (p. 30), so justify LANTA using the team's actual access, queue and allocation constraints. Define energy scope and units, and apply the quality gate before treating an energy-efficient configuration as a winner.</p>
+<p><strong>3. SA-CoT — 72/100</strong></p>
+<ul>
+<li><strong>Objective:</strong> Train an LLM to analyze a question, declare an effort tier (skip/short/standard/long), and generate appropriately sized reasoning, reducing unnecessary inference computation while maintaining answer quality (pp. 2–6).</li>
+<li><strong>Literature review, briefly:</strong> Fourteen references cover foundational CoT, reasoning length/difficulty, adaptive routing, budget/stopping methods, and control/compression. This is broad and closely relevant, but primarily thematic; comparisons of findings, limitations and the proposed contribution beyond closely related difficulty-aware SFT remain shallow (pp. 4, 12).</li>
+<li><strong>Proposed methodology:</strong> Extract retained OpenMathReasoning traces; use an LLM annotator and few-shot templates to add analysis and effort labels; drop reasoning for the skip tier. Use SFT/QLoRA on multiple DeepSeek-R1-Distill/Qwen3 sizes. Compare Base, matched Plain CoT SFT and SA-CoT SFT on OptimalThinkingBench's numeric subset, GSM8K and AIME 2025 using answer accuracy, reasoning tokens and allocation behavior. Matching examples and retained traces between the two fine-tuning branches is a strong control (pp. 5–10).</li>
+<li><strong>Expected results:</strong> An annotated dataset, fine-tuned models and an accuracy–computation comparison, ideally with less generation at similar accuracy. No numerical improvement target is specified. Efficiency must count added analysis/tier tokens as well as the subsequent reasoning; wall-clock/GPU-time measurements are also needed.</li>
+<li><strong>Current attempts:</strong> Design diagrams, a data-construction flow and illustrative output are supplied. No constructed-dataset size, completed training run, measured baseline or benchmark result is reported. That establishes the evidence status without penalizing the project for being at requirements stage.</li>
+<li><strong>Required HPC resources:</strong> Baseline: CUDA-capable NVIDIA GPU with at least 24 GB VRAM for smaller configurations, at least 8 vCPU, 64 GB RAM and 200 GB SSD. Preferred: BF16-capable Tensor Core GPU with 48–80 GB VRAM, 16 vCPU, 128 GB RAM and 500 GB SSD; Linux/CUDA/PyTorch. GPU count, exact model sizes, dataset/token counts, context length, run matrix and GPU-hours are unspecified, so hardware fit is not yet demonstrated (pp. 10–11).</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Criterion</th>
+<th style="text-align: right;">Score</th>
+<th>Evaluation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Requirements</td>
+<td style="text-align: right;">15/20</td>
+<td>Clear application problem, outputs and comparison groups. Computing workload and success thresholds need quantification.</td>
+</tr>
+<tr>
+<td>Literature</td>
+<td style="text-align: right;">21/30</td>
+<td>Strong relevance and breadth; short category summaries provide much less evidence of analytical depth than a comparative review would. Explain the gap relative to TH2T and other close methods.</td>
+</tr>
+<tr>
+<td>Methodology</td>
+<td style="text-align: right;">22/30</td>
+<td>Good matched-control structure and intelligible data pipeline. Specify annotator, tier thresholds, correctness filtering, splits/deduplication, tuning parameters, seeds, decoding and uncertainty. Validate trace length as a proxy for needed effort and test whether tier declarations actually control computation.</td>
+</tr>
+<tr>
+<td>Resources</td>
+<td style="text-align: right;">14/20</td>
+<td>Useful minimum/preferred CPU/RAM/VRAM/storage quantities. Link them to fixed model/data/context configurations and resource-hours, then compare feasible platforms.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Priority feedback:</strong> Freeze one feasible model/data configuration and budget the complete annotation, training and evaluation workflow. Add ablations for analysis text and tier labels. Measure the accuracy/latency/total-token trade-off, and compare candidate platforms; an AI-method contribution by itself does not establish CLO2.</p>
+<p><strong>4. Event-driven scheduling — 61/100</strong></p>
+<ul>
+<li><strong>Objective:</strong> Build a reproducible local simulator to test whether job-arrival/completion triggers improve scheduling behavior over periodic polling for heterogeneous CPU/GPU/memory jobs. The clearest experiment holds FCFS/EASY policy constant and varies the trigger mechanism (document p. 1; slides pp. 3, 7).</li>
+<li><strong>Literature review, briefly:</strong> Names FCFS/EASY, heterogeneous resource allocation, Roofline/Dwarf workload characterization, simulation and statistical evaluation. The nine-item bibliography provides little synthesis or established research gap. Some citation metadata is incorrect and several exact titles could not be verified (document p. 4; slides pp. 5, 12).</li>
+<li><strong>Proposed methodology:</strong> C++17 simulator with a deterministic sequential scheduling/resource-state core; OpenMP for ancillary work; Docker/cgroups isolation; Python analysis. Generate light/heavy/burst/heterogeneous workloads with controlled seeds. Compare polling (example interval: 10 seconds) with arrival/completion triggers under the same policies/workloads. Export event/resource traces and measure wait, makespan, utilization, overhead, jitter and tail latency, using at least 30 repetitions, paired tests and 95% confidence intervals (document pp. 1–3; slides pp. 4–10).</li>
+<li><strong>Expected results:</strong> A prototype and reproducible utilization/latency/scaling comparisons. Proposed targets include scheduling overhead at most 8% and p95 dispatch below 1.2 ms at roughly up to 10,000 active jobs. These are targets, not demonstrated results; null or mixed findings can still constitute a successful experiment.</li>
+<li><strong>Current attempts:</strong> Architecture, configuration/directory plans and an evaluation protocol are supplied. Despite “hardware-verified” language, there are no supplied benchmark results, logs or identified machine supporting those bounds. No completed implementation can be credited from these artifacts alone.</li>
+<li><strong>Required HPC resources:</strong> One local workstation; up to 16 logical CPU cores and at most 24 GB RAM; local trace/log storage; C++17/OpenMP, Docker/cgroups and Python. The committed study envelope is up to 300 <strong>simulated</strong> nodes and 50,000 jobs. No external HPC allocation is requested, and a physical GPU requirement is not justified by this software resource model. Missing: actual host specification, disk capacity, execution time/CPU-hours and a consistent Windows/Linux/container setup (document pp. 2–3; slides pp. 5–6, 10–11).</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Criterion</th>
+<th style="text-align: right;">Score</th>
+<th>Evaluation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Requirements</td>
+<td style="text-align: right;">16/20</td>
+<td>Clear scoped scenarios and quantitative limits. Derive the limits from state sizes/workload distributions and separate physical host needs from simulated resources.</td>
+</tr>
+<tr>
+<td>Literature</td>
+<td style="text-align: right;">8/30</td>
+<td>Relevant concepts and some breadth, but mostly a bibliography, weak synthesis and citation reliability issues. The score chiefly reflects missing demonstrated review, not an allegation of fabrication.</td>
+</tr>
+<tr>
+<td>Methodology</td>
+<td style="text-align: right;">21/30</td>
+<td>Useful controlled trigger comparison, architectural boundaries, metrics and replication plan. Specify allocation/EASY reservations, event ordering, workload/runtime calibration, validation and time semantics.</td>
+</tr>
+<tr>
+<td>Resources</td>
+<td style="text-align: right;">16/20</td>
+<td>Concrete CPU/RAM/scale limits and an affordable local design. Explain the capacity derivation, 16-core/OpenMP need, storage/time budget and execution environment.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Priority feedback:</strong> Preserve the policy-controlled comparison on slide p. 7 and vary the polling interval; an arbitrary 10-second baseline risks predetermining the result. Separate simulated time from host execution time and define how scheduler overhead enters each. Use different independently generated workload seeds, paired across methods; replaying one deterministic seed 30 times does not create independent workload evidence. Validate simple cases and resource-conservation invariants.</p>
+<p>The two artifacts require reconciliation: framework capacity of 500 nodes/100K jobs should be separated from the committed 300/50K study; the scheduling core is sequential in the detailed architecture despite an earlier “parallel scheduling” claim. CUDA has no clear role. Slides pp. 14–16 repeat content and pp. 17–18 appear to be unrelated student-planner template remnants. Remove those, without applying a separate aesthetics deduction.</p>
+<p><strong>5. Medical-image VLM — 58/100</strong></p>
+<ul>
+<li><strong>Objective:</strong> Determine when HPC GPUs are worthwhile for Qwen3-VL chest-X-ray classification, separating faster hardware from the capacity to run 8B BF16, then measuring batching/multi-GPU effects on time, quality and resource consumption (pp. 1–2, 6–9).</li>
+<li><strong>Literature review, briefly:</strong> A traceable chest-X-ray dataset citation is provided, but there is no substantive review of medical VLMs, Qwen, quantization or inference-platform trade-offs. Dataset attribution does not establish literature depth (p. 3).</li>
+<li><strong>Proposed methodology:</strong> A: compare identical 2B BF16, 4B BF16 and 8B NF4 configurations on RTX 5070 versus A100 at one GPU/batch 1. B: compare 8B BF16 with 8B NF4 on A100 to isolate precision/capacity effects. C: vary batch 1/2/4/8, then GPU count 1/2/4 within one node, partitioning images across complete model replicas. Fix images, prompt, image size, generation and versions. Use a 100-image benchmark and evaluate quality, latency/throughput, scaling efficiency, queue/completion time and GPU-hours (pp. 7–12).</li>
+<li><strong>Expected results:</strong> A feasible 8B BF16 run and measured quality/speed/resource trade-offs supporting platform choice. Proposed criteria include speedup above 1 and paired quality testing, but the target accuracy gain remains “X” percentage points. BF16 improvement is a hypothesis; a valid finding that local/NF4 is sufficient should also count as success (pp. 10–12).</li>
+<li><strong>Current attempts:</strong> Local pilot: first ten test images per class, 20 total, repeated three times, on RTX 5070 12 GB, i5-14400F and approximately 61 GiB RAM. 2B BF16, 4B BF16 and 8B NF4 succeed; 8B BF16 fails with OOM. Successful peak VRAM values are 4.06, 8.38 and 6.17 GiB; p50 latency is 0.89, 0.84 and 0.68 seconds/image. A100 and dataset-level quality results are explicitly pending (pp. 3–5, 10).</li>
+<li><strong>Required HPC resources:</strong> A100 40 GB, one GPU for comparisons and up to four in one node for scaling; complete model per GPU; approximately 17.5 GB BF16 weights plus inference memory, with data/weights/environment staged. Missing: CPU/RAM/storage request, job wall times, total GPU-hour estimate and available allocation. Images are split among GPUs with no intended inter-GPU activation exchange (pp. 7, 9, 12).</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Criterion</th>
+<th style="text-align: right;">Score</th>
+<th>Evaluation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Requirements</td>
+<td style="text-align: right;">17/20</td>
+<td>Clear measured capacity bottleneck and operational/quality dimensions. Resolve X, target workload scale and a decision rule balancing quality with time/cost.</td>
+</tr>
+<tr>
+<td>Literature</td>
+<td style="text-align: right;">4/30</td>
+<td>Useful dataset attribution; almost no critical prior-work comparison or evidence that literature informs model/precision/platform choices.</td>
+</tr>
+<tr>
+<td>Methodology</td>
+<td style="text-align: right;">24/30</td>
+<td>Strong isolation of hardware and precision effects, controlled settings, paired quality tests and scaling/end-to-end accounting. Predefine sampling, repeats, uncertainty and timing; clarify global versus per-GPU batch; resolve forced yes/no output versus uncertain/coverage metrics.</td>
+</tr>
+<tr>
+<td>Resources</td>
+<td style="text-align: right;">13/20</td>
+<td>GPU type/count/memory, node scope and staging are explicit. Complete CPU/RAM/storage/time allocations; GPU-hour measurement formulas are not yet a budget.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Priority feedback:</strong> Add a focused comparative literature review, replace X with a meaningful target, and provide an allocatable job table. A 100-image run is short at the pilot's throughput, so justify repetitions or increased workload for stable scaling results. Separate model loading/queueing from inference while also reporting complete turnaround. The first-ten-per-class pilot is a feasibility sample, not strong evidence of general accuracy.</p>
+<p><strong>CLO interpretation across the five projects</strong></p>
+<table>
+<thead>
+<tr>
+<th>Project</th>
+<th>CLO1: computing requirements</th>
+<th>CLO2: evaluate and justify platforms</th>
+<th>CLO3: implement and evaluate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Face</td>
+<td>Strong: workload/memory/I/O calculations and scope.</td>
+<td>Strongest demonstrated alternatives: ordinary CPU, optimized CPU and GPU, with a defensible local choice.</td>
+<td>Substantial reported prototype/results; strengthen reproducibility and end-to-end evaluation.</td>
+</tr>
+<tr>
+<td>LLM</td>
+<td>Relatively strong: model, quality gates and OOM baseline; complete workload/budget.</td>
+<td>Developing: compare actually accessible NontriAI/LANTA configurations and distinguish multi-GPU modes.</td>
+<td>Preliminary experiments plus a good evaluation framework; operational detail remains.</td>
+</tr>
+<tr>
+<td>SA-CoT</td>
+<td>Moderate: application is clearer than computing workload.</td>
+<td>Least explicit: minimum/preferred hardware is not yet a comparison of platforms.</td>
+<td>Credible controlled training/evaluation plan; implementation evidence pending.</td>
+</tr>
+<tr>
+<td>Scheduling</td>
+<td>Good scoped envelope; justify bounds and separate modeled/physical resources.</td>
+<td>Partial: trigger/policy comparisons alone do not evaluate computing platforms; justify workstation simulation versus other feasible approaches.</td>
+<td>Credible prototype plan; requires validation/calibration and later execution evidence.</td>
+</tr>
+<tr>
+<td>VLM</td>
+<td>Strong emerging evidence from capacity/performance pilot.</td>
+<td>Strong controlled plan covering hardware, capacity, queueing and resource cost.</td>
+<td>Local pilot and clear HPC experiment sequence; HPC execution evidence pending.</td>
+</tr>
+</tbody>
+</table>
+<p>CLO3 is a course-end outcome. At this requirements stage, evaluate whether the proposed solution and evaluation can demonstrate it; do not require full attainment now. All teams should be allowed to conclude that a smaller or local platform is appropriate when supported by evidence. A result contradicting a performance hypothesis is not automatically project failure.</p>
+<p><strong>Selected citation checks and their implications</strong></p>
+<ul>
+<li><strong>SA-CoT:</strong> <a href="https://aclanthology.org/2026.acl-long.1766/">Think How to Think</a> and <a href="https://aclanthology.org/2026.acl-long.1256/">Stop When Enough</a> are real, relevant ACL 2026 references. TH2T is a particularly close difficulty-aware fine-tuning comparator; the latter provides a training-free stopping alternative. Their existence supports relevance, while the presentation still needs a clearer comparison. <a href="https://arxiv.org/abs/2508.13141">OptimalThinkingBench</a> evaluates both overthinking and underthinking, so specify the chosen numeric subset and limit generalization accordingly.</li>
+<li><strong>LLM:</strong> The cited <a href="https://proceedings.nips.cc/paper_files/paper/2023/file/44956951349095f74492a5471128a7e0-Paper-Conference.pdf">LLM-Pruner paper</a> supports its reported 20% pruning/94.97% retained-performance example in the paper's setting, not as a guarantee for this Thai model. The slide's <a href="https://arxiv.org/pdf/2305.17888">LLM-QAT</a> size/accuracy figures need an exact configuration reference; the paper's LLaMA-30B 4–8–4 example reports 60.6→15.7 GB, which does not directly establish the slide's 35.6% size figure. <a href="https://www.jmlr.org/papers/v23/21-0998.html">Switch Transformers</a> is a real sparse-MoE training study, but its relevance to this inference plan needs explanation.</li>
+<li><strong>Scheduling:</strong> The EASY reference is identifiable, but its author initial and pages disagree with the <a href="https://radar.inria.fr/report/2019/datamove/uid32.html">Inria author-team record</a>. The Roofline title/report metadata also differs from the <a href="https://amcr.lbl.gov/departments/computer-science-department/ppan/roofline-performance-model/ppan-roofline-publications/">Berkeley Lab publication list</a>. Seven other exact titles were not located in targeted searches; request working links/DOIs and originals. This is an unresolved verification finding, not proof of fabrication. More substantively, <a href="https://slurm.schedmd.com/sched_config.html">Slurm's official scheduling guide</a> already describes submission/completion-triggered scheduling as well as periodic scheduling/backfill. The novelty claim should therefore be narrowed to the tested mechanisms and simulator conditions.</li>
+<li><strong>VLM:</strong> The <a href="https://data.mendeley.com/datasets/rscbjbr9sj/2">Mendeley dataset record</a> confirms the cited authors/version/DOI. The <a href="https://huggingface.co/datasets/hf-vision/chest-xray-pneumonia">dataset card</a> identifies a pediatric, single-center source, which limits conclusions about general medical-image performance. This is evaluator context, not material credited as the team's review.</li>
+</ul>
+<p><strong>Most useful common revision before resource approval</strong></p>
+<p>Ask each team for one compact workload/resource table: selected configurations; data/token/image/job counts; repetitions; CPU/RAM/GPU/VRAM/storage; expected wall time and total resource-hours; and the acceptance rule for choosing a platform. Pair that with a short literature comparison showing findings, limitations and the resulting design decisions. These two additions would directly strengthen CLO1/CLO2 and make later CLO3 evaluation much more defensible.</p>
+</main></body></html>

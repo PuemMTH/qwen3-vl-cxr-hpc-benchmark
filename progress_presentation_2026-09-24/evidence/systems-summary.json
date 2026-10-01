@@ -1,0 +1,1202 @@
+{
+  "study_status": "development_pilot_only",
+  "experiment_a": {
+    "2b-bf16": {
+      "local_rtx_5070": {
+        "state": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/2b-bf16/state.json",
+        "status": "complete",
+        "completed_repeats": 5,
+        "generation_throughput_images_per_hour": [
+          22780.172070722598,
+          22850.302898683574,
+          22930.792786471924,
+          22733.56692746284,
+          22787.306644195927
+        ],
+        "pipeline_throughput_images_per_hour": [
+          20338.6677438181,
+          20446.21746969717,
+          20497.388657138024,
+          20330.189944256585,
+          20390.644603701043
+        ],
+        "generation_seconds_total": [
+          158.03216888895986,
+          157.54714569702264,
+          156.99413594299403,
+          158.35614408802212,
+          157.98268993395686
+        ],
+        "pipeline_seconds_total": [
+          177.00274400196213,
+          176.0716868699783,
+          175.63212857098915,
+          177.07655510700351,
+          176.55155439993177
+        ],
+        "p50_amortized_generation_seconds_per_image": [
+          0.15796225350095483,
+          0.15760755400151538,
+          0.15725210849996074,
+          0.1584156820008502,
+          0.1579474059981294
+        ],
+        "p95_amortized_generation_seconds_per_image": [
+          0.2180275189486565,
+          0.2151422940007251,
+          0.21483245634699413,
+          0.21650847074888588,
+          0.2164443197498258
+        ],
+        "peak_allocated_bytes": [
+          4358444544,
+          4358444544,
+          4358444544,
+          4358444544,
+          4358444544
+        ],
+        "peak_reserved_bytes": [
+          4420796416,
+          4420796416,
+          4420796416,
+          4420796416,
+          4420796416
+        ],
+        "model_loading_seconds": [
+          0.900177307001286,
+          0.8194346470008895,
+          0.81495242100209,
+          0.8368600670000887,
+          0.9199861349989078
+        ],
+        "prediction_status_counts": [
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          }
+        ],
+        "median_generation_throughput_images_per_hour": 22787.306644195927,
+        "median_pipeline_throughput_images_per_hour": 20390.644603701043,
+        "median_generation_seconds_total": 157.98268993395686,
+        "median_pipeline_seconds_total": 176.55155439993177,
+        "median_p50_amortized_generation_seconds_per_image": 0.1579474059981294,
+        "median_p95_amortized_generation_seconds_per_image": 0.2164443197498258,
+        "median_peak_allocated_bytes": 4358444544,
+        "median_peak_reserved_bytes": 4420796416,
+        "median_model_loading_seconds": 0.8368600670000887,
+        "all_predictions_ok": true
+      },
+      "lanta_a100": {
+        "state": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/A/2b-bf16/state.json",
+        "status": "complete",
+        "completed_repeats": 5,
+        "generation_throughput_images_per_hour": [
+          14533.987672119358,
+          14724.739910433396,
+          14721.903746573038,
+          14599.488630941196,
+          14544.174781811007
+        ],
+        "pipeline_throughput_images_per_hour": [
+          12924.786713589398,
+          13390.885933995265,
+          13372.053904138189,
+          13271.529356428493,
+          13244.20816867668
+        ],
+        "generation_seconds_total": [
+          247.6952699571848,
+          244.48649157118052,
+          244.533591712825,
+          246.58397913817316,
+          247.5217778943479
+        ],
+        "pipeline_seconds_total": [
+          278.5345769934356,
+          268.8395687742159,
+          269.2181788831949,
+          271.2573587652296,
+          271.81692964583635
+        ],
+        "p50_amortized_generation_seconds_per_image": [
+          0.25906580220907927,
+          0.25525865284726024,
+          0.25613631727173924,
+          0.2572843423113227,
+          0.25889373244717717
+        ],
+        "p95_amortized_generation_seconds_per_image": [
+          0.29645672291517255,
+          0.291496141301468,
+          0.2930460340809077,
+          0.2949344423599541,
+          0.295390096353367
+        ],
+        "peak_allocated_bytes": [
+          4334278144,
+          4334278144,
+          4334278144,
+          4334278144,
+          4334278144
+        ],
+        "peak_reserved_bytes": [
+          4378853376,
+          4378853376,
+          4378853376,
+          4378853376,
+          4378853376
+        ],
+        "model_loading_seconds": [
+          21.580157306976616,
+          2.898021283559501,
+          2.9132405146956444,
+          2.9834154304116964,
+          3.0001228265464306
+        ],
+        "prediction_status_counts": [
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          }
+        ],
+        "median_generation_throughput_images_per_hour": 14599.488630941196,
+        "median_pipeline_throughput_images_per_hour": 13271.529356428493,
+        "median_generation_seconds_total": 246.58397913817316,
+        "median_pipeline_seconds_total": 271.2573587652296,
+        "median_p50_amortized_generation_seconds_per_image": 0.2572843423113227,
+        "median_p95_amortized_generation_seconds_per_image": 0.2949344423599541,
+        "median_peak_allocated_bytes": 4334278144,
+        "median_peak_reserved_bytes": 4378853376,
+        "median_model_loading_seconds": 2.9834154304116964,
+        "all_predictions_ok": true
+      },
+      "a100_pipeline_speedup": {
+        "method": "paired-round nonparametric bootstrap of median time ratio",
+        "estimate": 0.65237841404161,
+        "lower": 0.6354785316515071,
+        "upper": 0.6549321875227808,
+        "round_ratios": [
+          0.6354785316515071,
+          0.6549321875227808,
+          0.65237841404161,
+          0.6527990831771735,
+          0.6495237608267059
+        ]
+      },
+      "speed_gate_pass": false
+    },
+    "4b-bf16": {
+      "local_rtx_5070": {
+        "state": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/state.json",
+        "status": "complete",
+        "completed_repeats": 5,
+        "generation_throughput_images_per_hour": [
+          16992.72855435866,
+          16839.18250133497,
+          16917.018324382618,
+          16853.829034216786,
+          16922.483594911784
+        ],
+        "pipeline_throughput_images_per_hour": [
+          15620.608987421583,
+          15476.135245174846,
+          15545.300396196193,
+          15506.099485360153,
+          15574.72794667463
+        ],
+        "generation_seconds_total": [
+          211.85532320391212,
+          213.78710039603175,
+          212.80345808996935,
+          213.60131236001325,
+          212.73473127091347
+        ],
+        "pipeline_seconds_total": [
+          230.46476631601763,
+          232.61621476992514,
+          231.58124373594546,
+          232.16670339300254,
+          231.1436843279589
+        ],
+        "p50_amortized_generation_seconds_per_image": [
+          0.21742129199810734,
+          0.21935922549891984,
+          0.21955615600018064,
+          0.22012534399982542,
+          0.21784097100135114
+        ],
+        "p95_amortized_generation_seconds_per_image": [
+          0.2790372463505264,
+          0.28256093819945816,
+          0.28268095910061675,
+          0.2843400362489774,
+          0.28331746430030763
+        ],
+        "peak_allocated_bytes": [
+          9002312192,
+          9002312192,
+          9002312192,
+          9002312192,
+          9002312192
+        ],
+        "peak_reserved_bytes": [
+          9051308032,
+          9051308032,
+          9051308032,
+          9051308032,
+          9051308032
+        ],
+        "model_loading_seconds": [
+          4.325142072997551,
+          1.2209106129994325,
+          1.2324527880009555,
+          1.2127859299980628,
+          1.272038145998522
+        ],
+        "prediction_status_counts": [
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          }
+        ],
+        "median_generation_throughput_images_per_hour": 16917.018324382618,
+        "median_pipeline_throughput_images_per_hour": 15545.300396196193,
+        "median_generation_seconds_total": 212.80345808996935,
+        "median_pipeline_seconds_total": 231.58124373594546,
+        "median_p50_amortized_generation_seconds_per_image": 0.21935922549891984,
+        "median_p95_amortized_generation_seconds_per_image": 0.28268095910061675,
+        "median_peak_allocated_bytes": 9002312192,
+        "median_peak_reserved_bytes": 9051308032,
+        "median_model_loading_seconds": 1.2324527880009555,
+        "all_predictions_ok": true
+      },
+      "lanta_a100": {
+        "state": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/A/4b-bf16/state.json",
+        "status": "complete",
+        "completed_repeats": 5,
+        "generation_throughput_images_per_hour": [
+          11759.790482425284,
+          11934.714403145856,
+          11825.089983832604,
+          11770.272155156601,
+          11998.083762651675
+        ],
+        "pipeline_throughput_images_per_hour": [
+          10886.727420112153,
+          11033.95125285401,
+          10934.956703194643,
+          10903.359048360659,
+          11115.815126644171
+        ],
+        "generation_seconds_total": [
+          306.1279029911384,
+          301.64106809720397,
+          304.43742964509875,
+          305.85528971161693,
+          300.0479135848582
+        ],
+        "pipeline_seconds_total": [
+          330.677885197103,
+          326.2657154724002,
+          329.2194105302915,
+          330.17347993701696,
+          323.86288895457983
+        ],
+        "p50_amortized_generation_seconds_per_image": [
+          0.3302784622646868,
+          0.3238421962596476,
+          0.3285612347535789,
+          0.3297710521146655,
+          0.32620023377239704
+        ],
+        "p95_amortized_generation_seconds_per_image": [
+          0.3783052233979106,
+          0.37189210900105535,
+          0.3765742603689432,
+          0.3780949495267123,
+          0.3631207479164004
+        ],
+        "peak_allocated_bytes": [
+          8977428992,
+          8977428992,
+          8977428992,
+          8977428992,
+          8977428992
+        ],
+        "peak_reserved_bytes": [
+          9009364992,
+          9009364992,
+          9009364992,
+          9009364992,
+          9009364992
+        ],
+        "model_loading_seconds": [
+          20.630004985257983,
+          5.696796739473939,
+          5.221066846512258,
+          5.290551125071943,
+          5.63898498006165
+        ],
+        "prediction_status_counts": [
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          }
+        ],
+        "median_generation_throughput_images_per_hour": 11825.089983832604,
+        "median_pipeline_throughput_images_per_hour": 10934.956703194643,
+        "median_generation_seconds_total": 304.43742964509875,
+        "median_pipeline_seconds_total": 329.2194105302915,
+        "median_p50_amortized_generation_seconds_per_image": 0.3285612347535789,
+        "median_p95_amortized_generation_seconds_per_image": 0.3765742603689432,
+        "median_peak_allocated_bytes": 8977428992,
+        "median_peak_reserved_bytes": 9009364992,
+        "median_model_loading_seconds": 5.63898498006165,
+        "all_predictions_ok": true
+      },
+      "a100_pipeline_speedup": {
+        "method": "paired-round nonparametric bootstrap of median time ratio",
+        "estimate": 0.7034252426457026,
+        "lower": 0.6969464141173135,
+        "upper": 0.7137084618558308,
+        "round_ratios": [
+          0.6969464141173135,
+          0.7129655484429924,
+          0.7034252426457026,
+          0.7031658128244886,
+          0.7137084618558308
+        ]
+      },
+      "speed_gate_pass": false
+    },
+    "8b-nf4": {
+      "local_rtx_5070": {
+        "state": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/8b-nf4/state.json",
+        "status": "complete",
+        "completed_repeats": 5,
+        "generation_throughput_images_per_hour": [
+          10783.427040572198,
+          10828.204693225342,
+          10491.946209804537,
+          11001.233976009415,
+          11273.417617225856
+        ],
+        "pipeline_throughput_images_per_hour": [
+          10213.52628925709,
+          10254.493995291477,
+          9953.292629393332,
+          10420.388820355836,
+          10678.66212296906
+        ],
+        "generation_seconds_total": [
+          333.8456305639338,
+          332.4650855789914,
+          343.120325629945,
+          327.2360180549367,
+          319.33528254104385
+        ],
+        "pipeline_seconds_total": [
+          352.47375862600893,
+          351.06559150095563,
+          361.6893558789525,
+          345.4765519850407,
+          337.12088261100143
+        ],
+        "p50_amortized_generation_seconds_per_image": [
+          0.3471600294978998,
+          0.34382605900100316,
+          0.3560105289998319,
+          0.33636887800093973,
+          0.32573180550025427
+        ],
+        "p95_amortized_generation_seconds_per_image": [
+          0.4249320967986932,
+          0.4265462322484382,
+          0.4375599337487074,
+          0.4229695468518912,
+          0.41096141645102763
+        ],
+        "peak_allocated_bytes": [
+          6631296512,
+          6631296512,
+          6631296512,
+          6631296512,
+          6631296512
+        ],
+        "peak_reserved_bytes": [
+          6687817728,
+          6687817728,
+          6687817728,
+          6687817728,
+          6687817728
+        ],
+        "model_loading_seconds": [
+          9.65946736999831,
+          3.1059439279997605,
+          3.1554320930008544,
+          3.1422164109972073,
+          3.0122425599984126
+        ],
+        "prediction_status_counts": [
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          }
+        ],
+        "median_generation_throughput_images_per_hour": 10828.204693225342,
+        "median_pipeline_throughput_images_per_hour": 10254.493995291477,
+        "median_generation_seconds_total": 332.4650855789914,
+        "median_pipeline_seconds_total": 351.06559150095563,
+        "median_p50_amortized_generation_seconds_per_image": 0.34382605900100316,
+        "median_p95_amortized_generation_seconds_per_image": 0.4249320967986932,
+        "median_peak_allocated_bytes": 6631296512,
+        "median_peak_reserved_bytes": 6687817728,
+        "median_model_loading_seconds": 3.1422164109972073,
+        "all_predictions_ok": true
+      },
+      "lanta_a100": {
+        "state": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/A/8b-nf4/state.json",
+        "status": "complete",
+        "completed_repeats": 5,
+        "generation_throughput_images_per_hour": [
+          8535.48250642561,
+          8482.91632622341,
+          8548.519342634909,
+          8481.518709104379,
+          8889.047733547479
+        ],
+        "pipeline_throughput_images_per_hour": [
+          8063.318659099982,
+          8015.2805079256195,
+          8071.480717783495,
+          8015.277284813413,
+          8397.963372840892
+        ],
+        "generation_seconds_total": [
+          421.76877490989864,
+          424.38235408160836,
+          421.12556054536253,
+          424.4522854303941,
+          404.99276276957244
+        ],
+        "pipeline_seconds_total": [
+          446.46629411540926,
+          449.14211005344987,
+          446.01481758709997,
+          449.1422906629741,
+          428.67536331992596
+        ],
+        "p50_amortized_generation_seconds_per_image": [
+          0.46567831188440323,
+          0.4689936889335513,
+          0.46455295011401176,
+          0.47344878129661083,
+          0.4555611591786146
+        ],
+        "p95_amortized_generation_seconds_per_image": [
+          0.5321154925506562,
+          0.5355039269663393,
+          0.5297465968877076,
+          0.5246820218861102,
+          0.49871637145988645
+        ],
+        "peak_allocated_bytes": [
+          6606835200,
+          6606835200,
+          6606835200,
+          6606835200,
+          6606835200
+        ],
+        "peak_reserved_bytes": [
+          6719275008,
+          6719275008,
+          6719275008,
+          6719275008,
+          6719275008
+        ],
+        "model_loading_seconds": [
+          25.255182285793126,
+          12.414327477104962,
+          11.127943282946944,
+          11.145738198421896,
+          11.722510700114071
+        ],
+        "prediction_status_counts": [
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          },
+          {
+            "ok": 1000
+          }
+        ],
+        "median_generation_throughput_images_per_hour": 8535.48250642561,
+        "median_pipeline_throughput_images_per_hour": 8063.318659099982,
+        "median_generation_seconds_total": 421.76877490989864,
+        "median_pipeline_seconds_total": 446.46629411540926,
+        "median_p50_amortized_generation_seconds_per_image": 0.46567831188440323,
+        "median_p95_amortized_generation_seconds_per_image": 0.5297465968877076,
+        "median_peak_allocated_bytes": 6606835200,
+        "median_peak_reserved_bytes": 6719275008,
+        "median_model_loading_seconds": 11.722510700114071,
+        "all_predictions_ok": true
+      },
+      "a100_pipeline_speedup": {
+        "method": "paired-round nonparametric bootstrap of median time ratio",
+        "estimate": 0.7864246734408289,
+        "lower": 0.7691917665448215,
+        "upper": 0.8109357393901381,
+        "round_ratios": [
+          0.7894745096589447,
+          0.7816358868224965,
+          0.8109357393901381,
+          0.7691917665448215,
+          0.7864246734408289
+        ]
+      },
+      "speed_gate_pass": false
+    }
+  },
+  "c1": {
+    "1": {
+      "state": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch1/state.json",
+      "status": "complete",
+      "completed_repeats": 5,
+      "generation_throughput_images_per_hour": [
+        11792.361704089744,
+        11668.560401678782,
+        11750.951702151922,
+        12024.07247654564,
+        12299.387184981351
+      ],
+      "pipeline_throughput_images_per_hour": [
+        10894.214399836525,
+        10807.094253449155,
+        10885.448481895219,
+        11132.532104627366,
+        11378.601739246056
+      ],
+      "generation_seconds_total": [
+        305.2823590673506,
+        308.5213493416086,
+        306.35816495958716,
+        299.3993929279968,
+        292.69750970974565
+      ],
+      "pipeline_seconds_total": [
+        330.4506289185956,
+        333.1145186275244,
+        330.7167367506772,
+        323.3765657413751,
+        316.3833379969001
+      ],
+      "p50_amortized_generation_seconds_per_image": [
+        0.32972544245421886,
+        0.333745121024549,
+        0.33124425588175654,
+        0.3252104059793055,
+        0.3215047465637326
+      ],
+      "p95_amortized_generation_seconds_per_image": [
+        0.37108812001533803,
+        0.3784546585287899,
+        0.3760889166034758,
+        0.37014229958876965,
+        0.3533087654504925
+      ],
+      "peak_allocated_bytes": [
+        8977428992,
+        8977428992,
+        8977428992,
+        8977428992,
+        8977428992
+      ],
+      "peak_reserved_bytes": [
+        9009364992,
+        9009364992,
+        9009364992,
+        9009364992,
+        9009364992
+      ],
+      "model_loading_seconds": [
+        5.9470725152641535,
+        5.260536100715399,
+        5.254109554924071,
+        5.169376865960658,
+        5.134166507050395
+      ],
+      "prediction_status_counts": [
+        {
+          "ok": 1000
+        },
+        {
+          "ok": 1000
+        },
+        {
+          "ok": 1000
+        },
+        {
+          "ok": 1000
+        },
+        {
+          "ok": 1000
+        }
+      ],
+      "median_generation_throughput_images_per_hour": 11792.361704089744,
+      "median_pipeline_throughput_images_per_hour": 10894.214399836525,
+      "median_generation_seconds_total": 305.2823590673506,
+      "median_pipeline_seconds_total": 330.4506289185956,
+      "median_p50_amortized_generation_seconds_per_image": 0.32972544245421886,
+      "median_p95_amortized_generation_seconds_per_image": 0.37108812001533803,
+      "median_peak_allocated_bytes": 8977428992,
+      "median_peak_reserved_bytes": 9009364992,
+      "median_model_loading_seconds": 5.254109554924071,
+      "all_predictions_ok": true
+    },
+    "2": {
+      "state": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/state.json",
+      "status": "complete",
+      "completed_repeats": 5,
+      "generation_throughput_images_per_hour": [
+        19880.276042567628,
+        19576.36809967969,
+        19493.06027710265,
+        19746.130541126346,
+        20038.121946447434
+      ],
+      "pipeline_throughput_images_per_hour": [
+        17544.23451413435,
+        17319.28560796824,
+        17265.65212318984,
+        17476.03470174561,
+        17727.84242156477
+      ],
+      "generation_seconds_total": [
+        181.08400468342006,
+        183.89519351441413,
+        184.681109524332,
+        182.31420036964118,
+        179.6575552150607
+      ],
+      "pipeline_seconds_total": [
+        205.19561552256346,
+        207.8607675563544,
+        208.5064597800374,
+        205.99638656247407,
+        203.07039708457887
+      ],
+      "p50_amortized_generation_seconds_per_image": [
+        0.18620586791075766,
+        0.18922151066362858,
+        0.19017841015011072,
+        0.18844682606868446,
+        0.18643690645694733
+      ],
+      "p95_amortized_generation_seconds_per_image": [
+        0.20868617894593625,
+        0.21171744840685278,
+        0.21323539030272515,
+        0.21119637165684252,
+        0.20358509949874132
+      ],
+      "peak_allocated_bytes": [
+        9081006592,
+        9081006592,
+        9081006592,
+        9081006592,
+        9081006592
+      ],
+      "peak_reserved_bytes": [
+        9281994752,
+        9281994752,
+        9281994752,
+        9281994752,
+        9281994752
+      ],
+      "model_loading_seconds": [
+        5.349312266334891,
+        5.415493384934962,
+        5.341735601425171,
+        5.396199021488428,
+        5.316986534744501
+      ],
+      "prediction_status_counts": [
+        {
+          "ok": 1000
+        },
+        {
+          "ok": 1000
+        },
+        {
+          "ok": 1000
+        },
+        {
+          "ok": 1000
+        },
+        {
+          "ok": 1000
+        }
+      ],
+      "median_generation_throughput_images_per_hour": 19746.130541126346,
+      "median_pipeline_throughput_images_per_hour": 17476.03470174561,
+      "median_generation_seconds_total": 182.31420036964118,
+      "median_pipeline_seconds_total": 205.99638656247407,
+      "median_p50_amortized_generation_seconds_per_image": 0.18844682606868446,
+      "median_p95_amortized_generation_seconds_per_image": 0.21119637165684252,
+      "median_peak_allocated_bytes": 9081006592,
+      "median_peak_reserved_bytes": 9281994752,
+      "median_model_loading_seconds": 5.349312266334891,
+      "all_predictions_ok": true
+    },
+    "4": {
+      "state": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch4/state.json",
+      "status": "complete",
+      "completed_repeats": 5,
+      "generation_throughput_images_per_hour": [
+        33925.260906403055,
+        33487.21699726867,
+        34253.17261902866,
+        33808.97313014244,
+        34525.76143736112
+      ],
+      "pipeline_throughput_images_per_hour": [
+        27540.820904134252,
+        27260.502602642402,
+        27816.975259453582,
+        27447.909946373213,
+        27937.692258274863
+      ],
+      "generation_seconds_total": [
+        106.11561720725149,
+        107.50370806548744,
+        105.09975353349,
+        106.48060756362975,
+        104.26996683422476
+      ],
+      "pipeline_seconds_total": [
+        130.71505793277174,
+        132.0591939361766,
+        129.4173779292032,
+        131.15752736851573,
+        128.85817363578826
+      ],
+      "p50_amortized_generation_seconds_per_image": [
+        0.10492115619126707,
+        0.10662201361265033,
+        0.10416234110016376,
+        0.10552417975850403,
+        0.10403666412457824
+      ],
+      "p95_amortized_generation_seconds_per_image": [
+        0.11607669101795182,
+        0.11781200011027977,
+        0.11529397419653833,
+        0.11662484110565856,
+        0.11333720842376352
+      ],
+      "peak_allocated_bytes": [
+        9240708608,
+        9240708608,
+        9240708608,
+        9240708608,
+        9240708608
+      ],
+      "peak_reserved_bytes": [
+        9569304576,
+        9569304576,
+        9569304576,
+        9569304576,
+        9569304576
+      ],
+      "model_loading_seconds": [
+        5.438006568700075,
+        5.279920095577836,
+        5.2651358572766185,
+        5.289757915772498,
+        5.3075173776596785
+      ],
+      "prediction_status_counts": [
+        {
+          "ok": 1000
+        },
+        {
+          "ok": 1000
+        },
+        {
+          "ok": 1000
+        },
+        {
+          "ok": 1000
+        },
+        {
+          "ok": 1000
+        }
+      ],
+      "median_generation_throughput_images_per_hour": 33925.260906403055,
+      "median_pipeline_throughput_images_per_hour": 27540.820904134252,
+      "median_generation_seconds_total": 106.11561720725149,
+      "median_pipeline_seconds_total": 130.71505793277174,
+      "median_p50_amortized_generation_seconds_per_image": 0.10492115619126707,
+      "median_p95_amortized_generation_seconds_per_image": 0.11607669101795182,
+      "median_peak_allocated_bytes": 9240708608,
+      "median_peak_reserved_bytes": 9569304576,
+      "median_model_loading_seconds": 5.289757915772498,
+      "all_predictions_ok": true
+    },
+    "8": {
+      "state": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch8/state.json",
+      "status": "complete",
+      "completed_repeats": 5,
+      "generation_throughput_images_per_hour": [
+        55744.7095480354,
+        56684.334538844494,
+        56931.81686507286,
+        57267.70565465844,
+        56773.665927151626
+      ],
+      "pipeline_throughput_images_per_hour": [
+        40705.46523449157,
+        41553.58415680119,
+        41614.39024108784,
+        41897.99593056296,
+        41695.677995144935
+      ],
+      "generation_seconds_total": [
+        64.58011942636222,
+        63.50961035862565,
+        63.233534396626055,
+        62.86265459470451,
+        63.40968019608408
+      ],
+      "pipeline_seconds_total": [
+        88.44021261669695,
+        86.63512601982802,
+        86.50853656977415,
+        85.92296409513801,
+        86.33988396637142
+      ],
+      "p50_amortized_generation_seconds_per_image": [
+        0.06390699523035437,
+        0.0633352497825399,
+        0.06313891778700054,
+        0.06270595255773515,
+        0.06343288416974247
+      ],
+      "p95_amortized_generation_seconds_per_image": [
+        0.06981808315031231,
+        0.06776909697800874,
+        0.06743916391860694,
+        0.06677531190216542,
+        0.06683344955090434
+      ],
+      "peak_allocated_bytes": [
+        9581707264,
+        9581707264,
+        9581707264,
+        9581707264,
+        9581707264
+      ],
+      "peak_reserved_bytes": [
+        10332667904,
+        10332667904,
+        10332667904,
+        10332667904,
+        10332667904
+      ],
+      "model_loading_seconds": [
+        5.376285279169679,
+        5.3085351986810565,
+        5.281368270516396,
+        5.256070201285183,
+        5.3290168000385165
+      ],
+      "prediction_status_counts": [
+        {
+          "ok": 1000
+        },
+        {
+          "ok": 1000
+        },
+        {
+          "ok": 1000
+        },
+        {
+          "ok": 1000
+        },
+        {
+          "ok": 1000
+        }
+      ],
+      "median_generation_throughput_images_per_hour": 56773.665927151626,
+      "median_pipeline_throughput_images_per_hour": 41614.39024108784,
+      "median_generation_seconds_total": 63.40968019608408,
+      "median_pipeline_seconds_total": 86.50853656977415,
+      "median_p50_amortized_generation_seconds_per_image": 0.0633352497825399,
+      "median_p95_amortized_generation_seconds_per_image": 0.06743916391860694,
+      "median_peak_allocated_bytes": 9581707264,
+      "median_peak_reserved_bytes": 10332667904,
+      "median_model_loading_seconds": 5.3085351986810565,
+      "all_predictions_ok": true
+    }
+  },
+  "c2": {
+    "1": {
+      "state": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C2-selected-4b-bf16-cpu-pinned-v2/gpu1/state.json",
+      "status": "complete",
+      "gpus": 1,
+      "completed_repeats": 5,
+      "rounds": [
+        {
+          "repeat": 1,
+          "inference_pipeline_seconds": 177.25716933049262,
+          "inference_generation_seconds": 129.87209577299654,
+          "complete_round_wall_seconds": 194.50616564042866,
+          "rank_pipeline_seconds": [
+            177.25716933049262
+          ]
+        },
+        {
+          "repeat": 2,
+          "inference_pipeline_seconds": 177.1687113782391,
+          "inference_generation_seconds": 129.80995039176196,
+          "complete_round_wall_seconds": 193.1006896449253,
+          "rank_pipeline_seconds": [
+            177.1687113782391
+          ]
+        },
+        {
+          "repeat": 3,
+          "inference_pipeline_seconds": 176.549335276708,
+          "inference_generation_seconds": 129.53975282981992,
+          "complete_round_wall_seconds": 192.29608389921486,
+          "rank_pipeline_seconds": [
+            176.549335276708
+          ]
+        },
+        {
+          "repeat": 4,
+          "inference_pipeline_seconds": 172.34258859232068,
+          "inference_generation_seconds": 125.79726644046605,
+          "complete_round_wall_seconds": 187.37186532095075,
+          "rank_pipeline_seconds": [
+            172.34258859232068
+          ]
+        },
+        {
+          "repeat": 5,
+          "inference_pipeline_seconds": 172.75553464423865,
+          "inference_generation_seconds": 126.48751544579864,
+          "complete_round_wall_seconds": 187.86404357664287,
+          "rank_pipeline_seconds": [
+            172.75553464423865
+          ]
+        }
+      ],
+      "median_inference_pipeline_seconds": 176.549335276708,
+      "median_complete_round_wall_seconds": 192.29608389921486,
+      "speedup": 1.0,
+      "scaling_efficiency_percent": 100.0,
+      "scaling_gate_pass": true
+    },
+    "2": {
+      "state": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C2-selected-4b-bf16-cpu-pinned-v2/gpu2/state.json",
+      "status": "complete",
+      "gpus": 2,
+      "completed_repeats": 5,
+      "rounds": [
+        {
+          "repeat": 1,
+          "inference_pipeline_seconds": 89.63664692174643,
+          "inference_generation_seconds": 65.81569139100611,
+          "complete_round_wall_seconds": 106.81123856175691,
+          "rank_pipeline_seconds": [
+            89.63664692174643,
+            87.60851659160107
+          ]
+        },
+        {
+          "repeat": 2,
+          "inference_pipeline_seconds": 88.69099062029272,
+          "inference_generation_seconds": 65.58412390947342,
+          "complete_round_wall_seconds": 105.49490469321609,
+          "rank_pipeline_seconds": [
+            88.69099062029272,
+            88.67404419928789
+          ]
+        },
+        {
+          "repeat": 3,
+          "inference_pipeline_seconds": 88.31968223117292,
+          "inference_generation_seconds": 64.89513971656561,
+          "complete_round_wall_seconds": 104.94476201944053,
+          "rank_pipeline_seconds": [
+            88.31968223117292,
+            87.40738972090185
+          ]
+        },
+        {
+          "repeat": 4,
+          "inference_pipeline_seconds": 89.35238067060709,
+          "inference_generation_seconds": 65.65138676948845,
+          "complete_round_wall_seconds": 105.97312840167433,
+          "rank_pipeline_seconds": [
+            89.35238067060709,
+            88.492127626203
+          ]
+        },
+        {
+          "repeat": 5,
+          "inference_pipeline_seconds": 88.41021538246423,
+          "inference_generation_seconds": 64.93120432272553,
+          "complete_round_wall_seconds": 105.10120591986924,
+          "rank_pipeline_seconds": [
+            88.41021538246423,
+            88.31275208108127
+          ]
+        }
+      ],
+      "median_inference_pipeline_seconds": 88.69099062029272,
+      "median_complete_round_wall_seconds": 105.49490469321609,
+      "speedup": 1.9906118315056127,
+      "scaling_efficiency_percent": 99.53059157528064,
+      "scaling_gate_pass": true
+    },
+    "4": {
+      "state": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C2-selected-4b-bf16-cpu-pinned-v2/gpu4/state.json",
+      "status": "complete",
+      "gpus": 4,
+      "completed_repeats": 5,
+      "rounds": [
+        {
+          "repeat": 1,
+          "inference_pipeline_seconds": 45.06614259444177,
+          "inference_generation_seconds": 33.34679549746215,
+          "complete_round_wall_seconds": 64.56334667280316,
+          "rank_pipeline_seconds": [
+            44.769544361159205,
+            45.06614259444177,
+            45.04246289096773,
+            44.72689443640411
+          ]
+        },
+        {
+          "repeat": 2,
+          "inference_pipeline_seconds": 45.42671751510352,
+          "inference_generation_seconds": 33.6056201858446,
+          "complete_round_wall_seconds": 64.90474545489997,
+          "rank_pipeline_seconds": [
+            45.03119093924761,
+            44.64588020462543,
+            45.42671751510352,
+            44.68866377975792
+          ]
+        },
+        {
+          "repeat": 3,
+          "inference_pipeline_seconds": 45.014717685990036,
+          "inference_generation_seconds": 33.51707572955638,
+          "complete_round_wall_seconds": 64.35514692403376,
+          "rank_pipeline_seconds": [
+            44.685463084839284,
+            45.014717685990036,
+            44.81542914826423,
+            44.75265525840223
+          ]
+        },
+        {
+          "repeat": 4,
+          "inference_pipeline_seconds": 45.86428063176572,
+          "inference_generation_seconds": 33.67716681584716,
+          "complete_round_wall_seconds": 65.33357627131045,
+          "rank_pipeline_seconds": [
+            45.83286194410175,
+            44.994698788039386,
+            45.86428063176572,
+            45.31254173628986
+          ]
+        },
+        {
+          "repeat": 5,
+          "inference_pipeline_seconds": 45.104620079509914,
+          "inference_generation_seconds": 33.26936843898147,
+          "complete_round_wall_seconds": 65.21131093706936,
+          "rank_pipeline_seconds": [
+            45.104620079509914,
+            44.64693904668093,
+            44.40380650572479,
+            44.72512472234666
+          ]
+        }
+      ],
+      "median_inference_pipeline_seconds": 45.104620079509914,
+      "median_complete_round_wall_seconds": 64.90474545489997,
+      "speedup": 3.914218431847754,
+      "scaling_efficiency_percent": 97.85546079619385,
+      "scaling_gate_pass": true
+    }
+  },
+  "c1_selected_batch": 8
+}

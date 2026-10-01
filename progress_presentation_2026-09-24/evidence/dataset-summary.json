@@ -1,0 +1,36 @@
+{
+  "created_at_utc": "2026-09-22T16:39:45.921165+00:00",
+  "dataset_url": "https://data.mendeley.com/datasets/rscbjbr9sj/3",
+  "dataset_version": 3,
+  "archive_url": "https://data.mendeley.com/public-files/datasets/rscbjbr9sj/files/810b2ce2-11c3-4424-996e-3bef36600907/file_downloaded",
+  "archive_sha256_from_official_api": "acbc42869440eec719361942d0ba560f132742230262f22e78bfb93eb5ea4563",
+  "archive_size_from_official_api": 8441154111,
+  "selective_range": "bytes=0-1255320544",
+  "selective_range_bytes": 1255320545,
+  "retained_scope": "CellData/chest_xray only; normalized classes NORMAL and PNEUMONIA",
+  "excluded_archive_scope": "all OCT files and non-CXR archive content",
+  "images_total": 5856,
+  "images_by_split_class": {
+    "test/NORMAL": 234,
+    "test/PNEUMONIA": 390,
+    "train/NORMAL": 1349,
+    "train/PNEUMONIA": 3883
+  },
+  "unique_patients_total": 3081,
+  "unique_patients_by_split": {
+    "test": 431,
+    "train": 2650
+  },
+  "unique_patients_by_split_class": {
+    "test/NORMAL": 229,
+    "test/PNEUMONIA": 202,
+    "train/NORMAL": 1008,
+    "train/PNEUMONIA": 1642
+  },
+  "patient_overlap_train_test": 0,
+  "patients_with_multiple_images": 1330,
+  "max_images_per_patient": 30,
+  "exact_duplicate_content_groups": 27,
+  "exact_duplicate_content_images": 56,
+  "jpeg_validation_failures": 0
+}

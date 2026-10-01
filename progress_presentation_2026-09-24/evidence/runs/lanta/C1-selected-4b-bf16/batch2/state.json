@@ -1,0 +1,306 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "started_utc": "2026-09-22T19:08:44.137154+00:00",
+  "ended_utc": "2026-09-22T19:27:49.872936+00:00",
+  "host": "x1001c7s7b0n1",
+  "pid": 471881,
+  "config": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/configs/experiments/c1-4b-bf16-batch2.json",
+  "config_sha256": "01d0787a9f3cf9c5249a9199fd23ccdf0d2833092638299c6f6f102351739db0",
+  "blind_manifest": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/manifests/performance-1000/blind_manifest.csv",
+  "blind_manifest_sha256": "0931b4f3c09da93a4039fcb32c9744592fd83d5162e8dea062707dedeaa3400c",
+  "requested_repeats": 5,
+  "rounds": [
+    {
+      "repeat": 1,
+      "status": "complete",
+      "started_utc": "2026-09-22T19:08:44.140500+00:00",
+      "ended_utc": "2026-09-22T19:12:32.501910+00:00",
+      "elapsed_seconds": 228.35927855689079,
+      "command": [
+        "/project/lt200203-aimedi/puem/envs/env_vlm-cxr-benchmark/bin/python",
+        "-u",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/run_stage.py",
+        "intermediate",
+        "--input",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/manifests/performance-1000/blind_manifest.csv",
+        "--output",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/round-01/intermediate",
+        "--config",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/configs/experiments/c1-4b-bf16-batch2.json",
+        "--save-json",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/round-01/stage.json"
+      ],
+      "log": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/round-01/run.log",
+      "exit_code": 0,
+      "summary": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/round-01/intermediate/summary.json",
+      "summary_sha256": "9f0efb735dbe00a170264655e0e6879d66e2c92c84cd81ea8a9d9ccc2cf6b50a",
+      "prediction_status_counts": {
+        "ok": 1000
+      },
+      "performance": {
+        "timing_scope_note": "model loading, batch generation, amortized sec/image and end-to-end batch pipeline timing are reported separately",
+        "successful_measured_batches": 500,
+        "successful_measured_images": 1000,
+        "model_loading_seconds": 5.349312266334891,
+        "batch_generation_latency_seconds": {
+          "p50": 0.3724117358215153,
+          "p95": 0.4173723578918725,
+          "minimum": 0.2148227607831359,
+          "maximum": 0.4282898139208555
+        },
+        "amortized_generation_seconds_per_image": {
+          "p50": 0.18620586791075766,
+          "p95": 0.20868617894593625,
+          "minimum": 0.10741138039156795,
+          "maximum": 0.21414490696042776
+        },
+        "batch_pipeline_latency_seconds": {
+          "p50": 0.414347801823169,
+          "p95": 0.47364022620022295,
+          "minimum": 0.27818468771874905,
+          "maximum": 0.6297677392140031
+        },
+        "generation_seconds_total": 181.08400468342006,
+        "pipeline_seconds_total": 205.19561552256346,
+        "generation_throughput_images_per_hour": 19880.276042567628,
+        "pipeline_throughput_images_per_hour": 17544.23451413435,
+        "peak_allocated_bytes": 9081006592,
+        "peak_reserved_bytes": 9281994752
+      }
+    },
+    {
+      "repeat": 2,
+      "status": "complete",
+      "started_utc": "2026-09-22T19:12:32.507186+00:00",
+      "ended_utc": "2026-09-22T19:16:23.327867+00:00",
+      "elapsed_seconds": 230.81861612852663,
+      "command": [
+        "/project/lt200203-aimedi/puem/envs/env_vlm-cxr-benchmark/bin/python",
+        "-u",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/run_stage.py",
+        "intermediate",
+        "--input",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/manifests/performance-1000/blind_manifest.csv",
+        "--output",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/round-02/intermediate",
+        "--config",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/configs/experiments/c1-4b-bf16-batch2.json",
+        "--save-json",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/round-02/stage.json"
+      ],
+      "log": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/round-02/run.log",
+      "exit_code": 0,
+      "summary": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/round-02/intermediate/summary.json",
+      "summary_sha256": "07e9b4d149e7d9f39b6ad6fb457a54d8a1daee31c1bc02b00be8eaba6f46e36c",
+      "prediction_status_counts": {
+        "ok": 1000
+      },
+      "performance": {
+        "timing_scope_note": "model loading, batch generation, amortized sec/image and end-to-end batch pipeline timing are reported separately",
+        "successful_measured_batches": 500,
+        "successful_measured_images": 1000,
+        "model_loading_seconds": 5.415493384934962,
+        "batch_generation_latency_seconds": {
+          "p50": 0.37844302132725716,
+          "p95": 0.42343489681370555,
+          "minimum": 0.21765320841223001,
+          "maximum": 0.4340522447600961
+        },
+        "amortized_generation_seconds_per_image": {
+          "p50": 0.18922151066362858,
+          "p95": 0.21171744840685278,
+          "minimum": 0.10882660420611501,
+          "maximum": 0.21702612238004804
+        },
+        "batch_pipeline_latency_seconds": {
+          "p50": 0.41899700183421373,
+          "p95": 0.4848659542389214,
+          "minimum": 0.2741175564005971,
+          "maximum": 0.524655794724822
+        },
+        "generation_seconds_total": 183.89519351441413,
+        "pipeline_seconds_total": 207.8607675563544,
+        "generation_throughput_images_per_hour": 19576.36809967969,
+        "pipeline_throughput_images_per_hour": 17319.28560796824,
+        "peak_allocated_bytes": 9081006592,
+        "peak_reserved_bytes": 9281994752
+      }
+    },
+    {
+      "repeat": 3,
+      "status": "complete",
+      "started_utc": "2026-09-22T19:16:23.334067+00:00",
+      "ended_utc": "2026-09-22T19:20:14.781629+00:00",
+      "elapsed_seconds": 231.44550957996398,
+      "command": [
+        "/project/lt200203-aimedi/puem/envs/env_vlm-cxr-benchmark/bin/python",
+        "-u",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/run_stage.py",
+        "intermediate",
+        "--input",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/manifests/performance-1000/blind_manifest.csv",
+        "--output",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/round-03/intermediate",
+        "--config",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/configs/experiments/c1-4b-bf16-batch2.json",
+        "--save-json",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/round-03/stage.json"
+      ],
+      "log": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/round-03/run.log",
+      "exit_code": 0,
+      "summary": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/round-03/intermediate/summary.json",
+      "summary_sha256": "d1d9fa41f17c0cea53e55549f6bbcc5aa37c4ea8cc236c16372193b7a23f4ecf",
+      "prediction_status_counts": {
+        "ok": 1000
+      },
+      "performance": {
+        "timing_scope_note": "model loading, batch generation, amortized sec/image and end-to-end batch pipeline timing are reported separately",
+        "successful_measured_batches": 500,
+        "successful_measured_images": 1000,
+        "model_loading_seconds": 5.341735601425171,
+        "batch_generation_latency_seconds": {
+          "p50": 0.38035682030022144,
+          "p95": 0.4264707806054503,
+          "minimum": 0.2176709556952119,
+          "maximum": 0.43675417732447386
+        },
+        "amortized_generation_seconds_per_image": {
+          "p50": 0.19017841015011072,
+          "p95": 0.21323539030272515,
+          "minimum": 0.10883547784760594,
+          "maximum": 0.21837708866223693
+        },
+        "batch_pipeline_latency_seconds": {
+          "p50": 0.42187261721119285,
+          "p95": 0.4821884789038449,
+          "minimum": 0.27424124628305435,
+          "maximum": 0.5209129359573126
+        },
+        "generation_seconds_total": 184.681109524332,
+        "pipeline_seconds_total": 208.5064597800374,
+        "generation_throughput_images_per_hour": 19493.06027710265,
+        "pipeline_throughput_images_per_hour": 17265.65212318984,
+        "peak_allocated_bytes": 9081006592,
+        "peak_reserved_bytes": 9281994752
+      }
+    },
+    {
+      "repeat": 4,
+      "status": "complete",
+      "started_utc": "2026-09-22T19:20:14.787453+00:00",
+      "ended_utc": "2026-09-22T19:24:04.275930+00:00",
+      "elapsed_seconds": 229.48617398366332,
+      "command": [
+        "/project/lt200203-aimedi/puem/envs/env_vlm-cxr-benchmark/bin/python",
+        "-u",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/run_stage.py",
+        "intermediate",
+        "--input",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/manifests/performance-1000/blind_manifest.csv",
+        "--output",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/round-04/intermediate",
+        "--config",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/configs/experiments/c1-4b-bf16-batch2.json",
+        "--save-json",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/round-04/stage.json"
+      ],
+      "log": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/round-04/run.log",
+      "exit_code": 0,
+      "summary": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/round-04/intermediate/summary.json",
+      "summary_sha256": "21c0a756c3bc60e65078f1b04f98e8e15259c6687221d49b024d3fe0e6949723",
+      "prediction_status_counts": {
+        "ok": 1000
+      },
+      "performance": {
+        "timing_scope_note": "model loading, batch generation, amortized sec/image and end-to-end batch pipeline timing are reported separately",
+        "successful_measured_batches": 500,
+        "successful_measured_images": 1000,
+        "model_loading_seconds": 5.396199021488428,
+        "batch_generation_latency_seconds": {
+          "p50": 0.3768936521373689,
+          "p95": 0.42239274331368504,
+          "minimum": 0.21761126723140478,
+          "maximum": 0.43927059695124626
+        },
+        "amortized_generation_seconds_per_image": {
+          "p50": 0.18844682606868446,
+          "p95": 0.21119637165684252,
+          "minimum": 0.10880563361570239,
+          "maximum": 0.21963529847562313
+        },
+        "batch_pipeline_latency_seconds": {
+          "p50": 0.41800048062577844,
+          "p95": 0.4780895485077053,
+          "minimum": 0.2714989185333252,
+          "maximum": 0.5215044105425477
+        },
+        "generation_seconds_total": 182.31420036964118,
+        "pipeline_seconds_total": 205.99638656247407,
+        "generation_throughput_images_per_hour": 19746.130541126346,
+        "pipeline_throughput_images_per_hour": 17476.03470174561,
+        "peak_allocated_bytes": 9081006592,
+        "peak_reserved_bytes": 9281994752
+      }
+    },
+    {
+      "repeat": 5,
+      "status": "complete",
+      "started_utc": "2026-09-22T19:24:04.281492+00:00",
+      "ended_utc": "2026-09-22T19:27:49.867569+00:00",
+      "elapsed_seconds": 225.5835929857567,
+      "command": [
+        "/project/lt200203-aimedi/puem/envs/env_vlm-cxr-benchmark/bin/python",
+        "-u",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/run_stage.py",
+        "intermediate",
+        "--input",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/manifests/performance-1000/blind_manifest.csv",
+        "--output",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/round-05/intermediate",
+        "--config",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/configs/experiments/c1-4b-bf16-batch2.json",
+        "--save-json",
+        "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/round-05/stage.json"
+      ],
+      "log": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/round-05/run.log",
+      "exit_code": 0,
+      "summary": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/C1-selected-4b-bf16/batch2/round-05/intermediate/summary.json",
+      "summary_sha256": "c8affda2ba5e49dfbd514bae9add861cd9aee4233e1d2bdfb93edb7d11b32d75",
+      "prediction_status_counts": {
+        "ok": 1000
+      },
+      "performance": {
+        "timing_scope_note": "model loading, batch generation, amortized sec/image and end-to-end batch pipeline timing are reported separately",
+        "successful_measured_batches": 500,
+        "successful_measured_images": 1000,
+        "model_loading_seconds": 5.316986534744501,
+        "batch_generation_latency_seconds": {
+          "p50": 0.37287381291389465,
+          "p95": 0.40717019899748264,
+          "minimum": 0.21549873892217875,
+          "maximum": 0.4326762855052948
+        },
+        "amortized_generation_seconds_per_image": {
+          "p50": 0.18643690645694733,
+          "p95": 0.20358509949874132,
+          "minimum": 0.10774936946108937,
+          "maximum": 0.2163381427526474
+        },
+        "batch_pipeline_latency_seconds": {
+          "p50": 0.4109515864402056,
+          "p95": 0.4685725432820618,
+          "minimum": 0.26583871990442276,
+          "maximum": 0.5712404176592827
+        },
+        "generation_seconds_total": 179.6575552150607,
+        "pipeline_seconds_total": 203.07039708457887,
+        "generation_throughput_images_per_hour": 20038.121946447434,
+        "pipeline_throughput_images_per_hour": 17727.84242156477,
+        "peak_allocated_bytes": 9081006592,
+        "peak_reserved_bytes": 9281994752
+      }
+    }
+  ],
+  "completed_repeats": 5
+}

@@ -1,0 +1,41 @@
+{
+  "profile": "30b-a3b-bf16",
+  "model": {
+    "model_id": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+    "revision": "9c4b90e1e4ba969fd3b5378b57d966d725f1b86c",
+    "precision": "bf16",
+    "architecture": "moe",
+    "minimum_gpus": 2,
+    "weight_bytes": 62141618016,
+    "license": "apache-2.0"
+  },
+  "snapshot": "/home/puem/.cache/huggingface/manual/Qwen3-VL-30B-A3B-Instruct-9c4b90e1e4ba969fd3b5378b57d966d725f1b86c",
+  "snapshot_revision_matches": null,
+  "weight_files": 13,
+  "weight_bytes": 62141618016,
+  "expected_weight_bytes": 62141618016,
+  "weight_bytes_match_registry": true,
+  "config_present": true,
+  "config_model_type": "qwen3_vl_moe",
+  "probe_policy": "real BF16 model load, all weights forced to CUDA device 0; no CPU/disk offload",
+  "skip_allocator_warmup": true,
+  "status": "oom",
+  "failure_stage": "model_load",
+  "error_type": "OutOfMemoryError",
+  "error_message": "CUDA out of memory. Tried to allocate 768.00 MiB. GPU 0 has a total capacity of 11.50 GiB of which 369.31 MiB is free. Process 187149 has 542.66 MiB memory in use. Including non-PyTorch memory, this process has 10.01 GiB memory in use. Of the allocated memory 9.66 GiB is allocated by PyTorch, and 168.43 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/tools/probe_local_capacity.py\", line 78, in main\n    model = AutoModelForImageTextToText.from_pretrained(\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/.venv/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py\", line 402, in from_pretrained\n    return model_class.from_pretrained(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/.venv/lib/python3.12/site-packages/transformers/modeling_utils.py\", line 4313, in from_pretrained\n    loading_info, disk_offload_index = cls._load_pretrained_model(model, state_dict, checkpoint_files, load_config)\n                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/.venv/lib/python3.12/site-packages/transformers/modeling_utils.py\", line 4456, in _load_pretrained_model\n    loading_info, disk_offload_index = convert_and_load_state_dict_in_model(\n                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/.venv/lib/python3.12/site-packages/transformers/core_model_loading.py\", line 1754, in convert_and_load_state_dict_in_model\n    realized_value = mapping.convert(\n                     ^^^^^^^^^^^^^^^^\n  File \"/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/.venv/lib/python3.12/site-packages/transformers/core_model_loading.py\", line 1185, in convert\n    collected_tensors = self.materialize_tensors()\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/.venv/lib/python3.12/site-packages/transformers/core_model_loading.py\", line 970, in materialize_tensors\n    tensors = [future.result() for future in tensors if future.result() is not None]\n                                                        ^^^^^^^^^^^^^^^\n  File \"/home/puem/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py\", line 456, in result\n    return self.__get_result()\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/home/puem/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py\", line 401, in __get_result\n    raise self._exception\n  File \"/home/puem/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/concurrent/futures/thread.py\", line 59, in run\n    result = self.fn(*self.args, **self.kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/.venv/lib/python3.12/site-packages/transformers/core_model_loading.py\", line 1262, in _job\n    return _materialize_copy(tensor, device, dtype)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/.venv/lib/python3.12/site-packages/transformers/core_model_loading.py\", line 1240, in _materialize_copy\n    tensor = tensor.to(device=device, dtype=dtype)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\ntorch.OutOfMemoryError: CUDA out of memory. Tried to allocate 768.00 MiB. GPU 0 has a total capacity of 11.50 GiB of which 369.31 MiB is free. Process 187149 has 542.66 MiB memory in use. Including non-PyTorch memory, this process has 10.01 GiB memory in use. Of the allocated memory 9.66 GiB is allocated by PyTorch, and 168.43 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)\n",
+  "elapsed_seconds": 4.804660764999426,
+  "environment": {
+    "python": "3.12.13",
+    "torch": "2.14.0+cu130",
+    "cuda_runtime": "13.0",
+    "gpu": "NVIDIA GeForce RTX 5070",
+    "gpu_total_bytes": 12343050240,
+    "gpu_compute_capability": [
+      12,
+      0
+    ],
+    "peak_allocated_bytes": 10410336256,
+    "peak_reserved_bytes": 10550771712
+  }
+}

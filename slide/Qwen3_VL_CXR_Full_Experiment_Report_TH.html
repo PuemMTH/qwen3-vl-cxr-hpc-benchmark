@@ -1,0 +1,2143 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Development/Pilot report for Qwen3-VL chest X-ray experiments on RTX 5070 and LANTA A100">
+  <title>รายงานฉบับสมบูรณ์: การประเมิน Qwen3-VL สำหรับ Chest X-ray บน RTX 5070 และ LANTA A100</title>
+  <style>
+:root {
+  --ink: #172536;
+  --muted: #5e6e7e;
+  --navy: #12385c;
+  --teal: #0b6a70;
+  --line: #d6e0e7;
+  --paper: #ffffff;
+  --wash: #f3f7f9;
+  --warn-bg: #fff8e7;
+  --warn-line: #d99b22;
+  --shadow: 0 16px 50px rgba(18, 56, 92, 0.09);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: #eaf0f3;
+  font-family: "Noto Sans Thai", "Noto Sans", Tahoma, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.72;
+}
+a { color: var(--teal); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.topbar { height: 8px; background: var(--navy); }
+.hero {
+  color: white;
+  background: var(--navy);
+  padding: 52px max(24px, calc((100vw - 1320px) / 2)) 42px;
+}
+.eyebrow {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 6px 10px;
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 4px;
+  color: #dcecf2;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+.hero h1 {
+  max-width: 1040px;
+  margin: 0;
+  font-size: clamp(2rem, 4.2vw, 3.8rem);
+  line-height: 1.18;
+  letter-spacing: -.025em;
+}
+.hero-note { max-width: 900px; margin: 18px 0 0; color: #d6e3ea; font-size: 1.05rem; }
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(150px, 1fr));
+  gap: 1px;
+  max-width: 1320px;
+  margin: 0 auto;
+  background: #cddce4;
+  border: 1px solid #cddce4;
+}
+.metric { min-height: 116px; padding: 22px 20px; background: white; }
+.metric strong { display: block; color: var(--navy); font-size: 1.65rem; line-height: 1.15; }
+.metric span { display: block; margin-top: 8px; color: var(--muted); font-size: .83rem; line-height: 1.35; }
+.shell {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 34px;
+  width: min(1320px, calc(100% - 40px));
+  margin: 34px auto 70px;
+}
+.toc {
+  align-self: start;
+  position: sticky;
+  top: 24px;
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  padding: 20px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.94);
+  box-shadow: var(--shadow);
+}
+.toc-title { margin: 0 0 10px; color: var(--navy); font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.toc ul { margin: 0; padding: 0; list-style: none; }
+.toc li { margin: 0; }
+.toc li li a { padding-left: 14px; color: #53687a; font-size: .82rem; }
+.toc a { display: block; padding: 5px 0; color: #244760; font-size: .88rem; line-height: 1.35; text-decoration: none; }
+.toc a:hover, .toc a.active { color: var(--teal); font-weight: 700; }
+.report {
+  min-width: 0;
+  padding: clamp(24px, 5vw, 66px);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+.scope {
+  margin: 0 0 40px;
+  padding: 20px 22px;
+  border-left: 5px solid var(--warn-line);
+  background: var(--warn-bg);
+}
+.scope strong { display: block; color: #76510b; }
+.scope p { margin: 4px 0 0; color: #664f25; }
+.report h2, .report h3 { scroll-margin-top: 22px; color: var(--navy); line-height: 1.3; }
+.report h2 { margin: 52px 0 18px; padding-top: 10px; border-top: 2px solid var(--navy); font-size: 1.75rem; }
+.report h3 { margin: 34px 0 12px; font-size: 1.28rem; }
+.report p { margin: 0 0 17px; }
+.report ul, .report ol { margin: 0 0 22px; padding-left: 1.45rem; }
+.report li { margin: 6px 0; padding-left: .25rem; }
+.report code {
+  overflow-wrap: anywhere;
+  padding: .08em .32em;
+  border: 1px solid #d8e2e8;
+  border-radius: 3px;
+  background: #edf3f6;
+  color: #173a58;
+  font-family: "Noto Sans Mono", "DejaVu Sans Mono", monospace;
+  font-size: .88em;
+}
+.table-wrap { width: 100%; margin: 20px 0 28px; overflow-x: auto; border: 1px solid #b9cbd5; }
+table { width: 100%; min-width: 720px; border-collapse: collapse; font-size: .82rem; line-height: 1.4; font-variant-numeric: tabular-nums; }
+th { padding: 10px 11px; border-right: 1px solid rgba(255,255,255,.3); color: white; background: #174f66; text-align: left; vertical-align: bottom; }
+td { padding: 9px 11px; border-top: 1px solid #c5d3dc; border-right: 1px solid #d5e0e6; vertical-align: top; }
+tbody tr:nth-child(even) { background: var(--wash); }
+blockquote { margin: 24px 0; padding: 15px 20px; border-left: 4px solid var(--teal); background: #eef7f7; color: #294951; }
+.footer { padding: 30px 20px 44px; color: #6a7986; text-align: center; font-size: .82rem; }
+.mobile-toc { display: none; }
+@media (max-width: 1040px) {
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+  .metrics .metric:last-child { grid-column: 1 / -1; }
+  .shell { display: block; width: min(920px, calc(100% - 24px)); }
+  .toc { display: none; }
+  .mobile-toc { display: block; margin: 0 0 20px; padding: 14px 18px; border: 1px solid var(--line); background: white; }
+  .mobile-toc summary { cursor: pointer; color: var(--navy); font-weight: 800; }
+  .mobile-toc .toc { display: block; position: static; max-height: none; margin-top: 12px; padding: 0; border: 0; box-shadow: none; }
+}
+@media (max-width: 620px) {
+  body { font-size: 15px; }
+  .hero { padding: 36px 20px 30px; }
+  .metrics { grid-template-columns: 1fr; }
+  .metrics .metric:last-child { grid-column: auto; }
+  .metric { min-height: 0; }
+  .report { padding: 24px 18px; }
+  .report h2 { font-size: 1.45rem; }
+}
+@media print {
+  body { background: white; font-size: 10pt; }
+  .hero { padding: 22mm 16mm 14mm; print-color-adjust: exact; }
+  .hero h1 { font-size: 27pt; }
+  .metrics { grid-template-columns: repeat(5, 1fr); print-color-adjust: exact; }
+  .metric { min-height: 0; padding: 12px; }
+  .metric strong { font-size: 14pt; }
+  .shell { display: block; width: auto; margin: 0; }
+  .toc, .mobile-toc { display: none !important; }
+  .report { border: 0; box-shadow: none; padding: 12mm 16mm; }
+  .report h2, .report h3 { break-after: avoid; }
+  .table-wrap { overflow: visible; break-inside: avoid; }
+  table { min-width: 0; font-size: 7pt; }
+  a { color: inherit; text-decoration: none; }
+}
+</style>
+</head>
+<body>
+  <div class="topbar"></div>
+  <header class="hero">
+    <div class="eyebrow">DEVELOPMENT / PILOT · TEST LOCKED</div>
+    <h1>รายงานฉบับสมบูรณ์: การประเมิน Qwen3-VL สำหรับ Chest X-ray บน RTX 5070 และ LANTA A100</h1>
+    <p class="hero-note">ผลการทดลองที่รันจริงบน RTX 5070 และ LANTA A100 พร้อม metrics, confidence intervals, resource use และขอบเขตหลักฐาน</p>
+  </header>
+  <section class="metrics" aria-label="ผลลัพธ์สำคัญ">
+    <div class="metric"><strong>4B BF16</strong><span>Development comparator ที่ถูกเลือก</span></div>
+    <div class="metric"><strong>0.6867</strong><span>patient-level balanced accuracy</span></div>
+    <div class="metric"><strong>41,614</strong><span>images/hour ที่ batch 8 บน A100</span></div>
+    <div class="metric"><strong>3.914×</strong><span>speedup ที่ 4 GPUs</span></div>
+    <div class="metric"><strong>9.3200</strong><span>allocated GPU-hours รวม</span></div>
+  </section>
+  <div class="shell">
+    <aside class="toc" aria-label="สารบัญ"><p class="toc-title">สารบัญ</p><div class="toc">
+<ul>
+<li><a href="#_1">บทสรุป</a></li>
+<li><a href="#1">1. ข้อมูล โมเดล และวิธีทดลอง</a><ul>
+<li><a href="#11">1.1 ชุดข้อมูลที่ใช้จริง</a></li>
+<li><a href="#12">1.2 โมเดลที่ทดสอบ</a></li>
+<li><a href="#13">1.3 สภาพแวดล้อม</a></li>
+<li><a href="#14-metric">1.4 Metric และกฎการนับ</a></li>
+</ul>
+</li>
+<li><a href="#2-experiment-a-gpu">2. Experiment A — ความเร็วต่อ GPU</a><ul>
+<li><a href="#21-timing-throughput-vram">2.1 Timing, throughput และ VRAM</a></li>
+<li><a href="#22-speedup-gate">2.2 Speedup gate</a></li>
+</ul>
+</li>
+<li><a href="#3-experiment-b-development">3. Experiment B — คุณภาพบน Development</a><ul>
+<li><a href="#31-patient-level-metrics">3.1 Patient-level metrics</a></li>
+<li><a href="#32-patient-level-per-class-metrics">3.2 Patient-level per-class metrics</a></li>
+<li><a href="#33-paired-checks-8b-bf16">3.3 Paired checks ของ 8B BF16</a></li>
+<li><a href="#34-runtime-quality-pass">3.4 Runtime ของ quality pass</a></li>
+</ul>
+</li>
+<li><a href="#4-experiment-c1-batch-scaling-a100">4. Experiment C1 — Batch scaling บน A100 หนึ่งใบ</a></li>
+<li><a href="#5-experiment-c2-multi-gpu-strong-scaling">5. Experiment C2 — Multi-GPU strong scaling</a></li>
+<li><a href="#6-set-d-30b32b-development-600">6. Set D — 30B/32B บน Development 600 ภาพ</a><ul>
+<li><a href="#61-patient-level-metrics">6.1 Patient-level metrics</a></li>
+<li><a href="#62-paired-delta-4b-bf16">6.2 Paired delta เทียบ 4B BF16</a></li>
+<li><a href="#63-performance-large-models">6.3 Performance ของ large models</a></li>
+</ul>
+</li>
+<li><a href="#7-local-capacity-ceiling">7. Local capacity ceiling</a></li>
+<li><a href="#8-secondary-image-level-metrics-confusion-matrices">8. Secondary image-level metrics และ confusion matrices</a><ul>
+<li><a href="#81-image-level-summary">8.1 Image-level summary</a></li>
+<li><a href="#82-image-level-per-class-metrics">8.2 Image-level per-class metrics</a></li>
+<li><a href="#83-confusion-matrices">8.3 Confusion matrices</a></li>
+</ul>
+</li>
+<li><a href="#9-resource-use-operational-metrics">9. Resource use และ operational metrics</a></li>
+<li><a href="#10-reproducibility">10. การตรวจความครบถ้วนและ reproducibility</a></li>
+<li><a href="#11-metric">11. Metric ที่ยังไม่มีหลักฐาน</a></li>
+<li><a href="#12_1">12. ข้อสรุปและคำตัดสินตามเกณฑ์ที่กำหนด</a></li>
+<li><a href="#13_1">13. แหล่งหลักฐาน</a></li>
+</ul>
+</div>
+</aside>
+    <div>
+      <details class="mobile-toc"><summary>เปิดสารบัญ</summary><nav class="toc"><div class="toc">
+<ul>
+<li><a href="#_1">บทสรุป</a></li>
+<li><a href="#1">1. ข้อมูล โมเดล และวิธีทดลอง</a><ul>
+<li><a href="#11">1.1 ชุดข้อมูลที่ใช้จริง</a></li>
+<li><a href="#12">1.2 โมเดลที่ทดสอบ</a></li>
+<li><a href="#13">1.3 สภาพแวดล้อม</a></li>
+<li><a href="#14-metric">1.4 Metric และกฎการนับ</a></li>
+</ul>
+</li>
+<li><a href="#2-experiment-a-gpu">2. Experiment A — ความเร็วต่อ GPU</a><ul>
+<li><a href="#21-timing-throughput-vram">2.1 Timing, throughput และ VRAM</a></li>
+<li><a href="#22-speedup-gate">2.2 Speedup gate</a></li>
+</ul>
+</li>
+<li><a href="#3-experiment-b-development">3. Experiment B — คุณภาพบน Development</a><ul>
+<li><a href="#31-patient-level-metrics">3.1 Patient-level metrics</a></li>
+<li><a href="#32-patient-level-per-class-metrics">3.2 Patient-level per-class metrics</a></li>
+<li><a href="#33-paired-checks-8b-bf16">3.3 Paired checks ของ 8B BF16</a></li>
+<li><a href="#34-runtime-quality-pass">3.4 Runtime ของ quality pass</a></li>
+</ul>
+</li>
+<li><a href="#4-experiment-c1-batch-scaling-a100">4. Experiment C1 — Batch scaling บน A100 หนึ่งใบ</a></li>
+<li><a href="#5-experiment-c2-multi-gpu-strong-scaling">5. Experiment C2 — Multi-GPU strong scaling</a></li>
+<li><a href="#6-set-d-30b32b-development-600">6. Set D — 30B/32B บน Development 600 ภาพ</a><ul>
+<li><a href="#61-patient-level-metrics">6.1 Patient-level metrics</a></li>
+<li><a href="#62-paired-delta-4b-bf16">6.2 Paired delta เทียบ 4B BF16</a></li>
+<li><a href="#63-performance-large-models">6.3 Performance ของ large models</a></li>
+</ul>
+</li>
+<li><a href="#7-local-capacity-ceiling">7. Local capacity ceiling</a></li>
+<li><a href="#8-secondary-image-level-metrics-confusion-matrices">8. Secondary image-level metrics และ confusion matrices</a><ul>
+<li><a href="#81-image-level-summary">8.1 Image-level summary</a></li>
+<li><a href="#82-image-level-per-class-metrics">8.2 Image-level per-class metrics</a></li>
+<li><a href="#83-confusion-matrices">8.3 Confusion matrices</a></li>
+</ul>
+</li>
+<li><a href="#9-resource-use-operational-metrics">9. Resource use และ operational metrics</a></li>
+<li><a href="#10-reproducibility">10. การตรวจความครบถ้วนและ reproducibility</a></li>
+<li><a href="#11-metric">11. Metric ที่ยังไม่มีหลักฐาน</a></li>
+<li><a href="#12_1">12. ข้อสรุปและคำตัดสินตามเกณฑ์ที่กำหนด</a></li>
+<li><a href="#13_1">13. แหล่งหลักฐาน</a></li>
+</ul>
+</div>
+</nav></details>
+      <main class="report">
+        <section class="scope">
+          <strong>ขอบเขตรายงาน</strong>
+          <p>การทดลอง Development/Pilot รันเสร็จแล้ว แต่ยังไม่ได้เปิด official V3 confirmatory Test รายงานนี้จึงไม่ใช่ผลยืนยันทางคลินิกหรือผล confirmatory ขั้นสุดท้าย</p>
+        </section>
+        <p><strong>วันที่ทดลอง:</strong> 23 กันยายน 2026<br />
+<strong>สถานะการศึกษา:</strong> Development/Pilot (<code>development_pilot_only</code>)<br />
+<strong>ขอบเขตข้อมูล:</strong> ใช้เฉพาะข้อมูลจาก official V3 train split; ไม่เปิด confirmatory Test<br />
+<strong>หน่วยวิเคราะห์หลักด้านคุณภาพ:</strong> ผู้ป่วย<br />
+<strong>หน่วยวิเคราะห์รอง:</strong> ภาพ  </p>
+<h2 id="_1">บทสรุป</h2>
+<p>การทดลองแยกคำถามออกเป็นสี่ส่วน: ความเร็วต่อ GPU (A), คุณภาพและผลของ precision
+(B), batch scaling (C1) และ multi-GPU scaling (C2) จากนั้นเพิ่ม Set D เพื่อทดสอบ
+30B MoE และ 32B dense ซึ่งไม่สามารถโหลดบน RTX 5070 ได้</p>
+<p>ผลหลักมีดังนี้</p>
+<ol>
+<li>ที่ batch 1 การใช้ A100 หนึ่งใบไม่ทำให้โมเดล 2B–8B เร็วขึ้น RTX 5070 ให้
+   pipeline throughput สูงกว่าในทุก profile โดย A100 speedup เท่ากับ 0.652,
+   0.703 และ 0.786 เท่า จึงไม่ผ่านเกณฑ์ 1.5 เท่าทั้งหมด</li>
+<li>กฎเลือก comparator ที่กำหนดไว้บน Development เลือก <code>4b-bf16</code> ด้วย
+   patient-level balanced accuracy 0.6867</li>
+<li>บน A100 การเพิ่ม batch จาก 1 เป็น 8 เพิ่ม pipeline throughput จาก 10,894
+   เป็น 41,614 images/hour โดยไม่เกิด OOM หรือ parse failure</li>
+<li>เมื่อแบ่งข้อมูลและ CPU affinity ถูกต้อง C2 ให้ speedup 1.991 เท่าบน 2 GPUs
+   และ 3.914 เท่าบน 4 GPUs คิดเป็น scaling efficiency 99.53% และ 97.86%</li>
+<li>30B และ 32B เกิด CUDA OOM จริงบน RTX 5070 แต่รันสำเร็จบน 2×A100
+   บน Development 549 ผู้ป่วย ทั้งสองโมเดลมี balanced accuracy สูงกว่า 4B
+   แต่เพิ่มเพียง 0.0404 และ 0.0468 จึงไม่ถึง margin +0.05 ที่กำหนดไว้
+   นอกจากนี้ 32B ทำให้ PNEUMONIA recall ลดลง 0.1086 ซึ่งเกินขอบเขต −0.03</li>
+<li>งานทั้งหมดใช้ 9.3200 allocated GPU-hours จาก planning ceiling 24 GPU-hours</li>
+</ol>
+<p>ข้อสรุปที่ข้อมูลรองรับคือ LANTA มีประโยชน์ด้าน <strong>capacity, batching และ
+parallelism</strong> แต่ไม่ให้ความเร็วต่อ GPU สำหรับ workload batch 1 ที่ทดสอบ และยังไม่มี
+large model ใดผ่าน quality gate ที่กำหนดไว้ งานนี้ไม่ใช่หลักฐานเชิงคลินิกและไม่ใช่
+ผล confirmatory</p>
+<h2 id="1">1. ข้อมูล โมเดล และวิธีทดลอง</h2>
+<h3 id="11">1.1 ชุดข้อมูลที่ใช้จริง</h3>
+<p>ต้นทางคือ Kermany, Zhang, and Goldbaum Mendeley Data V3 ซึ่ง canonical manifest
+มี 5,856 ภาพจาก 3,081 ผู้ป่วย การทดลองทั้งหมดในรายงานนี้ดึงจาก official train
+split และแยก labels ออกจาก blind inference manifest</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>ชุดทดลอง</th>
+<th style="text-align: right;">ภาพ</th>
+<th style="text-align: right;">ผู้ป่วย</th>
+<th style="text-align: right;">NORMAL</th>
+<th style="text-align: right;">PNEUMONIA</th>
+<th>การใช้งาน</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Performance-1000</td>
+<td style="text-align: right;">1,000</td>
+<td style="text-align: right;">859</td>
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">500</td>
+<td>A และ C1</td>
+</tr>
+<tr>
+<td>Quality-Development-600</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">549</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">300</td>
+<td>B และ D</td>
+</tr>
+<tr>
+<td>Scaling-2000</td>
+<td style="text-align: right;">2,000</td>
+<td style="text-align: right;">1,529</td>
+<td style="text-align: right;">1,000</td>
+<td style="text-align: right;">1,000</td>
+<td>C2</td>
+</tr>
+</tbody>
+</table></div>
+<p>Dataset manifest SHA-256 คือ
+<code>1b4cff13ee5615de5df283372bc91330cdc8ba4f4b5c2e95d1b878329ed5aff0</code>
+ทุก config ระบุ <code>source_split: train</code>, <code>study_role: development</code> และ
+<code>confirmatory_unlocked: false</code></p>
+<h3 id="12">1.2 โมเดลที่ทดสอบ</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Profile</th>
+<th>Model ID</th>
+<th>Revision</th>
+<th>Precision</th>
+<th>สถาปัตยกรรม</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>2b-bf16</code></td>
+<td><code>Qwen/Qwen3-VL-2B-Instruct</code></td>
+<td><code>89644892e4d85e24eaac8bacfd4f463576704203</code></td>
+<td>BF16</td>
+<td>dense</td>
+</tr>
+<tr>
+<td><code>4b-bf16</code></td>
+<td><code>Qwen/Qwen3-VL-4B-Instruct</code></td>
+<td><code>ebb281ec70b05090aa6165b016eac8ec08e71b17</code></td>
+<td>BF16</td>
+<td>dense</td>
+</tr>
+<tr>
+<td><code>8b-nf4</code></td>
+<td><code>Qwen/Qwen3-VL-8B-Instruct</code></td>
+<td><code>0c351dd01ed87e9c1b53cbc748cba10e6187ff3b</code></td>
+<td>NF4</td>
+<td>dense</td>
+</tr>
+<tr>
+<td><code>8b-bf16</code></td>
+<td><code>Qwen/Qwen3-VL-8B-Instruct</code></td>
+<td><code>0c351dd01ed87e9c1b53cbc748cba10e6187ff3b</code></td>
+<td>BF16</td>
+<td>dense</td>
+</tr>
+<tr>
+<td><code>30b-a3b-bf16</code></td>
+<td><code>Qwen/Qwen3-VL-30B-A3B-Instruct</code></td>
+<td><code>9c4b90e1e4ba969fd3b5378b57d966d725f1b86c</code></td>
+<td>BF16</td>
+<td>MoE</td>
+</tr>
+<tr>
+<td><code>32b-bf16</code></td>
+<td><code>Qwen/Qwen3-VL-32B-Instruct</code></td>
+<td><code>0cfaf48183f594c314753d30a4c4974bc75f3ccb</code></td>
+<td>BF16</td>
+<td>dense</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="13">1.3 สภาพแวดล้อม</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>รายการ</th>
+<th>Local</th>
+<th>LANTA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPU</td>
+<td>GeForce RTX 5070, 12,343,050,240 bytes</td>
+<td>A100-SXM4-40GB, 42,409,000,960 bytes/GPU</td>
+</tr>
+<tr>
+<td>Python</td>
+<td>3.12.13</td>
+<td>3.11.10</td>
+</tr>
+<tr>
+<td>PyTorch</td>
+<td>2.14.0+cu130</td>
+<td>2.7.1+cu126</td>
+</tr>
+<tr>
+<td>CUDA runtime</td>
+<td>13.0</td>
+<td>12.6</td>
+</tr>
+<tr>
+<td>Transformers</td>
+<td>5.17.0</td>
+<td>5.17.0</td>
+</tr>
+<tr>
+<td>Accelerate</td>
+<td>1.15.0</td>
+<td>1.15.0</td>
+</tr>
+<tr>
+<td>bitsandbytes</td>
+<td>0.50.2</td>
+<td>0.50.2</td>
+</tr>
+</tbody>
+</table></div>
+<p>การเทียบ A จึงเป็นการเทียบแพลตฟอร์มที่ใช้งานได้จริง ไม่ใช่การแยกผลของ GPU
+silicon ภายใต้ software stack เดียวกัน</p>
+<h3 id="14-metric">1.4 Metric และกฎการนับ</h3>
+<ul>
+<li>Primary quality metric: patient-level balanced accuracy</li>
+<li>Metrics เพิ่มเติม: accuracy, macro-F1, uncertainty rate, coverage และ
+  precision/recall/F1 แยกคลาส</li>
+<li>Patient prediction: strict majority จากทุกภาพของผู้ป่วย; tie, missing,
+  runtime failure และ parse failure กลายเป็น <code>UNCERTAIN</code></li>
+<li><code>UNCERTAIN</code> ไม่ถูกตัดออกจากตัวหารของ accuracy, balanced accuracy หรือ recall</li>
+<li>ช่วงความเชื่อมั่น: patient-stratified bootstrap 2,000 replicates, seed 20260923</li>
+<li>Paired comparison: paired patient bootstrap และ exact two-sided McNemar test</li>
+<li>Throughput ใช้เฉพาะ measured batches ที่สำเร็จและไม่รวม model loading</li>
+<li>Peak VRAM รวม warm-up; model loading, generation, pipeline และ complete job
+  elapsed แยกรายงานคนละขอบเขต</li>
+<li>Hardware speedup: local pipeline time / A100 pipeline time</li>
+<li>Multi-GPU speedup: median 1-GPU inference time / median k-GPU inference time</li>
+</ul>
+<h2 id="2-experiment-a-gpu">2. Experiment A — ความเร็วต่อ GPU</h2>
+<p>แต่ละ profile รัน 5 รอบแบบ fresh process บนรายการ 1,000 image-equivalents
+ลำดับเดียวกัน batch 1 และ GPU 1 ใบ ผลทำนายครบ 1,000/1,000 เป็น status <code>ok</code>
+ทุกครั้ง</p>
+<h3 id="21-timing-throughput-vram">2.1 Timing, throughput และ VRAM</h3>
+<p>ค่าทั้งหมดเป็น median ของ 5 รอบ หน่วยเวลาเป็นวินาที และ VRAM เป็น GiB</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Profile</th>
+<th>Platform</th>
+<th style="text-align: right;">Load</th>
+<th style="text-align: right;">Generation total</th>
+<th style="text-align: right;">Pipeline total</th>
+<th style="text-align: right;">Generation img/h</th>
+<th style="text-align: right;">Pipeline img/h</th>
+<th style="text-align: right;">Amortized generation p50</th>
+<th style="text-align: right;">p95</th>
+<th style="text-align: right;">Peak allocated</th>
+<th style="text-align: right;">Peak reserved</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2B BF16</td>
+<td>Local</td>
+<td style="text-align: right;">0.837</td>
+<td style="text-align: right;">157.983</td>
+<td style="text-align: right;">176.552</td>
+<td style="text-align: right;">22,787.3</td>
+<td style="text-align: right;">20,390.6</td>
+<td style="text-align: right;">0.1579</td>
+<td style="text-align: right;">0.2164</td>
+<td style="text-align: right;">4.06</td>
+<td style="text-align: right;">4.12</td>
+</tr>
+<tr>
+<td>2B BF16</td>
+<td>A100</td>
+<td style="text-align: right;">2.983</td>
+<td style="text-align: right;">246.584</td>
+<td style="text-align: right;">271.257</td>
+<td style="text-align: right;">14,599.5</td>
+<td style="text-align: right;">13,271.5</td>
+<td style="text-align: right;">0.2573</td>
+<td style="text-align: right;">0.2949</td>
+<td style="text-align: right;">4.04</td>
+<td style="text-align: right;">4.08</td>
+</tr>
+<tr>
+<td>4B BF16</td>
+<td>Local</td>
+<td style="text-align: right;">1.232</td>
+<td style="text-align: right;">212.803</td>
+<td style="text-align: right;">231.581</td>
+<td style="text-align: right;">16,917.0</td>
+<td style="text-align: right;">15,545.3</td>
+<td style="text-align: right;">0.2194</td>
+<td style="text-align: right;">0.2827</td>
+<td style="text-align: right;">8.38</td>
+<td style="text-align: right;">8.43</td>
+</tr>
+<tr>
+<td>4B BF16</td>
+<td>A100</td>
+<td style="text-align: right;">5.639</td>
+<td style="text-align: right;">304.437</td>
+<td style="text-align: right;">329.219</td>
+<td style="text-align: right;">11,825.1</td>
+<td style="text-align: right;">10,935.0</td>
+<td style="text-align: right;">0.3286</td>
+<td style="text-align: right;">0.3766</td>
+<td style="text-align: right;">8.36</td>
+<td style="text-align: right;">8.39</td>
+</tr>
+<tr>
+<td>8B NF4</td>
+<td>Local</td>
+<td style="text-align: right;">3.142</td>
+<td style="text-align: right;">332.465</td>
+<td style="text-align: right;">351.066</td>
+<td style="text-align: right;">10,828.2</td>
+<td style="text-align: right;">10,254.5</td>
+<td style="text-align: right;">0.3438</td>
+<td style="text-align: right;">0.4249</td>
+<td style="text-align: right;">6.18</td>
+<td style="text-align: right;">6.23</td>
+</tr>
+<tr>
+<td>8B NF4</td>
+<td>A100</td>
+<td style="text-align: right;">11.723</td>
+<td style="text-align: right;">421.769</td>
+<td style="text-align: right;">446.466</td>
+<td style="text-align: right;">8,535.5</td>
+<td style="text-align: right;">8,063.3</td>
+<td style="text-align: right;">0.4657</td>
+<td style="text-align: right;">0.5297</td>
+<td style="text-align: right;">6.15</td>
+<td style="text-align: right;">6.26</td>
+</tr>
+</tbody>
+</table></div>
+<p>Batch-level pipeline latency medians:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Profile</th>
+<th>Platform</th>
+<th style="text-align: right;">Pipeline latency p50</th>
+<th style="text-align: right;">Pipeline latency p95</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2B BF16</td>
+<td>Local</td>
+<td style="text-align: right;">0.1741</td>
+<td style="text-align: right;">0.2351</td>
+</tr>
+<tr>
+<td>2B BF16</td>
+<td>A100</td>
+<td style="text-align: right;">0.2785</td>
+<td style="text-align: right;">0.3235</td>
+</tr>
+<tr>
+<td>4B BF16</td>
+<td>Local</td>
+<td style="text-align: right;">0.2334</td>
+<td style="text-align: right;">0.3008</td>
+</tr>
+<tr>
+<td>4B BF16</td>
+<td>A100</td>
+<td style="text-align: right;">0.3472</td>
+<td style="text-align: right;">0.4050</td>
+</tr>
+<tr>
+<td>8B NF4</td>
+<td>Local</td>
+<td style="text-align: right;">0.3593</td>
+<td style="text-align: right;">0.4466</td>
+</tr>
+<tr>
+<td>8B NF4</td>
+<td>A100</td>
+<td style="text-align: right;">0.4838</td>
+<td style="text-align: right;">0.5575</td>
+</tr>
+</tbody>
+</table></div>
+<p>Peak process RSS medians ซึ่งเป็น host-memory metric:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Profile</th>
+<th style="text-align: right;">Local GiB</th>
+<th style="text-align: right;">A100 job GiB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2B BF16</td>
+<td style="text-align: right;">4.83</td>
+<td style="text-align: right;">4.69</td>
+</tr>
+<tr>
+<td>4B BF16</td>
+<td style="text-align: right;">9.13</td>
+<td style="text-align: right;">8.99</td>
+</tr>
+<tr>
+<td>8B NF4</td>
+<td style="text-align: right;">17.34</td>
+<td style="text-align: right;">17.14</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="22-speedup-gate">2.2 Speedup gate</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Profile</th>
+<th style="text-align: right;">A100 speedup</th>
+<th style="text-align: right;">95% bootstrap CI</th>
+<th>เกณฑ์ ≥1.5 และ lower CI &gt;1</th>
+<th>ผล</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2B BF16</td>
+<td style="text-align: right;">0.652</td>
+<td style="text-align: right;">[0.635, 0.655]</td>
+<td>ไม่ผ่าน</td>
+<td>Local เร็วกว่า 1.53×</td>
+</tr>
+<tr>
+<td>4B BF16</td>
+<td style="text-align: right;">0.703</td>
+<td style="text-align: right;">[0.697, 0.714]</td>
+<td>ไม่ผ่าน</td>
+<td>Local เร็วกว่า 1.42×</td>
+</tr>
+<tr>
+<td>8B NF4</td>
+<td style="text-align: right;">0.786</td>
+<td style="text-align: right;">[0.769, 0.811]</td>
+<td>ไม่ผ่าน</td>
+<td>Local เร็วกว่า 1.27×</td>
+</tr>
+</tbody>
+</table></div>
+<p>ข้อสรุปของ A จำกัดอยู่ที่ batch 1 และ model sizes 2B–8B การที่ throughput gap
+แคบลงเมื่อโมเดลใหญ่ขึ้นไม่ใช่หลักฐานว่า A100 จะเร็วกว่า ณ ขนาดใดขนาดหนึ่ง</p>
+<h2 id="3-experiment-b-development">3. Experiment B — คุณภาพบน Development</h2>
+<p>ชุด B มี 600 ภาพจาก 549 ผู้ป่วย กฎเลือก best-local comparator คือ patient-level
+balanced accuracy สูงสุด ตามด้วย macro-F1 สูงกว่า, uncertainty ต่ำกว่า และ declared
+order <code>2b-bf16</code>, <code>4b-bf16</code>, <code>8b-nf4</code></p>
+<h3 id="31-patient-level-metrics">3.1 Patient-level metrics</h3>
+<p>ค่าที่อยู่ในวงเล็บคือ 95% bootstrap CI</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Profile</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">Accuracy</th>
+<th style="text-align: right;">Balanced accuracy</th>
+<th style="text-align: right;">Macro-F1</th>
+<th style="text-align: right;">Uncertainty</th>
+<th style="text-align: right;">Coverage</th>
+<th style="text-align: right;">Image BA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2B BF16</td>
+<td style="text-align: right;">549</td>
+<td style="text-align: right;">0.6576 [0.6266, 0.6922]</td>
+<td style="text-align: right;">0.6651 [0.6344, 0.6988]</td>
+<td style="text-align: right;">0.6391 [0.6001, 0.6804]</td>
+<td style="text-align: right;">0.0182</td>
+<td style="text-align: right;">0.9818</td>
+<td style="text-align: right;">0.6733</td>
+</tr>
+<tr>
+<td><strong>4B BF16</strong></td>
+<td style="text-align: right;">549</td>
+<td style="text-align: right;"><strong>0.6812 [0.6466, 0.7159]</strong></td>
+<td style="text-align: right;"><strong>0.6867 [0.6517, 0.7216]</strong></td>
+<td style="text-align: right;"><strong>0.6800 [0.6407, 0.7182]</strong></td>
+<td style="text-align: right;">0.0291</td>
+<td style="text-align: right;">0.9709</td>
+<td style="text-align: right;"><strong>0.7000</strong></td>
+</tr>
+<tr>
+<td>8B NF4</td>
+<td style="text-align: right;">549</td>
+<td style="text-align: right;">0.5738 [0.5337, 0.6120]</td>
+<td style="text-align: right;">0.5771 [0.5364, 0.6153]</td>
+<td style="text-align: right;">0.5817 [0.5389, 0.6210]</td>
+<td style="text-align: right;">0.0437</td>
+<td style="text-align: right;">0.9563</td>
+<td style="text-align: right;">0.5967</td>
+</tr>
+<tr>
+<td>8B BF16</td>
+<td style="text-align: right;">549</td>
+<td style="text-align: right;">0.4208 [0.3789, 0.4608]</td>
+<td style="text-align: right;">0.4180 [0.3761, 0.4579]</td>
+<td style="text-align: right;">0.5057 [0.4611, 0.5480]</td>
+<td style="text-align: right;">0.3643</td>
+<td style="text-align: right;">0.6357</td>
+<td style="text-align: right;">0.4417</td>
+</tr>
+</tbody>
+</table></div>
+<p>กฎที่กำหนดไว้เลือก <code>4b-bf16</code> ตัวเลขของ 8B BF16 ไม่สนับสนุนสมมติฐานว่า precision
+ที่สูงขึ้นจะเพิ่มคุณภาพภายใต้ prompt/parser ชุดนี้ เพราะ uncertainty สูงถึง 36.43%
+ในระดับผู้ป่วย</p>
+<h3 id="32-patient-level-per-class-metrics">3.2 Patient-level per-class metrics</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Profile</th>
+<th>Class</th>
+<th style="text-align: right;">Support</th>
+<th style="text-align: right;">Predicted</th>
+<th style="text-align: right;">Precision</th>
+<th style="text-align: right;">Recall</th>
+<th style="text-align: right;">F1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2B BF16</td>
+<td>NORMAL</td>
+<td style="text-align: right;">282</td>
+<td style="text-align: right;">123</td>
+<td style="text-align: right;">0.8943</td>
+<td style="text-align: right;">0.3901</td>
+<td style="text-align: right;">0.5432</td>
+</tr>
+<tr>
+<td>2B BF16</td>
+<td>PNEUMONIA</td>
+<td style="text-align: right;">267</td>
+<td style="text-align: right;">416</td>
+<td style="text-align: right;">0.6034</td>
+<td style="text-align: right;">0.9401</td>
+<td style="text-align: right;">0.7350</td>
+</tr>
+<tr>
+<td>4B BF16</td>
+<td>NORMAL</td>
+<td style="text-align: right;">282</td>
+<td style="text-align: right;">162</td>
+<td style="text-align: right;">0.8457</td>
+<td style="text-align: right;">0.4858</td>
+<td style="text-align: right;">0.6171</td>
+</tr>
+<tr>
+<td>4B BF16</td>
+<td>PNEUMONIA</td>
+<td style="text-align: right;">267</td>
+<td style="text-align: right;">371</td>
+<td style="text-align: right;">0.6388</td>
+<td style="text-align: right;">0.8876</td>
+<td style="text-align: right;">0.7429</td>
+</tr>
+<tr>
+<td>8B NF4</td>
+<td>NORMAL</td>
+<td style="text-align: right;">282</td>
+<td style="text-align: right;">192</td>
+<td style="text-align: right;">0.6667</td>
+<td style="text-align: right;">0.4539</td>
+<td style="text-align: right;">0.5401</td>
+</tr>
+<tr>
+<td>8B NF4</td>
+<td>PNEUMONIA</td>
+<td style="text-align: right;">267</td>
+<td style="text-align: right;">333</td>
+<td style="text-align: right;">0.5616</td>
+<td style="text-align: right;">0.7004</td>
+<td style="text-align: right;">0.6233</td>
+</tr>
+<tr>
+<td>8B BF16</td>
+<td>NORMAL</td>
+<td style="text-align: right;">282</td>
+<td style="text-align: right;">216</td>
+<td style="text-align: right;">0.6759</td>
+<td style="text-align: right;">0.5177</td>
+<td style="text-align: right;">0.5863</td>
+</tr>
+<tr>
+<td>8B BF16</td>
+<td>PNEUMONIA</td>
+<td style="text-align: right;">267</td>
+<td style="text-align: right;">133</td>
+<td style="text-align: right;">0.6391</td>
+<td style="text-align: right;">0.3184</td>
+<td style="text-align: right;">0.4250</td>
+</tr>
+</tbody>
+</table></div>
+<p>95% CI ของ recall:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Profile</th>
+<th style="text-align: right;">NORMAL recall CI</th>
+<th style="text-align: right;">PNEUMONIA recall CI</th>
+<th style="text-align: right;">Uncertainty CI</th>
+<th style="text-align: right;">Coverage CI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2B BF16</td>
+<td style="text-align: right;">[0.3333, 0.4504]</td>
+<td style="text-align: right;">[0.9138, 0.9663]</td>
+<td style="text-align: right;">[0.0073, 0.0310]</td>
+<td style="text-align: right;">[0.9690, 0.9927]</td>
+</tr>
+<tr>
+<td>4B BF16</td>
+<td style="text-align: right;">[0.4255, 0.5426]</td>
+<td style="text-align: right;">[0.8502, 0.9213]</td>
+<td style="text-align: right;">[0.0164, 0.0437]</td>
+<td style="text-align: right;">[0.9563, 0.9836]</td>
+</tr>
+<tr>
+<td>8B NF4</td>
+<td style="text-align: right;">[0.3972, 0.5142]</td>
+<td style="text-align: right;">[0.6441, 0.7566]</td>
+<td style="text-align: right;">[0.0273, 0.0619]</td>
+<td style="text-align: right;">[0.9381, 0.9727]</td>
+</tr>
+<tr>
+<td>8B BF16</td>
+<td style="text-align: right;">[0.4610, 0.5745]</td>
+<td style="text-align: right;">[0.2622, 0.3745]</td>
+<td style="text-align: right;">[0.3242, 0.4044]</td>
+<td style="text-align: right;">[0.5956, 0.6758]</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="33-paired-checks-8b-bf16">3.3 Paired checks ของ 8B BF16</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Comparator</th>
+<th style="text-align: right;">Δ balanced accuracy</th>
+<th style="text-align: right;">Δ recall NORMAL</th>
+<th style="text-align: right;">Δ recall PNEUMONIA</th>
+<th style="text-align: right;">McNemar discordant</th>
+<th style="text-align: right;">p-value</th>
+<th>ผ่าน numeric gate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8B NF4</td>
+<td style="text-align: right;">−0.1591</td>
+<td style="text-align: right;">+0.0638</td>
+<td style="text-align: right;">−0.3820</td>
+<td style="text-align: right;">158</td>
+<td style="text-align: right;">1.30×10⁻¹¹</td>
+<td>ไม่ผ่าน</td>
+</tr>
+<tr>
+<td>Best local: 4B BF16</td>
+<td style="text-align: right;">−0.2687</td>
+<td style="text-align: right;">+0.0319</td>
+<td style="text-align: right;">−0.5693</td>
+<td style="text-align: right;">249</td>
+<td style="text-align: right;">1.80×10⁻²⁰</td>
+<td>ไม่ผ่าน</td>
+</tr>
+</tbody>
+</table></div>
+<p>ค่า p ที่ต่ำในตารางนี้แสดงความแตกต่างแบบ paired แต่ทิศทางเป็นผลเสียต่อ 8B BF16
+จึงไม่ใช่หลักฐานสนับสนุน candidate</p>
+<h3 id="34-runtime-quality-pass">3.4 Runtime ของ quality pass</h3>
+<p>Experiment B รัน deterministic pass หนึ่งรอบต่อ profile ตัวเลขนี้ไม่ใช่
+five-round benchmark จึงรายงานเป็นค่ารอบเดียว</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Profile</th>
+<th style="text-align: right;">Load s</th>
+<th style="text-align: right;">Generation s</th>
+<th style="text-align: right;">Pipeline s</th>
+<th style="text-align: right;">Generation img/h</th>
+<th style="text-align: right;">Pipeline img/h</th>
+<th style="text-align: right;">Amortized gen p50/p95</th>
+<th style="text-align: right;">Peak alloc/reserved GiB</th>
+<th style="text-align: right;">Peak RSS GiB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2B BF16</td>
+<td style="text-align: right;">22.116</td>
+<td style="text-align: right;">148.219</td>
+<td style="text-align: right;">173.187</td>
+<td style="text-align: right;">14,573.1</td>
+<td style="text-align: right;">12,472.0</td>
+<td style="text-align: right;">0.2578 / 0.2954</td>
+<td style="text-align: right;">4.04 / 4.08</td>
+<td style="text-align: right;">4.69</td>
+</tr>
+<tr>
+<td>4B BF16</td>
+<td style="text-align: right;">17.818</td>
+<td style="text-align: right;">185.702</td>
+<td style="text-align: right;">205.088</td>
+<td style="text-align: right;">11,631.5</td>
+<td style="text-align: right;">10,532.0</td>
+<td style="text-align: right;">0.3298 / 0.3786</td>
+<td style="text-align: right;">8.36 / 8.40</td>
+<td style="text-align: right;">8.99</td>
+</tr>
+<tr>
+<td>8B NF4</td>
+<td style="text-align: right;">69.111</td>
+<td style="text-align: right;">256.426</td>
+<td style="text-align: right;">271.030</td>
+<td style="text-align: right;">8,423.5</td>
+<td style="text-align: right;">7,969.6</td>
+<td style="text-align: right;">0.4679 / 0.5374</td>
+<td style="text-align: right;">6.15 / 6.22</td>
+<td style="text-align: right;">17.13</td>
+</tr>
+<tr>
+<td>8B BF16</td>
+<td style="text-align: right;">70.551</td>
+<td style="text-align: right;">168.196</td>
+<td style="text-align: right;">183.084</td>
+<td style="text-align: right;">12,842.2</td>
+<td style="text-align: right;">11,797.8</td>
+<td style="text-align: right;">0.2762 / 0.3790</td>
+<td style="text-align: right;">16.43 / 16.46</td>
+<td style="text-align: right;">17.04</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="4-experiment-c1-batch-scaling-a100">4. Experiment C1 — Batch scaling บน A100 หนึ่งใบ</h2>
+<p>ใช้ <code>4b-bf16</code>, 1,000 images, 5 รอบต่อ batch ไม่มี OOM และทุก prediction มี
+status <code>ok</code></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th style="text-align: right;">Batch</th>
+<th style="text-align: right;">Load s</th>
+<th style="text-align: right;">Generation s</th>
+<th style="text-align: right;">Pipeline s</th>
+<th style="text-align: right;">Generation img/h</th>
+<th style="text-align: right;">Pipeline img/h</th>
+<th style="text-align: right;">Amortized gen p50</th>
+<th style="text-align: right;">p95</th>
+<th style="text-align: right;">Peak alloc GiB</th>
+<th style="text-align: right;">Peak reserved GiB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5.254</td>
+<td style="text-align: right;">305.282</td>
+<td style="text-align: right;">330.451</td>
+<td style="text-align: right;">11,792.4</td>
+<td style="text-align: right;">10,894.2</td>
+<td style="text-align: right;">0.3297</td>
+<td style="text-align: right;">0.3711</td>
+<td style="text-align: right;">8.36</td>
+<td style="text-align: right;">8.39</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">5.349</td>
+<td style="text-align: right;">182.314</td>
+<td style="text-align: right;">205.996</td>
+<td style="text-align: right;">19,746.1</td>
+<td style="text-align: right;">17,476.0</td>
+<td style="text-align: right;">0.1884</td>
+<td style="text-align: right;">0.2112</td>
+<td style="text-align: right;">8.46</td>
+<td style="text-align: right;">8.64</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5.290</td>
+<td style="text-align: right;">106.116</td>
+<td style="text-align: right;">130.715</td>
+<td style="text-align: right;">33,925.3</td>
+<td style="text-align: right;">27,540.8</td>
+<td style="text-align: right;">0.1049</td>
+<td style="text-align: right;">0.1161</td>
+<td style="text-align: right;">8.61</td>
+<td style="text-align: right;">8.91</td>
+</tr>
+<tr>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">5.309</td>
+<td style="text-align: right;">63.410</td>
+<td style="text-align: right;">86.509</td>
+<td style="text-align: right;">56,773.7</td>
+<td style="text-align: right;"><strong>41,614.4</strong></td>
+<td style="text-align: right;">0.0633</td>
+<td style="text-align: right;">0.0674</td>
+<td style="text-align: right;">8.92</td>
+<td style="text-align: right;">9.62</td>
+</tr>
+</tbody>
+</table></div>
+<p>Batch-level latency เพิ่มตามขนาด batch ขณะที่ amortized latency ลดลง:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th style="text-align: right;">Batch</th>
+<th style="text-align: right;">Batch generation p50</th>
+<th style="text-align: right;">p95</th>
+<th style="text-align: right;">Batch pipeline p50</th>
+<th style="text-align: right;">p95</th>
+<th style="text-align: right;">Allocated GPU-h/1,000 images</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.3297</td>
+<td style="text-align: right;">0.3711</td>
+<td style="text-align: right;">0.3499</td>
+<td style="text-align: right;">0.4003</td>
+<td style="text-align: right;">0.0995</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.3769</td>
+<td style="text-align: right;">0.4224</td>
+<td style="text-align: right;">0.4180</td>
+<td style="text-align: right;">0.4781</td>
+<td style="text-align: right;">0.0640</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.4197</td>
+<td style="text-align: right;">0.4643</td>
+<td style="text-align: right;">0.5263</td>
+<td style="text-align: right;">0.5968</td>
+<td style="text-align: right;">0.0417</td>
+</tr>
+<tr>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.5067</td>
+<td style="text-align: right;">0.5395</td>
+<td style="text-align: right;">0.6931</td>
+<td style="text-align: right;">0.7934</td>
+<td style="text-align: right;"><strong>0.0290</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>Peak process RSS ของ batch 1/2/4/8 เท่ากับ 8.99/9.00/8.99/8.99 GiB
+ตามลำดับ</p>
+<p>กฎ highest valid median pipeline throughput เลือก batch 8 สำหรับ C2</p>
+<h2 id="5-experiment-c2-multi-gpu-strong-scaling">5. Experiment C2 — Multi-GPU strong scaling</h2>
+<p>ใช้ <code>4b-bf16</code>, per-GPU batch 8 และ workload คงที่ 2,000 ภาพต่อรอบ รวม 5 รอบ
+ต่อจำนวน GPU แต่ละ rank ได้ shard ไม่ซ้ำและ CPU affinity 16 cores/rank</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th style="text-align: right;">GPUs</th>
+<th style="text-align: right;">Median generation s</th>
+<th style="text-align: right;">Median pipeline s</th>
+<th style="text-align: right;">Median complete-round wall s</th>
+<th style="text-align: right;">Aggregate img/h</th>
+<th style="text-align: right;">Speedup</th>
+<th style="text-align: right;">Efficiency</th>
+<th style="text-align: right;">Peak alloc/rank GiB</th>
+<th style="text-align: right;">Peak reserved/rank GiB</th>
+<th style="text-align: right;">Peak RSS/rank GiB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">129.540</td>
+<td style="text-align: right;">176.549</td>
+<td style="text-align: right;">192.296</td>
+<td style="text-align: right;">40,781.8</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">100.00%</td>
+<td style="text-align: right;">8.93</td>
+<td style="text-align: right;">9.71</td>
+<td style="text-align: right;">9.00</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">65.584</td>
+<td style="text-align: right;">88.691</td>
+<td style="text-align: right;">105.495</td>
+<td style="text-align: right;">81,180.7</td>
+<td style="text-align: right;">1.991</td>
+<td style="text-align: right;">99.53%</td>
+<td style="text-align: right;">8.93</td>
+<td style="text-align: right;">9.56</td>
+<td style="text-align: right;">8.99</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">33.517</td>
+<td style="text-align: right;">45.105</td>
+<td style="text-align: right;">64.905</td>
+<td style="text-align: right;">159,628.9</td>
+<td style="text-align: right;">3.914</td>
+<td style="text-align: right;">97.86%</td>
+<td style="text-align: right;">8.93</td>
+<td style="text-align: right;">9.77</td>
+<td style="text-align: right;">8.99</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th style="text-align: right;">GPUs</th>
+<th style="text-align: right;">Scaling gate</th>
+<th>ผล</th>
+<th style="text-align: right;">Allocated GPU-h/1,000 images</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">baseline</td>
+<td>—</td>
+<td style="text-align: right;">0.0267</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">efficiency ≥80%</td>
+<td>ผ่าน</td>
+<td style="text-align: right;">0.0296</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">efficiency ≥70%</td>
+<td>ผ่าน</td>
+<td style="text-align: right;">0.0366</td>
+</tr>
+</tbody>
+</table></div>
+<p>การเพิ่ม GPU ลด turnaround แต่ใช้ GPU-hours ต่อ 1,000 ภาพมากขึ้นเล็กน้อย
+ผล unpinned และ CPU-pinned รุ่นแรกถูกเก็บเป็น diagnostic runs ไม่ถูกใช้แทนผล final
+เพราะมี CPU contention/inter-op-thread confound</p>
+<h2 id="6-set-d-30b32b-development-600">6. Set D — 30B/32B บน Development 600 ภาพ</h2>
+<p>Set D เป็น exploratory Development extension เพราะ 30B/32B ไม่อยู่ใน candidate
+list เดิมของ Experiment B แต่ใช้ manifest และ comparator 4B ชุดเดียวกันเพื่อให้
+paired comparison ตรวจสอบได้ ทั้งสองโมเดลรัน 2 รอบและ prediction hash ตรงกันข้ามรอบ</p>
+<h3 id="61-patient-level-metrics">6.1 Patient-level metrics</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Profile</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">Accuracy</th>
+<th style="text-align: right;">Balanced accuracy</th>
+<th style="text-align: right;">Macro-F1</th>
+<th style="text-align: right;">Uncertainty</th>
+<th style="text-align: right;">Coverage</th>
+<th style="text-align: right;">Image BA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>30B MoE BF16</td>
+<td style="text-align: right;">549</td>
+<td style="text-align: right;">0.7231 [0.6867, 0.7596]</td>
+<td style="text-align: right;">0.7271 [0.6909, 0.7628]</td>
+<td style="text-align: right;">0.7279 [0.6908, 0.7649]</td>
+<td style="text-align: right;">0.0255</td>
+<td style="text-align: right;">0.9745</td>
+<td style="text-align: right;">0.7400</td>
+</tr>
+<tr>
+<td>32B dense BF16</td>
+<td style="text-align: right;">549</td>
+<td style="text-align: right;">0.7322 [0.6958, 0.7705]</td>
+<td style="text-align: right;">0.7335 [0.6968, 0.7711]</td>
+<td style="text-align: right;">0.7436 [0.7071, 0.7805]</td>
+<td style="text-align: right;">0.0310</td>
+<td style="text-align: right;">0.9690</td>
+<td style="text-align: right;">0.7533</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Profile</th>
+<th>Class</th>
+<th style="text-align: right;">Support</th>
+<th style="text-align: right;">Predicted</th>
+<th style="text-align: right;">Precision</th>
+<th style="text-align: right;">Recall</th>
+<th style="text-align: right;">F1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>30B MoE</td>
+<td>NORMAL</td>
+<td style="text-align: right;">282</td>
+<td style="text-align: right;">193</td>
+<td style="text-align: right;">0.8497</td>
+<td style="text-align: right;">0.5816</td>
+<td style="text-align: right;">0.6905</td>
+</tr>
+<tr>
+<td>30B MoE</td>
+<td>PNEUMONIA</td>
+<td style="text-align: right;">267</td>
+<td style="text-align: right;">342</td>
+<td style="text-align: right;">0.6813</td>
+<td style="text-align: right;">0.8727</td>
+<td style="text-align: right;">0.7652</td>
+</tr>
+<tr>
+<td>32B dense</td>
+<td>NORMAL</td>
+<td style="text-align: right;">282</td>
+<td style="text-align: right;">243</td>
+<td style="text-align: right;">0.7984</td>
+<td style="text-align: right;">0.6879</td>
+<td style="text-align: right;">0.7390</td>
+</tr>
+<tr>
+<td>32B dense</td>
+<td>PNEUMONIA</td>
+<td style="text-align: right;">267</td>
+<td style="text-align: right;">289</td>
+<td style="text-align: right;">0.7197</td>
+<td style="text-align: right;">0.7790</td>
+<td style="text-align: right;">0.7482</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Profile</th>
+<th style="text-align: right;">NORMAL recall CI</th>
+<th style="text-align: right;">PNEUMONIA recall CI</th>
+<th style="text-align: right;">Uncertainty CI</th>
+<th style="text-align: right;">Coverage CI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>30B MoE</td>
+<td style="text-align: right;">[0.5213, 0.6384]</td>
+<td style="text-align: right;">[0.8277, 0.9101]</td>
+<td style="text-align: right;">[0.0128, 0.0401]</td>
+<td style="text-align: right;">[0.9599, 0.9872]</td>
+</tr>
+<tr>
+<td>32B dense</td>
+<td style="text-align: right;">[0.6348, 0.7447]</td>
+<td style="text-align: right;">[0.7302, 0.8277]</td>
+<td style="text-align: right;">[0.0182, 0.0455]</td>
+<td style="text-align: right;">[0.9545, 0.9818]</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="62-paired-delta-4b-bf16">6.2 Paired delta เทียบ 4B BF16</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Candidate</th>
+<th>Metric</th>
+<th style="text-align: right;">Delta</th>
+<th style="text-align: right;">95% paired-bootstrap CI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>30B MoE</td>
+<td>Accuracy</td>
+<td style="text-align: right;">+0.0419</td>
+<td style="text-align: right;">[+0.0036, +0.0820]</td>
+</tr>
+<tr>
+<td>30B MoE</td>
+<td>Balanced accuracy</td>
+<td style="text-align: right;">+0.0404</td>
+<td style="text-align: right;">[+0.0025, +0.0789]</td>
+</tr>
+<tr>
+<td>30B MoE</td>
+<td>Macro-F1</td>
+<td style="text-align: right;">+0.0478</td>
+<td style="text-align: right;">[+0.0077, +0.0902]</td>
+</tr>
+<tr>
+<td>30B MoE</td>
+<td>Uncertainty rate</td>
+<td style="text-align: right;">−0.0036</td>
+<td style="text-align: right;">[−0.0164, +0.0091]</td>
+</tr>
+<tr>
+<td>30B MoE</td>
+<td>Coverage</td>
+<td style="text-align: right;">+0.0036</td>
+<td style="text-align: right;">[−0.0091, +0.0164]</td>
+</tr>
+<tr>
+<td>30B MoE</td>
+<td>Recall NORMAL</td>
+<td style="text-align: right;">+0.0957</td>
+<td style="text-align: right;">[+0.0355, +0.1596]</td>
+</tr>
+<tr>
+<td>30B MoE</td>
+<td>Recall PNEUMONIA</td>
+<td style="text-align: right;">−0.0150</td>
+<td style="text-align: right;">[−0.0599, +0.0300]</td>
+</tr>
+<tr>
+<td>32B dense</td>
+<td>Accuracy</td>
+<td style="text-align: right;">+0.0510</td>
+<td style="text-align: right;">[+0.0073, +0.0984]</td>
+</tr>
+<tr>
+<td>32B dense</td>
+<td>Balanced accuracy</td>
+<td style="text-align: right;">+0.0468</td>
+<td style="text-align: right;">[+0.0043, +0.0937]</td>
+</tr>
+<tr>
+<td>32B dense</td>
+<td>Macro-F1</td>
+<td style="text-align: right;">+0.0636</td>
+<td style="text-align: right;">[+0.0188, +0.1129]</td>
+</tr>
+<tr>
+<td>32B dense</td>
+<td>Uncertainty rate</td>
+<td style="text-align: right;">+0.0018</td>
+<td style="text-align: right;">[−0.0128, +0.0182]</td>
+</tr>
+<tr>
+<td>32B dense</td>
+<td>Coverage</td>
+<td style="text-align: right;">−0.0018</td>
+<td style="text-align: right;">[−0.0182, +0.0128]</td>
+</tr>
+<tr>
+<td>32B dense</td>
+<td>Recall NORMAL</td>
+<td style="text-align: right;">+0.2021</td>
+<td style="text-align: right;">[+0.1277, +0.2766]</td>
+</tr>
+<tr>
+<td>32B dense</td>
+<td>Recall PNEUMONIA</td>
+<td style="text-align: right;">−0.1086</td>
+<td style="text-align: right;">[−0.1610, −0.0524]</td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Candidate</th>
+<th style="text-align: right;">Correct candidate/wrong comparator</th>
+<th style="text-align: right;">Wrong candidate/correct comparator</th>
+<th style="text-align: right;">Discordant</th>
+<th style="text-align: right;">McNemar p</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>30B MoE</td>
+<td style="text-align: right;">71</td>
+<td style="text-align: right;">48</td>
+<td style="text-align: right;">119</td>
+<td style="text-align: right;">0.0433</td>
+</tr>
+<tr>
+<td>32B dense</td>
+<td style="text-align: right;">102</td>
+<td style="text-align: right;">74</td>
+<td style="text-align: right;">176</td>
+<td style="text-align: right;">0.0415</td>
+</tr>
+</tbody>
+</table></div>
+<p>30B ไม่ผ่านเกณฑ์ Δ balanced accuracy ≥0.05 แม้ recall margin และ nominal McNemar
+ผ่าน ส่วน 32B ไม่ผ่านทั้ง Δ≥0.05 และเกณฑ์ class-recall drop ≥−0.03 การทดสอบ
+candidate สองตัวกับ comparator เดียวกันยังไม่มี multiplicity rule ที่ freeze ใน SAP;
+หากใช้ Bonferroni α=0.025 ค่า p ทั้งสองจะไม่ผ่าน</p>
+<h3 id="63-performance-large-models">6.3 Performance ของ large models</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Profile</th>
+<th style="text-align: right;">Round</th>
+<th style="text-align: right;">Load s</th>
+<th style="text-align: right;">Generation s</th>
+<th style="text-align: right;">Pipeline s</th>
+<th style="text-align: right;">Generation img/h</th>
+<th style="text-align: right;">Pipeline img/h</th>
+<th style="text-align: right;">Batch generation p50/p95</th>
+<th style="text-align: right;">Batch pipeline p50/p95</th>
+<th style="text-align: right;">Peak alloc GiB</th>
+<th style="text-align: right;">Peak reserved GiB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>30B MoE</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">59.137</td>
+<td style="text-align: right;">479.996</td>
+<td style="text-align: right;">496.478</td>
+<td style="text-align: right;">4,500.0</td>
+<td style="text-align: right;">4,350.6</td>
+<td style="text-align: right;">0.8606 / 0.9521</td>
+<td style="text-align: right;">0.8828 / 0.9767</td>
+<td style="text-align: right;">58.72</td>
+<td style="text-align: right;">60.19</td>
+</tr>
+<tr>
+<td>30B MoE</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">33.644</td>
+<td style="text-align: right;">464.806</td>
+<td style="text-align: right;">480.564</td>
+<td style="text-align: right;">4,647.1</td>
+<td style="text-align: right;">4,494.7</td>
+<td style="text-align: right;">0.8365 / 0.9239</td>
+<td style="text-align: right;">0.8555 / 0.9465</td>
+<td style="text-align: right;">58.72</td>
+<td style="text-align: right;">60.19</td>
+</tr>
+<tr>
+<td>32B dense</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">68.282</td>
+<td style="text-align: right;">405.552</td>
+<td style="text-align: right;">430.165</td>
+<td style="text-align: right;">5,326.1</td>
+<td style="text-align: right;">5,021.3</td>
+<td style="text-align: right;">0.7663 / 0.8552</td>
+<td style="text-align: right;">0.7917 / 0.8905</td>
+<td style="text-align: right;">62.36</td>
+<td style="text-align: right;">62.45</td>
+</tr>
+<tr>
+<td>32B dense</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">35.619</td>
+<td style="text-align: right;">406.132</td>
+<td style="text-align: right;">420.998</td>
+<td style="text-align: right;">5,318.5</td>
+<td style="text-align: right;">5,130.7</td>
+<td style="text-align: right;">0.7683 / 0.8611</td>
+<td style="text-align: right;">0.7831 / 0.8834</td>
+<td style="text-align: right;">62.36</td>
+<td style="text-align: right;">62.45</td>
+</tr>
+</tbody>
+</table></div>
+<p>Peak process RSS อยู่ที่ประมาณ 58.72 GiB สำหรับ 30B และ 62.96 GiB สำหรับ 32B
+ต่อ process โดยน้ำหนักถูกกระจายข้าม A100 สองใบ รอบแรกมี cold-cache/load overhead
+สูงกว่า แต่ generation time ของ 32B แทบไม่เปลี่ยนระหว่างรอบ</p>
+<h2 id="7-local-capacity-ceiling">7. Local capacity ceiling</h2>
+<p>การทดสอบบังคับ BF16 weights ทั้งหมดลง CUDA device 0 โดยไม่ใช้ CPU/disk offload
+และตรวจว่าไฟล์น้ำหนักครบตาม registry ก่อนโหลด</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Profile</th>
+<th style="text-align: right;">Weight files</th>
+<th style="text-align: right;">Weight bytes</th>
+<th>Standard loader</th>
+<th>No-warm-up diagnostic</th>
+<th style="text-align: right;">Peak allocated</th>
+<th style="text-align: right;">Peak reserved</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>30B MoE</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">62,141,618,016</td>
+<td>OOM ขอ 10.30 GiB</td>
+<td>OOM ขอเพิ่ม 768 MiB</td>
+<td style="text-align: right;">10,410,336,256 B</td>
+<td style="text-align: right;">10,550,771,712 B</td>
+</tr>
+<tr>
+<td>32B dense</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">66,714,912,872</td>
+<td>OOM ขอ 10.30 GiB</td>
+<td>OOM ขอเพิ่ม 80 MiB</td>
+<td style="text-align: right;">10,843,056,128 B</td>
+<td style="text-align: right;">10,863,247,360 B</td>
+</tr>
+</tbody>
+</table></div>
+<p>Standard-loader OOM เกิดที่ speculative allocator warm-up จึงใช้เป็นหลักฐานรอง
+ส่วน no-warm-up run โหลด weights จริงจนเหลือหน่วยความจำเพียงเล็กน้อยแล้ว OOM
+เป็นหลักฐานหลักว่า local card ไม่สามารถรองรับ BF16 model ทั้งสองตัว</p>
+<h2 id="8-secondary-image-level-metrics-confusion-matrices">8. Secondary image-level metrics และ confusion matrices</h2>
+<h3 id="81-image-level-summary">8.1 Image-level summary</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Profile</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">Accuracy</th>
+<th style="text-align: right;">Balanced accuracy</th>
+<th style="text-align: right;">Macro-F1</th>
+<th style="text-align: right;">Uncertainty</th>
+<th style="text-align: right;">Coverage</th>
+<th style="text-align: right;">Status ok</th>
+<th style="text-align: right;">Parse failures</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2B BF16</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">0.6733</td>
+<td style="text-align: right;">0.6733</td>
+<td style="text-align: right;">0.6470</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>4B BF16</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">0.7000</td>
+<td style="text-align: right;">0.7000</td>
+<td style="text-align: right;">0.6884</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>8B NF4</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">0.5967</td>
+<td style="text-align: right;">0.5967</td>
+<td style="text-align: right;">0.5941</td>
+<td style="text-align: right;">0.0117</td>
+<td style="text-align: right;">0.9883</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>8B BF16</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">0.4417</td>
+<td style="text-align: right;">0.4417</td>
+<td style="text-align: right;">0.5216</td>
+<td style="text-align: right;">0.3267</td>
+<td style="text-align: right;">0.6733</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>30B MoE</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">0.7400</td>
+<td style="text-align: right;">0.7400</td>
+<td style="text-align: right;">0.7352</td>
+<td style="text-align: right;">0.0017</td>
+<td style="text-align: right;">0.9983</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>32B dense</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">0.7533</td>
+<td style="text-align: right;">0.7533</td>
+<td style="text-align: right;">0.7528</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>status ok</code> หมายถึง pipeline และ parser ทำงานครบ ไม่ได้หมายความว่าคำตอบไม่เป็น
+<code>UNCERTAIN</code></p>
+<h3 id="82-image-level-per-class-metrics">8.2 Image-level per-class metrics</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Profile</th>
+<th>Class</th>
+<th style="text-align: right;">Support</th>
+<th style="text-align: right;">Predicted</th>
+<th style="text-align: right;">Precision</th>
+<th style="text-align: right;">Recall</th>
+<th style="text-align: right;">F1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2B BF16</td>
+<td>NORMAL</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">0.8824</td>
+<td style="text-align: right;">0.4000</td>
+<td style="text-align: right;">0.5505</td>
+</tr>
+<tr>
+<td>2B BF16</td>
+<td>PNEUMONIA</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">464</td>
+<td style="text-align: right;">0.6121</td>
+<td style="text-align: right;">0.9467</td>
+<td style="text-align: right;">0.7435</td>
+</tr>
+<tr>
+<td>4B BF16</td>
+<td>NORMAL</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">184</td>
+<td style="text-align: right;">0.8261</td>
+<td style="text-align: right;">0.5067</td>
+<td style="text-align: right;">0.6281</td>
+</tr>
+<tr>
+<td>4B BF16</td>
+<td>PNEUMONIA</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">416</td>
+<td style="text-align: right;">0.6442</td>
+<td style="text-align: right;">0.8933</td>
+<td style="text-align: right;">0.7486</td>
+</tr>
+<tr>
+<td>8B NF4</td>
+<td>NORMAL</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">219</td>
+<td style="text-align: right;">0.6484</td>
+<td style="text-align: right;">0.4733</td>
+<td style="text-align: right;">0.5472</td>
+</tr>
+<tr>
+<td>8B NF4</td>
+<td>PNEUMONIA</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">374</td>
+<td style="text-align: right;">0.5775</td>
+<td style="text-align: right;">0.7200</td>
+<td style="text-align: right;">0.6409</td>
+</tr>
+<tr>
+<td>8B BF16</td>
+<td>NORMAL</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">246</td>
+<td style="text-align: right;">0.6585</td>
+<td style="text-align: right;">0.5400</td>
+<td style="text-align: right;">0.5934</td>
+</tr>
+<tr>
+<td>8B BF16</td>
+<td>PNEUMONIA</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">158</td>
+<td style="text-align: right;">0.6519</td>
+<td style="text-align: right;">0.3433</td>
+<td style="text-align: right;">0.4498</td>
+</tr>
+<tr>
+<td>30B MoE</td>
+<td>NORMAL</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">213</td>
+<td style="text-align: right;">0.8404</td>
+<td style="text-align: right;">0.5967</td>
+<td style="text-align: right;">0.6979</td>
+</tr>
+<tr>
+<td>30B MoE</td>
+<td>PNEUMONIA</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">386</td>
+<td style="text-align: right;">0.6865</td>
+<td style="text-align: right;">0.8833</td>
+<td style="text-align: right;">0.7726</td>
+</tr>
+<tr>
+<td>32B dense</td>
+<td>NORMAL</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">272</td>
+<td style="text-align: right;">0.7794</td>
+<td style="text-align: right;">0.7067</td>
+<td style="text-align: right;">0.7413</td>
+</tr>
+<tr>
+<td>32B dense</td>
+<td>PNEUMONIA</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: right;">328</td>
+<td style="text-align: right;">0.7317</td>
+<td style="text-align: right;">0.8000</td>
+<td style="text-align: right;">0.7643</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="83-confusion-matrices">8.3 Confusion matrices</h3>
+<p>คอลัมน์เรียงเป็น true NORMAL → predicted NORMAL/PNEUMONIA/UNCERTAIN และ true
+PNEUMONIA → predicted NORMAL/PNEUMONIA/UNCERTAIN</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Profile</th>
+<th>Level</th>
+<th style="text-align: right;">N→N</th>
+<th style="text-align: right;">N→P</th>
+<th style="text-align: right;">N→U</th>
+<th style="text-align: right;">P→N</th>
+<th style="text-align: right;">P→P</th>
+<th style="text-align: right;">P→U</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2B BF16</td>
+<td>patient</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">165</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">251</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td>2B BF16</td>
+<td>image</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: right;">180</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">284</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>4B BF16</td>
+<td>patient</td>
+<td style="text-align: right;">137</td>
+<td style="text-align: right;">134</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">237</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr>
+<td>4B BF16</td>
+<td>image</td>
+<td style="text-align: right;">152</td>
+<td style="text-align: right;">148</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">268</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>8B NF4</td>
+<td>patient</td>
+<td style="text-align: right;">128</td>
+<td style="text-align: right;">146</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">64</td>
+<td style="text-align: right;">187</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr>
+<td>8B NF4</td>
+<td>image</td>
+<td style="text-align: right;">142</td>
+<td style="text-align: right;">158</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: right;">216</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr>
+<td>8B BF16</td>
+<td>patient</td>
+<td style="text-align: right;">146</td>
+<td style="text-align: right;">48</td>
+<td style="text-align: right;">88</td>
+<td style="text-align: right;">70</td>
+<td style="text-align: right;">85</td>
+<td style="text-align: right;">112</td>
+</tr>
+<tr>
+<td>8B BF16</td>
+<td>image</td>
+<td style="text-align: right;">162</td>
+<td style="text-align: right;">55</td>
+<td style="text-align: right;">83</td>
+<td style="text-align: right;">84</td>
+<td style="text-align: right;">103</td>
+<td style="text-align: right;">113</td>
+</tr>
+<tr>
+<td>30B MoE</td>
+<td>patient</td>
+<td style="text-align: right;">164</td>
+<td style="text-align: right;">109</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">233</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr>
+<td>30B MoE</td>
+<td>image</td>
+<td style="text-align: right;">179</td>
+<td style="text-align: right;">121</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">265</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>32B dense</td>
+<td>patient</td>
+<td style="text-align: right;">194</td>
+<td style="text-align: right;">81</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">208</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr>
+<td>32B dense</td>
+<td>image</td>
+<td style="text-align: right;">212</td>
+<td style="text-align: right;">88</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">240</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="9-resource-use-operational-metrics">9. Resource use และ operational metrics</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>กลุ่มงาน</th>
+<th>Job IDs</th>
+<th style="text-align: right;">GPU-hours</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Large-model feasibility 20 images</td>
+<td>6293741–6293742</td>
+<td style="text-align: right;">0.2144</td>
+</tr>
+<tr>
+<td>Experiment A</td>
+<td>6293861–6293863</td>
+<td style="text-align: right;">1.6119</td>
+</tr>
+<tr>
+<td>Experiment B</td>
+<td>6293864–6293867</td>
+<td style="text-align: right;">0.3319</td>
+</tr>
+<tr>
+<td>Original C1 diagnostic</td>
+<td>6293868–6293871</td>
+<td style="text-align: right;">1.2081</td>
+</tr>
+<tr>
+<td>Selected 4B C1</td>
+<td>6294007–6294010</td>
+<td style="text-align: right;">1.1711</td>
+</tr>
+<tr>
+<td>C2 unpinned diagnostic</td>
+<td>6294156–6294158</td>
+<td style="text-align: right;">1.5625</td>
+</tr>
+<tr>
+<td>C2 CPU-pinned diagnostic</td>
+<td>6294184–6294186</td>
+<td style="text-align: right;">1.0075</td>
+</tr>
+<tr>
+<td>C2 final CPU-pinned v2</td>
+<td>6294203–6294205</td>
+<td style="text-align: right;">0.9286</td>
+</tr>
+<tr>
+<td>Set D 30B/32B</td>
+<td>6295763–6295764</td>
+<td style="text-align: right;">1.2839</td>
+</tr>
+<tr>
+<td><strong>รวม</strong></td>
+<td></td>
+<td style="text-align: right;"><strong>9.3200</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>Selected job queue waits และ allocation elapsed:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>งาน</th>
+<th style="text-align: right;">GPUs</th>
+<th style="text-align: right;">Queue wait</th>
+<th style="text-align: right;">Allocation elapsed</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A 2B / 4B / 8B</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5 s</td>
+<td style="text-align: right;">25:26 / 30:37 / 40:40</td>
+<td>complete</td>
+</tr>
+<tr>
+<td>C1 4B batch 1/2/4/8</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">00:30 / 06:54 / 10:25 / 14:28</td>
+<td style="text-align: right;">29:51 / 19:12 / 12:31 / 08:42</td>
+<td>complete</td>
+</tr>
+<tr>
+<td>C2 final 1/2/4 GPU</td>
+<td style="text-align: right;">1/2/4</td>
+<td style="text-align: right;">2 s</td>
+<td style="text-align: right;">16:01 / 08:53 / 05:29</td>
+<td>complete</td>
+</tr>
+<tr>
+<td>Set D 30B / 32B</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">30 s</td>
+<td style="text-align: right;">20:13 / 18:18</td>
+<td>complete</td>
+</tr>
+</tbody>
+</table></div>
+<p>Quota snapshot ล่าสุดก่อน Set D เหลือ 4,366.41/115,056.00 shared SHr (3.80%)
+หน่วย SHr ไม่ถูกแปลงเป็น guaranteed A100 GPU-hours เพราะไม่มี conversion policy
+ที่ยืนยันแล้ว</p>
+<h2 id="10-reproducibility">10. การตรวจความครบถ้วนและ reproducibility</h2>
+<ul>
+<li>State files 25 ชุดมีสถานะ <code>complete</code></li>
+<li>Automated tests ผ่าน 9/9</li>
+<li>C2 ตรวจครบ 15 รอบว่าแต่ละ image ID ปรากฏครั้งเดียว ไม่มี shard ซ้ำหรือหาย</li>
+<li>Set D evaluation checksum ผ่านทั้ง 30B และ 32B</li>
+<li>Set D prediction hashes ตรงกันระหว่างรอบ 1 และ 2 ทั้งสองโมเดล</li>
+<li>Execution pack ตรวจผ่าน 73/73 ไฟล์; manifest SHA-256:
+  <code>bced27c6fe894d3254aaf2fd1885d384d7eb8e628ef9358411bf79fd3aa575c4</code></li>
+<li>Evidence manifest ครอบคลุม 1,199 ไฟล์; SHA-256:
+  <code>bce7df5296a584f1445d2ecae9498b1aa2ec44287fb0a0b5e44fcdfb9f12a9c9</code></li>
+<li>รายงานฉบับนี้สร้างหลัง evidence manifest จึงไม่ใส่ตัวเองใน manifest เพื่อหลีกเลี่ยง
+  self-reference; checksum ของรายงานอยู่ใน <code>FULL_EXPERIMENT_REPORT_TH.md.sha256</code></li>
+</ul>
+<p>มี code drift ระหว่าง Experiment A: <code>inference.py</code> เพิ่ม CPU/thread telemetry และ
+จำกัด local threads ระหว่าง local 4B round 1 กับ round 2–5 การเปรียบเทียบธรรมชาติ
+ใน 4B พบผลต่างประมาณ 0.3% ซึ่งไม่เปลี่ยนทิศทางของ speed result แต่ยังต้องถือเป็น
+ข้อจำกัดด้าน provenance และต้อง freeze pack ใหม่ก่อน confirmatory</p>
+<h2 id="11-metric">11. Metric ที่ยังไม่มีหลักฐาน</h2>
+<ul>
+<li>ไม่มี confirmatory Test metric เพราะ Test ยังล็อกอยู่</li>
+<li>ไม่มี single complete-turnaround timestamp ตั้งแต่เริ่ม stage model จนเก็บผลกลับ
+  local; มีเฉพาะ queue, allocation elapsed, per-round wall และ model-loading time</li>
+<li>ไม่มี energy consumption, power efficiency หรือค่าใช้จ่ายทางการเงิน</li>
+<li>C2 ไม่มี confidence interval ของ speedup/efficiency</li>
+<li>ไม่มี post-Set-D quota snapshot</li>
+<li>ยังไม่มี multiplicity procedure ที่นักสถิติอนุมัติสำหรับ large candidates สองตัว</li>
+<li>ไม่มี human HPC operator sign-off, frozen SAP, IRB/privacy determination หรือ
+  confirmatory access authorization</li>
+</ul>
+<h2 id="12_1">12. ข้อสรุปและคำตัดสินตามเกณฑ์ที่กำหนด</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Gate</th>
+<th>เกณฑ์</th>
+<th>ผล</th>
+<th>คำตัดสิน</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hardware speed</td>
+<td>A100 speedup ≥1.5 และ lower CI &gt;1</td>
+<td>0.652–0.786</td>
+<td>ไม่ผ่าน</td>
+</tr>
+<tr>
+<td>8B BF16 quality</td>
+<td>Δ BA ≥+0.05, p&lt;0.05, recall drop ≥−0.03</td>
+<td>Δ BA −0.2687 vs 4B; recall PNEUMONIA −0.5693</td>
+<td>ไม่ผ่าน</td>
+</tr>
+<tr>
+<td>30B quality</td>
+<td>Δ BA ≥+0.05, p&lt;0.05, recall drop ≥−0.03</td>
+<td>+0.0404; p=0.0433; min recall delta −0.0150</td>
+<td>ไม่ผ่าน margin</td>
+</tr>
+<tr>
+<td>32B quality</td>
+<td>เงื่อนไขเดียวกัน</td>
+<td>+0.0468; p=0.0415; PNEUMONIA −0.1086</td>
+<td>ไม่ผ่าน margin และ recall</td>
+</tr>
+<tr>
+<td>Batch scaling</td>
+<td>throughput สูงสุดโดยไม่ OOM/failure</td>
+<td>batch 8, 41,614 img/h</td>
+<td>เลือก batch 8</td>
+</tr>
+<tr>
+<td>2-GPU scaling</td>
+<td>efficiency ≥80%</td>
+<td>99.53%</td>
+<td>ผ่าน</td>
+</tr>
+<tr>
+<td>4-GPU scaling</td>
+<td>efficiency ≥70%</td>
+<td>97.86%</td>
+<td>ผ่าน</td>
+</tr>
+<tr>
+<td>Budget</td>
+<td>≤24 GPU-hours</td>
+<td>9.3200</td>
+<td>ผ่าน</td>
+</tr>
+</tbody>
+</table></div>
+<p>สำหรับ workload batch 1 และโมเดลที่พอดีกับ local GPU ควรใช้ RTX 5070 หากเป้าหมาย
+คือเวลา inference ต่อ GPU ส่วน LANTA เหมาะเมื่อจำเป็นต้องใช้ 30B/32B, batch ใหญ่
+หรือ parallel throughput หลาย GPU ผล Development แสดงว่า large models เพิ่มคุณภาพ
+บางส่วน แต่ยังไม่ถึงเกณฑ์ที่ตั้งไว้ จึงไม่ควรเปลี่ยน comparator หรือผ่อน threshold
+ย้อนหลังจากผลนี้</p>
+<p>Confirmatory analysis ต้องรอการปิด BLOCK-01–04, frozen SAP, touched-test history,
+multiplicity rule และสิทธิ์เปิด labels ก่อน รายงานนี้ไม่ปลด lock ดังกล่าว</p>
+<h2 id="13_1">13. แหล่งหลักฐาน</h2>
+<ul>
+<li><code>systems-summary.json</code> และ <code>systems-summary.csv</code>: Experiment A/C1/C2 aggregate</li>
+<li><code>lanta/B-development/*/evaluation/metrics.json</code>: Experiment B metrics</li>
+<li><code>lanta/B-development/quality-summary.json</code>: selection rule และ 8B comparisons</li>
+<li><code>lanta/C1-selected-4b-bf16/selection.json</code>: batch selection</li>
+<li><code>lanta/C2-selected-4b-bf16-cpu-pinned-v2/</code>: final scaling states/logs</li>
+<li><code>lanta/D-large-development/*/evaluation/metrics.json</code>: Set D quality/comparison</li>
+<li><code>artifacts/local-capacity-30b*.json</code>, <code>artifacts/local-capacity-32b*.json</code>:
+  local OOM evidence</li>
+<li><code>slurm-accounting.tsv</code>: queue/start/end/exit/resources/MaxRSS</li>
+<li><code>experiment-evidence.sha256</code>: file-level evidence integrity</li>
+</ul>
+      </main>
+    </div>
+  </div>
+  <footer class="footer">Qwen3-VL CXR Development/Pilot · Generated from the verified experiment report</footer>
+  <script>
+const links = [...document.querySelectorAll('.toc a[href^="#"]')];
+const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const observer = new IntersectionObserver(entries => {
+  const visible = entries.filter(e => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+  if (!visible) return;
+  links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + visible.target.id));
+}, { rootMargin: '-12% 0px -78% 0px' });
+sections.forEach(section => observer.observe(section));
+</script>
+</body>
+</html>

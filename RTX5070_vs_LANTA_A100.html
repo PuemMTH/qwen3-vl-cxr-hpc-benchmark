@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>RTX 5070 เทียบ A100 บน LANTA — ข้อได้เปรียบจากผลทดลอง</title>
+  <style>
+    :root { --ink:#142635; --muted:#586c79; --line:#d7e2e7; --paper:#ffffff; --bg:#f2f6f7; --local:#156f8b; --local-soft:#e5f4f8; --hpc:#915a26; --hpc-soft:#fff2e3; --accent:#173e53; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--bg); color:var(--ink); font-family:"Noto Sans Thai","Sarabun","Segoe UI",Arial,sans-serif; font-size:16px; line-height:1.75; }
+    a { color:#12627e; text-underline-offset:3px; }
+    a:hover { color:#0b4358; }
+    .page { max-width:1120px; margin:32px auto 64px; padding:0 24px; }
+    .hero { position:relative; overflow:hidden; padding:38px 44px 40px; border-radius:22px; color:#fff; background:linear-gradient(120deg,#102d41 0%,#194559 64%,#346a6f 100%); box-shadow:0 14px 38px #173b4920; }
+    .hero:after { content:""; position:absolute; width:390px; height:390px; top:-210px; right:-90px; border:1px solid #ffffff3b; border-radius:50%; box-shadow:0 0 0 45px #ffffff09,0 0 0 100px #ffffff08; pointer-events:none; }
+    .eyebrow { margin:0 0 9px; color:#9ee2e8; font-size:.78rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; }
+    h1 { max-width:810px; margin:0; font-size:clamp(2rem,4vw,3rem); line-height:1.25; letter-spacing:-.025em; }
+    .hero .lead { max-width:790px; margin:17px 0 0; color:#e5f2f3; font-size:1.08rem; }
+    .hero .meta { margin:22px 0 0; color:#bfd5dd; font-size:.85rem; }
+    .section { margin-top:22px; padding:30px 34px; background:var(--paper); border:1px solid var(--line); border-radius:18px; box-shadow:0 5px 24px #183a4910; }
+    h2 { margin:0 0 14px; color:var(--accent); font-size:1.5rem; line-height:1.35; }
+    h3 { margin:0 0 9px; font-size:1.18rem; line-height:1.4; }
+    p { margin:0 0 13px; }
+    p:last-child { margin-bottom:0; }
+    .two-col { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; margin-top:22px; }
+    .card { padding:23px 24px; border:1px solid; border-radius:16px; }
+    .card.local { border-color:#b7dde8; background:var(--local-soft); }
+    .card.hpc { border-color:#efd6b9; background:var(--hpc-soft); }
+    .card.local h3 { color:var(--local); }
+    .card.hpc h3 { color:var(--hpc); }
+    .tag { display:inline-block; margin-bottom:12px; padding:3px 10px; border-radius:100px; background:#ffffffbd; font-size:.75rem; font-weight:800; letter-spacing:.04em; }
+    .card strong { font-variant-numeric:tabular-nums; }
+    .card ul { margin:10px 0 0; padding-left:22px; }
+    .card li { margin:0 0 8px; }
+    .kpi { display:flex; align-items:baseline; gap:10px; margin:4px 0 8px; }
+    .kpi b { font-size:2rem; line-height:1.2; font-variant-numeric:tabular-nums; }
+    .kpi span { color:var(--muted); font-size:.89rem; }
+    .intro { max-width:900px; }
+    .chart { display:grid; gap:17px; margin-top:22px; }
+    .chart-row { display:grid; grid-template-columns:115px minmax(0,1fr) 106px; gap:14px; align-items:center; }
+    .chart-label { font-weight:800; font-size:.91rem; white-space:nowrap; }
+    .track { display:flex; flex-direction:column; gap:5px; }
+    .bar { display:flex; align-items:center; min-width:106px; height:24px; padding:0 9px; border-radius:4px 8px 8px 4px; color:#fff; font-size:.77rem; font-weight:800; font-variant-numeric:tabular-nums; white-space:nowrap; }
+    .bar.local { background:var(--local); }
+    .bar.hpc { background:var(--hpc); }
+    .ratio { color:var(--local); font-size:.93rem; font-weight:800; text-align:right; white-space:nowrap; }
+    .legend { display:flex; flex-wrap:wrap; gap:14px; margin-top:18px; color:var(--muted); font-size:.85rem; }
+    .legend span { display:inline-flex; align-items:center; gap:6px; }
+    .swatch { display:inline-block; width:12px; height:12px; border-radius:3px; }
+    .swatch.local { background:var(--local); }
+    .swatch.hpc { background:var(--hpc); }
+    .note { margin-top:18px; padding:12px 15px; border-left:4px solid #95b6c3; background:#f3f8fa; border-radius:0 9px 9px 0; color:#405b69; font-size:.88rem; }
+    .cross-chart { margin-top:20px; border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+    .cross-row { display:grid; grid-template-columns:105px minmax(0,1fr) 180px; gap:16px; align-items:center; padding:15px 17px; border-bottom:1px solid var(--line); }
+    .cross-row:last-child { border-bottom:0; }
+    .cross-row:nth-child(even) { background:#f8fbfc; }
+    .cross-batch { font-weight:800; }
+    .cross-pair { display:grid; gap:6px; }
+    .cross-measure { display:grid; grid-template-columns:62px minmax(0,1fr) 72px; gap:9px; align-items:center; font-size:.79rem; line-height:1.3; }
+    .cross-measure span { color:var(--muted); font-weight:700; }
+    .cross-measure b { text-align:right; font-variant-numeric:tabular-nums; }
+    .cross-track { height:18px; background:#e8eff1; border-radius:5px; overflow:hidden; }
+    .cross-fill { display:block; height:100%; border-radius:5px; }
+    .cross-fill.local { background:var(--local); }
+    .cross-fill.hpc { background:var(--hpc); }
+    .cross-result { font-size:.82rem; font-weight:800; text-align:right; }
+    .cross-result.local { color:var(--local); }
+    .cross-result.hpc { color:var(--hpc); }
+    .cross-row.first-over { background:#fff1df; box-shadow:inset 4px 0 var(--hpc); }
+    .cross-chart-title { margin:18px 0 0; font-size:1rem; font-weight:800; color:var(--accent); }
+    .batch-explainer { margin:18px 0 23px; padding:19px 21px; border:1px solid #cbdde5; border-radius:14px; background:#f4f9fb; }
+    .batch-explainer h3 { margin:0 0 8px; color:var(--accent); }
+    .batch-flow { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin:15px 0 12px; }
+    .batch-flow .pair,.batch-flow .call,.batch-flow .output { padding:7px 10px; border:1px solid #b9d7e2; border-radius:8px; background:#fff; font-size:.8rem; font-weight:750; }
+    .batch-flow .call { border-color:#dfc6a8; background:#fff2e3; }
+    .batch-flow .output { border-color:#b7dcc5; background:#edf8f0; }
+    .batch-flow .arrow { color:#69818d; font-size:1.15rem; font-weight:800; }
+    .batch-definitions { display:flex; flex-wrap:wrap; gap:7px; }
+    .batch-definitions span { padding:4px 9px; border-radius:7px; background:#e5eff3; color:#294a59; font-size:.8rem; }
+    .tables { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; margin-top:20px; }
+    .table-wrap { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; font-size:.88rem; }
+    th { padding:10px 12px; background:#e9f1f4; color:#244859; font-weight:800; text-align:left; }
+    td { padding:10px 12px; border-bottom:1px solid var(--line); }
+    th:not(:first-child),td:not(:first-child) { text-align:right; }
+    tbody tr:last-child td { border-bottom:0; }
+    .highlight { background:#fff6eb; font-weight:800; }
+    .small { color:var(--muted); font-size:.84rem; }
+    .decision { display:grid; grid-template-columns:130px minmax(0,1fr) 190px; gap:0; margin-top:20px; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+    .decision > div { padding:13px 15px; border-bottom:1px solid var(--line); }
+    .decision > div:nth-last-child(-n+3) { border-bottom:0; }
+    .decision > div:nth-child(6n+4),.decision > div:nth-child(6n+5),.decision > div:nth-child(6n+6) { background:#f8fbfc; }
+    .choice { font-weight:800; }
+    .choice.local { color:var(--local); }
+    .choice.hpc { color:var(--hpc); }
+    .sources ol { margin:12px 0 0; padding-left:22px; }
+    .sources li { margin:0 0 8px; }
+    footer { margin:18px 3px 0; color:#6c7d85; font-size:.8rem; }
+    @media (max-width:760px) { .page { margin:0 auto 30px; padding:0 12px; } .hero { padding:28px 24px; border-radius:0 0 18px 18px; } .section { padding:23px 20px; } .two-col,.tables { grid-template-columns:1fr; } .chart-row { grid-template-columns:76px minmax(0,1fr); gap:8px; } .ratio { grid-column:2; text-align:left; } .cross-row { grid-template-columns:1fr; gap:8px; padding:13px 12px; } .cross-result { text-align:left; } .cross-measure { grid-template-columns:49px minmax(0,1fr) 62px; gap:6px; font-size:.75rem; } .decision { grid-template-columns:1fr; } .decision > div { border-bottom:0; padding:8px 13px; } .decision > div:nth-child(3n) { border-bottom:1px solid var(--line); padding-bottom:13px; } .decision > div:nth-last-child(1) { border-bottom:0; } }
+    @media print { @page { size:A4; margin:12mm; } body { background:#fff; font-size:10pt; } .page { max-width:none; margin:0; padding:0; } .hero { box-shadow:none; border-radius:8px; padding:22px 26px; -webkit-print-color-adjust:exact; print-color-adjust:exact; } .section { box-shadow:none; break-inside:avoid; margin-top:14px; padding:16px 19px; } .card,.bar,.highlight { -webkit-print-color-adjust:exact; print-color-adjust:exact; } .two-col,.tables { gap:12px; } a { color:inherit; } }
+  </style>
+</head>
+<body>
+<main class="page">
+  <header class="hero">
+    <p class="eyebrow">HPCP · VLM CXR systems experiment</p>
+    <h1>RTX 5070 ได้เปรียบตรงไหน<br>A100 บน LANTA ได้เปรียบตรงไหน</h1>
+    <p class="lead">ผลทดลองชี้ว่าความเร็วต่อ GPU, ความจุสำหรับโมเดลใหญ่ และปริมาณงานรวมเป็นคนละโจทย์ การเลือกเครื่องจึงขึ้นกับขนาดโมเดลและวิธีส่งงาน</p>
+    <p class="meta">ผล Development/Pilot · 23 กันยายน 2026 · Qwen3-VL สำหรับภาพ Chest X-ray</p>
+  </header>
+
+  <section class="section" aria-labelledby="summary-title">
+    <h2 id="summary-title">ข้อสรุปที่ใช้ตัดสินใจ</h2>
+    <p class="intro">หากรันโมเดล 2B–8B ที่พอดีกับหน่วยความจำและส่งภาพทีละภาพ <strong>RTX 5070 ในเครื่อง local ทำงานได้เร็วกว่าต่อ GPU</strong> ในการทดสอบนี้ แต่เมื่อโจทย์ต้องใช้โมเดลใหญ่, ส่งภาพเป็นชุด หรือแบ่งงานพร้อมกันหลาย GPU <strong>A100 บน LANTA มีขีดความสามารถที่ local ไม่มี</strong></p>
+    <div class="two-col">
+      <article class="card local">
+        <span class="tag">LOCAL · 1 GPU</span>
+        <h3>RTX 5070: งานขนาดเล็กที่ batch 1</h3>
+        <div class="kpi"><b>1.27–1.53×</b><span>เร็วกว่า A100 หนึ่งใบ ตามโมเดลที่ทดสอบ</span></div>
+        <ul>
+          <li>สำหรับ 2B BF16, 4B BF16 และ 8B NF4 ที่ batch 1 ได้ pipeline throughput สูงกว่าทุก profile</li>
+          <li>โมเดล 4B ทำได้ <strong>15,545 ภาพ/ชม.</strong> เทียบกับ A100 <strong>10,935 ภาพ/ชม.</strong> ในเงื่อนไขเดียวกัน</li>
+          <li>เหมาะเมื่อเน้นเวลา inference ต่อภาพสำหรับโมเดลที่โหลดได้บน VRAM 12 GB</li>
+        </ul>
+      </article>
+      <article class="card hpc">
+        <span class="tag">LANTA · A100 SXM4 40 GB / GPU</span>
+        <h3>A100: ขนาดงานและการขยายระบบ</h3>
+        <div class="kpi"><b>3.914×</b><span>speedup เมื่อใช้ 4 GPU เทียบ 1 GPU บน LANTA</span></div>
+        <ul>
+          <li>VRAM <strong>40 GB ต่อใบ</strong> และหลาย GPU รองรับ 30B/32B BF16 ที่ RTX 5070 โหลดแล้ว OOM</li>
+          <li>4B BF16 บน A100 ใบเดียว เมื่อเพิ่ม batch 1 → 8 throughput เพิ่มจาก <strong>10,894 → 41,614 ภาพ/ชม.</strong></li>
+          <li>แบ่งงาน 2,000 ภาพบน 2/4 GPU ได้ speedup <strong>1.991× / 3.914×</strong> ตามลำดับ</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="speed-title">
+    <h2 id="speed-title">1. เทียบความเร็วต่อ GPU แบบเงื่อนไขเดียวกัน</h2>
+    <p>Experiment A ใช้ GPU อย่างละ <strong>1 ใบ</strong>, batch 1, งาน 1,000 ภาพชุดเดียวกัน และรัน 5 รอบต่อ profile กราฟแสดง median <strong>pipeline throughput</strong> หน่วยภาพต่อชั่วโมง</p>
+    <div class="chart" role="img" aria-label="RTX 5070 มี throughput สูงกว่า A100 ทั้ง 2B BF16, 4B BF16 และ 8B NF4 ที่ batch 1">
+      <div class="chart-row"><div class="chart-label">2B BF16</div><div class="track"><div class="bar local" style="width:100%">20,391</div><div class="bar hpc" style="width:65.1%">13,272</div></div><div class="ratio">RTX 1.53×</div></div>
+      <div class="chart-row"><div class="chart-label">4B BF16</div><div class="track"><div class="bar local" style="width:76.2%">15,545</div><div class="bar hpc" style="width:53.6%">10,935</div></div><div class="ratio">RTX 1.42×</div></div>
+      <div class="chart-row"><div class="chart-label">8B NF4</div><div class="track"><div class="bar local" style="width:50.3%">10,254</div><div class="bar hpc" style="width:39.5%">8,063</div></div><div class="ratio">RTX 1.27×</div></div>
+    </div>
+    <div class="legend"><span><i class="swatch local"></i>RTX 5070</span><span><i class="swatch hpc"></i>A100 บน LANTA</span></div>
+    <p class="note">A100 speedup ในรายงาน = median ของ (เวลา RTX ÷ เวลา A100) รายรอบแบบจับคู่: 0.652×, 0.703×, 0.786× ตามลำดับ ค่า &lt;1 หมายถึง A100 ช้ากว่าในงานนี้ ทั้งสองเครื่องใช้ Python/PyTorch/CUDA คนละเวอร์ชัน จึงยังระบุสาเหตุเฉพาะว่าเป็นผลจากตัว GPU อย่างเดียวไม่ได้</p>
+  </section>
+
+  <section class="section" aria-labelledby="scale-title">
+    <h2 id="scale-title">2. จุดแข็งของ A100 เมื่อเพิ่ม batch และ GPU</h2>
+    <p>โมเดล 4B BF16 เดิมทำงานได้มากขึ้นบน LANTA เมื่อส่งภาพเป็นชุดและเมื่อแบ่งภาพให้หลาย GPU ประมวลผลพร้อมกัน</p>
+    <div class="batch-explainer">
+      <h3>batch 1, 2, 4, 8 หมายถึงอะไร?</h3>
+      <p><strong>batch size คือจำนวนภาพที่ส่งเข้าโมเดลพร้อมกันในหนึ่งครั้ง</strong> ภาพแต่ละใบจับคู่กับ prompt จำแนกภาพข้อความเดียวกัน 1 ชุด แล้วได้ผลทำนายแยก 1 รายการต่อภาพ ไม่ใช่การนำหลายภาพไปรวมใน prompt เดียวเพื่อขอคำตอบเดียว</p>
+      <div class="batch-flow" aria-label="ตัวอย่าง batch 4: สี่คู่ภาพและ prompt ส่งเข้าโมเดลหนึ่งครั้ง ได้สี่ผลทำนาย">
+        <span class="pair">ภาพ 1 + prompt</span><span class="pair">ภาพ 2 + prompt</span><span class="pair">ภาพ 3 + prompt</span><span class="pair">ภาพ 4 + prompt</span><span class="arrow">→</span><span class="call">model.generate 1 ครั้ง</span><span class="arrow">→</span><span class="output">ผลทำนาย 4 รายการ</span>
+      </div>
+      <div class="batch-definitions" aria-label="จำนวนครั้งที่เรียกโมเดลต่อ 1,000 ภาพ ไม่รวม warm-up"><span>batch 1: ครั้งละ 1 ภาพ → 1,000 ครั้ง</span><span>batch 2: ครั้งละ 2 ภาพ → 500 ครั้ง</span><span>batch 4: ครั้งละ 4 ภาพ → 250 ครั้ง</span><span>batch 8: ครั้งละ 8 ภาพ → 125 ครั้ง</span></div>
+      <p class="small" style="margin-top:12px">จำนวนครั้งข้างต้นคิดต่อการประมวลผล 1,000 ภาพหนึ่งรอบ และไม่รวม warm-up ที่รายงานแยกต่างหาก</p>
+    </div>
+    <p class="cross-chart-title">กราฟจุดที่ A100 มี throughput สูงกว่า RTX 5070 batch 1 · 4B BF16 · GPU อย่างละ 1 ใบ</p>
+    <div class="cross-chart" role="img" aria-label="RTX 5070 batch 1 ทำได้ 15,545 ภาพต่อชั่วโมง A100 batch 1 ทำได้ 10,894 และเริ่มสูงกว่า RTX batch 1 ที่ A100 batch 2 ซึ่งทำได้ 17,476 ภาพต่อชั่วโมง A100 batch 4 และ 8 ทำได้ 27,541 และ 41,614 ภาพต่อชั่วโมง">
+      <div class="cross-row">
+        <div class="cross-batch">A100 batch 1</div>
+        <div class="cross-pair"><div class="cross-measure"><span>RTX b1</span><div class="cross-track"><i class="cross-fill local" style="width:37.36%"></i></div><b>15,545</b></div><div class="cross-measure"><span>A100</span><div class="cross-track"><i class="cross-fill hpc" style="width:26.18%"></i></div><b>10,894</b></div></div>
+        <div class="cross-result local">RTX สูงกว่า 1.42×</div>
+      </div>
+      <div class="cross-row first-over">
+        <div class="cross-batch">A100 batch 2</div>
+        <div class="cross-pair"><div class="cross-measure"><span>RTX b1</span><div class="cross-track"><i class="cross-fill local" style="width:37.36%"></i></div><b>15,545</b></div><div class="cross-measure"><span>A100</span><div class="cross-track"><i class="cross-fill hpc" style="width:41.99%"></i></div><b>17,476</b></div></div>
+        <div class="cross-result hpc">จุดแรกที่ A100 สูงกว่า 1.12×</div>
+      </div>
+      <div class="cross-row">
+        <div class="cross-batch">A100 batch 4</div>
+        <div class="cross-pair"><div class="cross-measure"><span>RTX b1</span><div class="cross-track"><i class="cross-fill local" style="width:37.36%"></i></div><b>15,545</b></div><div class="cross-measure"><span>A100</span><div class="cross-track"><i class="cross-fill hpc" style="width:66.18%"></i></div><b>27,541</b></div></div>
+        <div class="cross-result hpc">A100 สูงกว่า 1.77×</div>
+      </div>
+      <div class="cross-row">
+        <div class="cross-batch">A100 batch 8</div>
+        <div class="cross-pair"><div class="cross-measure"><span>RTX b1</span><div class="cross-track"><i class="cross-fill local" style="width:37.36%"></i></div><b>15,545</b></div><div class="cross-measure"><span>A100</span><div class="cross-track"><i class="cross-fill hpc" style="width:100%"></i></div><b>41,614</b></div></div>
+        <div class="cross-result hpc">A100 สูงกว่า 2.68×</div>
+      </div>
+    </div>
+    <p class="small" style="margin-top:9px">ความยาวแท่งเทียบสเกลเดียวกัน (สูงสุด 41,614 ภาพ/ชม.) · แท่ง RTX b1 สีฟ้าเป็นค่าที่วัดครั้งเดียวและแสดงซ้ำเป็นเส้นอ้างอิง ไม่ใช่ผล RTX ที่ batch 2/4/8</p>
+    <div class="tables">
+      <div class="table-wrap">
+        <h3>A100 ใบเดียว · งาน 1,000 ภาพ</h3>
+        <table><thead><tr><th scope="col">Batch</th><th scope="col">ภาพ/ชม.</th><th scope="col">เทียบ batch 1</th></tr></thead><tbody>
+          <tr><td>1</td><td>10,894</td><td>1.00×</td></tr>
+          <tr><td>2</td><td>17,476</td><td>1.60×</td></tr>
+          <tr><td>4</td><td>27,541</td><td>2.53×</td></tr>
+          <tr class="highlight"><td>8</td><td>41,614</td><td>3.82×</td></tr>
+        </tbody></table>
+      </div>
+      <div class="table-wrap">
+        <h3>A100 หลายใบ · งานคงที่ 2,000 ภาพ</h3>
+        <table><thead><tr><th scope="col">GPU</th><th scope="col">เวลา pipeline</th><th scope="col">Speedup</th></tr></thead><tbody>
+          <tr><td>1</td><td>176.55 วินาที</td><td>1.000×</td></tr>
+          <tr><td>2</td><td>88.69 วินาที</td><td>1.991×</td></tr>
+          <tr class="highlight"><td>4</td><td>45.10 วินาที</td><td>3.914×</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+    <p class="note">RTX 5070 มีผลวัดเฉพาะ batch 1 ในชุดเปรียบเทียบนี้ ตัวเลข A100 batch 2/4/8 จึงบอกว่า <strong>การเพิ่ม batch บน A100 ช่วยเพิ่ม throughput</strong> แต่ยังไม่มีผล RTX 5070 ที่ batch เท่ากันให้เปรียบเทียบโดยตรง ส่วนการทดลองหลาย GPU ใช้ชุดภาพและ batch ต่างจาก Experiment A</p>
+  </section>
+
+  <section class="section" aria-labelledby="capacity-title">
+    <h2 id="capacity-title">3. พื้นที่สำหรับโมเดลใหญ่เป็นข้อได้เปรียบของ LANTA</h2>
+    <p>RTX 5070 มีหน่วยความจำตามสเปก 12 GB ส่วน A100 บน LANTA มี 40 GB ต่อใบ การทดสอบบังคับให้โมเดล 30B MoE และ 32B dense แบบ BF16 อยู่บน RTX 5070 โดยไม่ offload ไป CPU/ดิสก์พบ <strong>CUDA out-of-memory ทั้งคู่</strong> ขณะที่รันบน <strong>2×A100</strong> ได้</p>
+    <p>บนชุด Development 549 ผู้ป่วย โมเดลใหญ่ทั้งสองให้ balanced accuracy สูงกว่า 4B BF16 แต่เพิ่มเพียง <strong>0.0404</strong> และ <strong>0.0468</strong> ซึ่งยังไม่ถึงเกณฑ์ +0.05 ที่กำหนดไว้ และ 32B ทำให้ recall ของ PNEUMONIA ลดลง 0.1086 ดังนั้นความจุที่มากขึ้น <strong>เปิดทางให้ทดลองโมเดลใหญ่</strong> แต่ผลชุดนี้ยังไม่รองรับข้อสรุปว่าโมเดลใหญ่ผ่านเกณฑ์คุณภาพ</p>
+  </section>
+
+  <section class="section" aria-labelledby="choice-title">
+    <h2 id="choice-title">เลือกอุปกรณ์ตามงาน</h2>
+    <div class="decision" role="table" aria-label="แนวทางเลือกอุปกรณ์">
+      <div class="choice local" role="cell">RTX 5070</div><div role="cell">โมเดล 2B–8B ที่โหลดได้, batch 1, ต้องการความเร็ว inference ต่อ GPU จากผลวัดชุดนี้</div><div role="cell">ได้เปรียบ 1.27–1.53×</div>
+      <div class="choice hpc" role="cell">A100 บน LANTA</div><div role="cell">โมเดล BF16 30B/32B ที่ local OOM หรือการทดลองที่ต้องใช้ VRAM มากกว่า</div><div role="cell">รองรับ 2×A100</div>
+      <div class="choice hpc" role="cell">A100 บน LANTA</div><div role="cell">งานภาพจำนวนมากที่ batch ได้ หรือแบ่ง shard ให้ 2–4 GPU พร้อมกัน</div><div role="cell">batch 8 / 4 GPU</div>
+    </div>
+    <p class="note">speedup ในหน้านี้วัดจากเวลา inference pipeline ของ batch ที่สำเร็จ ไม่รวม model loading, warm-up, เวลารอคิว และการเตรียมงานบนคลัสเตอร์ จึงไม่ได้แทนเวลารวมตั้งแต่ส่งงานจนได้ผลลัพธ์</p>
+  </section>
+
+  <section class="section" aria-labelledby="queue-title">
+    <h2 id="queue-title">เวลารอคิว LANTA: มีบันทึกแยกจาก speedup</h2>
+    <p>รายงานเก็บ <strong>queue wait</strong> ของงาน SLURM ที่เลือกไว้ คือเวลาจากส่งงานจนเริ่มได้รับทรัพยากร ตัวเลขนี้ขึ้นกับสภาพคิวในเวลาที่ส่งงาน จึงไม่ใช่คุณสมบัติความเร็วของ A100 โดยตรง</p>
+    <div class="table-wrap">
+      <table><thead><tr><th scope="col">งานบน LANTA</th><th scope="col">GPU</th><th scope="col">รอคิว</th><th scope="col">เวลาหลังได้ allocation</th></tr></thead><tbody>
+        <tr><td>A: 2B / 4B / 8B, batch 1</td><td>1</td><td>5 วินาที</td><td>25:26 / 30:37 / 40:40</td></tr>
+        <tr><td>C1: 4B, batch 1 / 2 / 4 / 8</td><td>1</td><td>00:30 / 06:54 / 10:25 / 14:28</td><td>29:51 / 19:12 / 12:31 / 08:42</td></tr>
+        <tr><td>C2 final: 4B, 1 / 2 / 4 GPU</td><td>1 / 2 / 4</td><td>2 วินาที</td><td>16:01 / 08:53 / 05:29</td></tr>
+        <tr><td>Set D: 30B / 32B</td><td>2</td><td>30 วินาที</td><td>20:13 / 18:18</td></tr>
+      </tbody></table>
+    </div>
+    <p class="small" style="margin-top:12px">รูปแบบเวลา นาที:วินาที; ตัวเลขหลายค่าตรงตามลำดับงานในคอลัมน์แรก เวลาหลังได้ allocation รวมขั้นตอนอื่นในงาน SLURM ด้วย จึงต่างจากเวลา inference pipeline รายงานยังไม่มี timestamp เดียวที่ครอบคลุมตั้งแต่เริ่มเตรียมโมเดลจนดึงผลกลับเครื่อง local</p>
+  </section>
+
+  <section class="section sources" aria-labelledby="sources-title">
+    <h2 id="sources-title">แหล่งข้อมูลและขอบเขต</h2>
+    <ol>
+      <li><a href="ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/FULL_EXPERIMENT_REPORT_TH.md">รายงานผลการทดลองฉบับสมบูรณ์</a> — Experiment A, C1, C2, การทดสอบโมเดลใหญ่ และข้อจำกัด</li>
+      <li><a href="ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/systems-summary.json">systems-summary.json</a> — ผลรวมที่คำนวณจาก state ของแต่ละรอบ</li>
+      <li><a href="ai-for-research/module-06-vlm/systems-results-summary.md">นิยาม metric และที่มาของ speedup</a> — สูตร, ช่วงเวลาที่วัด และงานที่ตัดออก</li>
+      <li><a href="ai-for-research/module-06-vlm/vlm-cxr-benchmark/vlm_cxr/inference.py">โค้ด inference</a> — การจับคู่ภาพกับ prompt, การรวม batch และการแยกผลทำนายรายภาพ</li>
+      <li><a href="ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/slurm-accounting.tsv">บันทึก SLURM accounting</a> — เวลาส่งงาน เริ่มงาน จบงาน และทรัพยากรที่ใช้</li>
+    </ol>
+    <p class="small">ข้อมูลนี้เป็นผล Development/Pilot ของ workload ที่ระบุ ไม่ใช่ผล confirmatory หรือการจัดอันดับความเร็วทั่วไปของ GPU ทั้งสองรุ่น</p>
+  </section>
+  <footer>HPCP · RTX 5070 vs LANTA A100 · สรุปจากผลทดลองวันที่ 23 กันยายน 2026</footer>
+</main>
+</body>
+</html>

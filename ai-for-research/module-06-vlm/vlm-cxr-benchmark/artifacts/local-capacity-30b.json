@@ -1,0 +1,40 @@
+{
+  "profile": "30b-a3b-bf16",
+  "model": {
+    "model_id": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+    "revision": "9c4b90e1e4ba969fd3b5378b57d966d725f1b86c",
+    "precision": "bf16",
+    "architecture": "moe",
+    "minimum_gpus": 2,
+    "weight_bytes": 62141618016,
+    "license": "apache-2.0"
+  },
+  "snapshot": "/home/puem/.cache/huggingface/manual/Qwen3-VL-30B-A3B-Instruct-9c4b90e1e4ba969fd3b5378b57d966d725f1b86c",
+  "snapshot_revision_matches": null,
+  "weight_files": 13,
+  "weight_bytes": 62141618016,
+  "expected_weight_bytes": 62141618016,
+  "weight_bytes_match_registry": true,
+  "config_present": true,
+  "config_model_type": "qwen3_vl_moe",
+  "probe_policy": "real BF16 model load, all weights forced to CUDA device 0; no CPU/disk offload",
+  "status": "oom",
+  "failure_stage": "model_load",
+  "error_type": "OutOfMemoryError",
+  "error_message": "CUDA out of memory. Tried to allocate 10.30 GiB. GPU 0 has a total capacity of 11.50 GiB of which 10.22 GiB is free. Process 187149 has 542.66 MiB memory in use. Including non-PyTorch memory, this process has 162.00 MiB memory in use. Of the allocated memory 0 bytes is allocated by PyTorch, and 0 bytes is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/tools/probe_local_capacity.py\", line 68, in main\n    model = AutoModelForImageTextToText.from_pretrained(\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/.venv/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py\", line 402, in from_pretrained\n    return model_class.from_pretrained(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/.venv/lib/python3.12/site-packages/transformers/modeling_utils.py\", line 4313, in from_pretrained\n    loading_info, disk_offload_index = cls._load_pretrained_model(model, state_dict, checkpoint_files, load_config)\n                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/.venv/lib/python3.12/site-packages/transformers/modeling_utils.py\", line 4393, in _load_pretrained_model\n    caching_allocator_warmup(model, expanded_device_map, load_config.hf_quantizer)\n  File \"/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/.venv/lib/python3.12/site-packages/transformers/modeling_utils.py\", line 5064, in caching_allocator_warmup\n    _ = torch.empty(int(byte_count // 2), dtype=torch.float16, device=device, requires_grad=False)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\ntorch.OutOfMemoryError: CUDA out of memory. Tried to allocate 10.30 GiB. GPU 0 has a total capacity of 11.50 GiB of which 10.22 GiB is free. Process 187149 has 542.66 MiB memory in use. Including non-PyTorch memory, this process has 162.00 MiB memory in use. Of the allocated memory 0 bytes is allocated by PyTorch, and 0 bytes is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)\n",
+  "elapsed_seconds": 0.6233168250000745,
+  "environment": {
+    "python": "3.12.13",
+    "torch": "2.14.0+cu130",
+    "cuda_runtime": "13.0",
+    "gpu": "NVIDIA GeForce RTX 5070",
+    "gpu_total_bytes": 12343050240,
+    "gpu_compute_capability": [
+      12,
+      0
+    ],
+    "peak_allocated_bytes": 0,
+    "peak_reserved_bytes": 0
+  }
+}

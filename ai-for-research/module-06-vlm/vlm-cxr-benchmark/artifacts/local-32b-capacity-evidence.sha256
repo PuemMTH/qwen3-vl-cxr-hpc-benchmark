@@ -1,0 +1,5 @@
+c80af7c6726e6c98971198bcae332bef9da91ece7c375ef74c527b761aa0be59  artifacts/local-capacity-32b.json
+319c86055bc1f6deda0e16e2b42d1df815f7f67a664045b3a5c660165ebb4910  artifacts/local-capacity-32b-no-allocator-warmup.json
+5a755640755aa47769ca072911555d9a6031c53989d3e050936f3db467435096  artifacts/local-32b-weight-checksums.sha256
+03d0d521d458082887463c2731d27c9c1f8fe2680166ff37e58bbb85d2aff3f5  logs/local-capacity-32b.log
+9ad4156505b792254bc26b3636467ef0e0133e168450f430f08a3a22d0d681c3  logs/local-capacity-32b-no-allocator-warmup.log

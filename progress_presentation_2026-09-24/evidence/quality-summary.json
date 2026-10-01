@@ -1,0 +1,88 @@
+{
+  "study_status": "development_pilot_only",
+  "confirmatory_test_accessed": false,
+  "selection_rule": "max patient balanced accuracy; tie by macro-F1, lower uncertainty, then declared order 2b-bf16, 4b-bf16, 8b-nf4",
+  "best_local_profile": "4b-bf16",
+  "profile_metrics": {
+    "2b-bf16": {
+      "balanced_accuracy": 0.6650729141764284,
+      "accuracy": 0.6575591985428051,
+      "macro_f1": 0.6391012779494967,
+      "uncertainty_rate": 0.018214936247723135,
+      "metrics": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/B-development/2b-bf16/evaluation/metrics.json"
+    },
+    "4b-bf16": {
+      "balanced_accuracy": 0.6867280261375408,
+      "accuracy": 0.6812386156648452,
+      "macro_f1": 0.6800319127905334,
+      "uncertainty_rate": 0.029143897996357013,
+      "metrics": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/B-development/4b-bf16/evaluation/metrics.json"
+    },
+    "8b-nf4": {
+      "balanced_accuracy": 0.577137620527532,
+      "accuracy": 0.5737704918032787,
+      "macro_f1": 0.5817088607594936,
+      "uncertainty_rate": 0.04371584699453552,
+      "metrics": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/B-development/8b-nf4/evaluation/metrics.json"
+    },
+    "8b-bf16": {
+      "balanced_accuracy": 0.41804127818949716,
+      "accuracy": 0.4207650273224044,
+      "macro_f1": 0.5056726907630522,
+      "uncertainty_rate": 0.36429872495446264,
+      "metrics": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/B-development/8b-bf16/evaluation/metrics.json"
+    }
+  },
+  "comparisons": {
+    "vs-8b-nf4": {
+      "comparator_profile": "8b-nf4",
+      "metrics": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/B-development/comparisons/vs-8b-nf4/metrics.json",
+      "metrics_sha256": "5b7750a75798ec2d5fc0c65eeb8f5b41efbaa5252c81eb3116e420ac1cddb35c",
+      "gate": {
+        "candidate_minus_comparator_balanced_accuracy": -0.15909634233803488,
+        "recall_deltas": {
+          "NORMAL": 0.06382978723404253,
+          "PNEUMONIA": -0.3820224719101124
+        },
+        "mcnemar": {
+          "candidate_correct_comparator_wrong": 37,
+          "candidate_wrong_comparator_correct": 121,
+          "discordant": 158,
+          "exact_two_sided_p_value": 1.2987366436918105e-11
+        },
+        "checks": {
+          "balanced_accuracy_delta_at_least_0_05": false,
+          "mcnemar_p_below_0_05": true,
+          "no_class_recall_drop_below_minus_0_03": false
+        },
+        "numeric_checks_all_pass": false,
+        "confirmatory_gate_status": "not_assessable_from_development_data"
+      }
+    },
+    "vs-best-local": {
+      "comparator_profile": "4b-bf16",
+      "metrics": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/B-development/comparisons/vs-best-local/metrics.json",
+      "metrics_sha256": "e94353b5a17d27ad4c951e33d3db9fa2492287b0ddd082db3b2ceeefe05c90eb",
+      "gate": {
+        "candidate_minus_comparator_balanced_accuracy": -0.26868674794804365,
+        "recall_deltas": {
+          "NORMAL": 0.03191489361702127,
+          "PNEUMONIA": -0.5692883895131086
+        },
+        "mcnemar": {
+          "candidate_correct_comparator_wrong": 53,
+          "candidate_wrong_comparator_correct": 196,
+          "discordant": 249,
+          "exact_two_sided_p_value": 1.7953544660044336e-20
+        },
+        "checks": {
+          "balanced_accuracy_delta_at_least_0_05": false,
+          "mcnemar_p_below_0_05": true,
+          "no_class_recall_drop_below_minus_0_03": false
+        },
+        "numeric_checks_all_pass": false,
+        "confirmatory_gate_status": "not_assessable_from_development_data"
+      }
+    }
+  }
+}

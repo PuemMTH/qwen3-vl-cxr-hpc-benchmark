@@ -1,0 +1,5 @@
+fb632f6fc852bd54f09995197780a73f48d2c83a754ae7c583f14a778e1a6f07  artifacts/local-capacity-30b.json
+41a9e205eb653db0c9438c96410698fbbac0aa849bb5cbb80a68f9f6b317404b  artifacts/local-capacity-30b-no-allocator-warmup.json
+d315c050216f2fdd197a796ee26bbc1c5543dd55d14323ff46b508026b9cef1d  artifacts/local-30b-weight-checksums.sha256
+d3abe433fa10b91b52b471971eac97ce193e92a0e12f6e228e2654c1ffce5c45  logs/local-capacity-30b.log
+cf563477549162f345113ae45bc2b9762932a59a18742776fae81ca670205b24  logs/local-capacity-30b-no-allocator-warmup.log

@@ -1,0 +1,130 @@
+{
+  "primary_unit": "patient",
+  "patient_aggregation": "strict majority across all patient images; otherwise UNCERTAIN",
+  "failure_policy": "UNCERTAIN, parse failure, runtime failure and missing prediction remain in denominator as incorrect",
+  "labels_manifest": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/manifests/quality-development-600/labels.csv",
+  "labels_manifest_sha256": "8656c527c2c1d5ddd5209457218ccecea6726e300ff08094ef8707a6438309af",
+  "predictions": "/lustrefs/disk/project/lt200203-aimedi/puem/tmp/vlm-cxr-benchmark/runs/pilot-matrix-20260923/lanta/B-development/4b-bf16/round-01/intermediate/predictions.jsonl",
+  "predictions_sha256": "e9ef625778a3f20090cdd62c5cf9f43326ba5924009f0121b57b98672ddaf67e",
+  "config_sha256": "a74540721fe432fa37afe278c0e212fae9e225e409324d45d650f3dccf193608",
+  "prediction_metadata": {
+    "backend": "transformers",
+    "profile": "4b-bf16",
+    "model_id": "Qwen/Qwen3-VL-4B-Instruct",
+    "model_revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+    "precision": "bf16"
+  },
+  "primary_patient_level": {
+    "n": 549,
+    "accuracy": 0.6812386156648452,
+    "balanced_accuracy": 0.6867280261375408,
+    "macro_f1": 0.6800319127905334,
+    "uncertainty_rate": 0.029143897996357013,
+    "coverage": 0.970856102003643,
+    "per_class": {
+      "NORMAL": {
+        "support": 282,
+        "predicted": 162,
+        "precision": 0.845679012345679,
+        "recall": 0.4858156028368794,
+        "f1": 0.6171171171171171
+      },
+      "PNEUMONIA": {
+        "support": 267,
+        "predicted": 371,
+        "precision": 0.6388140161725068,
+        "recall": 0.8876404494382022,
+        "f1": 0.7429467084639498
+      }
+    },
+    "confusion": {
+      "NORMAL": {
+        "NORMAL": 137,
+        "PNEUMONIA": 134,
+        "UNCERTAIN": 11
+      },
+      "PNEUMONIA": {
+        "NORMAL": 25,
+        "PNEUMONIA": 237,
+        "UNCERTAIN": 5
+      }
+    }
+  },
+  "primary_patient_bootstrap_ci": {
+    "accuracy": {
+      "estimate": 0.6812386156648452,
+      "lower": 0.646584699453552,
+      "upper": 0.7158925318761382
+    },
+    "balanced_accuracy": {
+      "estimate": 0.6867280261375408,
+      "lower": 0.6517332058331342,
+      "upper": 0.7216182564347756
+    },
+    "macro_f1": {
+      "estimate": 0.6800319127905334,
+      "lower": 0.6406988142735486,
+      "upper": 0.718182236086597
+    },
+    "uncertainty_rate": {
+      "estimate": 0.029143897996357013,
+      "lower": 0.01639344262295082,
+      "upper": 0.04371584699453552
+    },
+    "coverage": {
+      "estimate": 0.970856102003643,
+      "lower": 0.9562841530054644,
+      "upper": 0.9836065573770492
+    },
+    "recall_normal": {
+      "estimate": 0.4858156028368794,
+      "lower": 0.425531914893617,
+      "upper": 0.5425531914893617
+    },
+    "recall_pneumonia": {
+      "estimate": 0.8876404494382022,
+      "lower": 0.850187265917603,
+      "upper": 0.9213483146067416
+    }
+  },
+  "secondary_image_level": {
+    "n": 600,
+    "accuracy": 0.7,
+    "balanced_accuracy": 0.7,
+    "macro_f1": 0.6883512627545131,
+    "uncertainty_rate": 0.0,
+    "coverage": 1.0,
+    "per_class": {
+      "NORMAL": {
+        "support": 300,
+        "predicted": 184,
+        "precision": 0.8260869565217391,
+        "recall": 0.5066666666666667,
+        "f1": 0.628099173553719
+      },
+      "PNEUMONIA": {
+        "support": 300,
+        "predicted": 416,
+        "precision": 0.6442307692307693,
+        "recall": 0.8933333333333333,
+        "f1": 0.7486033519553071
+      }
+    },
+    "confusion": {
+      "NORMAL": {
+        "NORMAL": 152,
+        "PNEUMONIA": 148,
+        "UNCERTAIN": 0
+      },
+      "PNEUMONIA": {
+        "NORMAL": 32,
+        "PNEUMONIA": 268,
+        "UNCERTAIN": 0
+      }
+    }
+  },
+  "failure_accounting": {
+    "ok": 600,
+    "parse_ok_false": 0
+  }
+}

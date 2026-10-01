@@ -1,0 +1,306 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "started_utc": "2026-09-22T19:48:07.163466+00:00",
+  "ended_utc": "2026-09-22T20:08:58.948367+00:00",
+  "host": "puem",
+  "pid": 1854972,
+  "config": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/configs/experiments/a-4b-bf16-batch1.json",
+  "config_sha256": "efd5880e5670a48c4010ccc748053a9002599f307b26bf3789787d3a62e9f4ca",
+  "blind_manifest": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/manifests/performance-1000/blind_manifest.csv",
+  "blind_manifest_sha256": "c997aecf2b1309b68b9aab97d3ccc367b2c3808754460a2c22a2e7cda2676fb3",
+  "requested_repeats": 5,
+  "rounds": [
+    {
+      "repeat": 1,
+      "status": "complete",
+      "started_utc": "2026-09-22T19:48:07.164243+00:00",
+      "ended_utc": "2026-09-22T19:52:18.668021+00:00",
+      "elapsed_seconds": 251.50363835100143,
+      "command": [
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/.venv/bin/python3",
+        "-u",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/run_stage.py",
+        "intermediate",
+        "--input",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/manifests/performance-1000/blind_manifest.csv",
+        "--output",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/round-01/intermediate",
+        "--config",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/configs/experiments/a-4b-bf16-batch1.json",
+        "--save-json",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/round-01/stage.json"
+      ],
+      "log": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/round-01/run.log",
+      "exit_code": 0,
+      "summary": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/round-01/intermediate/summary.json",
+      "summary_sha256": "3515438b3713a6afe35b09c44ba0092909a5862d90baff71c241e2eef92d7124",
+      "prediction_status_counts": {
+        "ok": 1000
+      },
+      "performance": {
+        "timing_scope_note": "model loading, batch generation, amortized sec/image and end-to-end batch pipeline timing are reported separately",
+        "successful_measured_batches": 1000,
+        "successful_measured_images": 1000,
+        "model_loading_seconds": 4.325142072997551,
+        "batch_generation_latency_seconds": {
+          "p50": 0.21742129199810734,
+          "p95": 0.2790372463505264,
+          "minimum": 0.13296183300190023,
+          "maximum": 0.3069139710023592
+        },
+        "amortized_generation_seconds_per_image": {
+          "p50": 0.21742129199810734,
+          "p95": 0.2790372463505264,
+          "minimum": 0.13296183300190023,
+          "maximum": 0.3069139710023592
+        },
+        "batch_pipeline_latency_seconds": {
+          "p50": 0.2315326219995768,
+          "p95": 0.29964187904861317,
+          "minimum": 0.13812192700061132,
+          "maximum": 0.33132878600008553
+        },
+        "generation_seconds_total": 211.85532320391212,
+        "pipeline_seconds_total": 230.46476631601763,
+        "generation_throughput_images_per_hour": 16992.72855435866,
+        "pipeline_throughput_images_per_hour": 15620.608987421583,
+        "peak_allocated_bytes": 9002312192,
+        "peak_reserved_bytes": 9051308032
+      }
+    },
+    {
+      "repeat": 2,
+      "status": "complete",
+      "started_utc": "2026-09-22T19:52:18.668572+00:00",
+      "ended_utc": "2026-09-22T19:56:29.605180+00:00",
+      "elapsed_seconds": 250.93645130200093,
+      "command": [
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/.venv/bin/python3",
+        "-u",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/run_stage.py",
+        "intermediate",
+        "--input",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/manifests/performance-1000/blind_manifest.csv",
+        "--output",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/round-02/intermediate",
+        "--config",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/configs/experiments/a-4b-bf16-batch1.json",
+        "--save-json",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/round-02/stage.json"
+      ],
+      "log": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/round-02/run.log",
+      "exit_code": 0,
+      "summary": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/round-02/intermediate/summary.json",
+      "summary_sha256": "55346de6d16f918fe62f66ee39b533666e3a20d3789077a8d102244713cc8300",
+      "prediction_status_counts": {
+        "ok": 1000
+      },
+      "performance": {
+        "timing_scope_note": "model loading, batch generation, amortized sec/image and end-to-end batch pipeline timing are reported separately",
+        "successful_measured_batches": 1000,
+        "successful_measured_images": 1000,
+        "model_loading_seconds": 1.2209106129994325,
+        "batch_generation_latency_seconds": {
+          "p50": 0.21935922549891984,
+          "p95": 0.28256093819945816,
+          "minimum": 0.13196977299958235,
+          "maximum": 0.333604927000124
+        },
+        "amortized_generation_seconds_per_image": {
+          "p50": 0.21935922549891984,
+          "p95": 0.28256093819945816,
+          "minimum": 0.13196977299958235,
+          "maximum": 0.333604927000124
+        },
+        "batch_pipeline_latency_seconds": {
+          "p50": 0.23338261149910977,
+          "p95": 0.29796744900140765,
+          "minimum": 0.13462258399886196,
+          "maximum": 0.3620951580014662
+        },
+        "generation_seconds_total": 213.78710039603175,
+        "pipeline_seconds_total": 232.61621476992514,
+        "generation_throughput_images_per_hour": 16839.18250133497,
+        "pipeline_throughput_images_per_hour": 15476.135245174846,
+        "peak_allocated_bytes": 9002312192,
+        "peak_reserved_bytes": 9051308032
+      }
+    },
+    {
+      "repeat": 3,
+      "status": "complete",
+      "started_utc": "2026-09-22T19:56:29.605666+00:00",
+      "ended_utc": "2026-09-22T20:00:39.362036+00:00",
+      "elapsed_seconds": 249.75609658900066,
+      "command": [
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/.venv/bin/python3",
+        "-u",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/run_stage.py",
+        "intermediate",
+        "--input",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/manifests/performance-1000/blind_manifest.csv",
+        "--output",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/round-03/intermediate",
+        "--config",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/configs/experiments/a-4b-bf16-batch1.json",
+        "--save-json",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/round-03/stage.json"
+      ],
+      "log": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/round-03/run.log",
+      "exit_code": 0,
+      "summary": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/round-03/intermediate/summary.json",
+      "summary_sha256": "4952007e1892118df4ceeae80d007e6d860c3b38b853c169a4a888372c1e16d4",
+      "prediction_status_counts": {
+        "ok": 1000
+      },
+      "performance": {
+        "timing_scope_note": "model loading, batch generation, amortized sec/image and end-to-end batch pipeline timing are reported separately",
+        "successful_measured_batches": 1000,
+        "successful_measured_images": 1000,
+        "model_loading_seconds": 1.2324527880009555,
+        "batch_generation_latency_seconds": {
+          "p50": 0.21955615600018064,
+          "p95": 0.28268095910061675,
+          "minimum": 0.1330415170014021,
+          "maximum": 0.3049713799991878
+        },
+        "amortized_generation_seconds_per_image": {
+          "p50": 0.21955615600018064,
+          "p95": 0.28268095910061675,
+          "minimum": 0.1330415170014021,
+          "maximum": 0.3049713799991878
+        },
+        "batch_pipeline_latency_seconds": {
+          "p50": 0.23400164049962768,
+          "p95": 0.3008367231488592,
+          "minimum": 0.13591883499975665,
+          "maximum": 0.3794563470000867
+        },
+        "generation_seconds_total": 212.80345808996935,
+        "pipeline_seconds_total": 231.58124373594546,
+        "generation_throughput_images_per_hour": 16917.018324382618,
+        "pipeline_throughput_images_per_hour": 15545.300396196193,
+        "peak_allocated_bytes": 9002312192,
+        "peak_reserved_bytes": 9051308032
+      }
+    },
+    {
+      "repeat": 4,
+      "status": "complete",
+      "started_utc": "2026-09-22T20:00:39.362613+00:00",
+      "ended_utc": "2026-09-22T20:04:49.764262+00:00",
+      "elapsed_seconds": 250.4014210690002,
+      "command": [
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/.venv/bin/python3",
+        "-u",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/run_stage.py",
+        "intermediate",
+        "--input",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/manifests/performance-1000/blind_manifest.csv",
+        "--output",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/round-04/intermediate",
+        "--config",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/configs/experiments/a-4b-bf16-batch1.json",
+        "--save-json",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/round-04/stage.json"
+      ],
+      "log": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/round-04/run.log",
+      "exit_code": 0,
+      "summary": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/round-04/intermediate/summary.json",
+      "summary_sha256": "62f5e0ca55c09c5b084332eb5e95dec9b4697247e15a31f0d2752a99e3bdbc82",
+      "prediction_status_counts": {
+        "ok": 1000
+      },
+      "performance": {
+        "timing_scope_note": "model loading, batch generation, amortized sec/image and end-to-end batch pipeline timing are reported separately",
+        "successful_measured_batches": 1000,
+        "successful_measured_images": 1000,
+        "model_loading_seconds": 1.2127859299980628,
+        "batch_generation_latency_seconds": {
+          "p50": 0.22012534399982542,
+          "p95": 0.2843400362489774,
+          "minimum": 0.13343935000011697,
+          "maximum": 0.32502573900274
+        },
+        "amortized_generation_seconds_per_image": {
+          "p50": 0.22012534399982542,
+          "p95": 0.2843400362489774,
+          "minimum": 0.13343935000011697,
+          "maximum": 0.32502573900274
+        },
+        "batch_pipeline_latency_seconds": {
+          "p50": 0.23390571250092762,
+          "p95": 0.3015503742981309,
+          "minimum": 0.1362050059979083,
+          "maximum": 0.347132896000403
+        },
+        "generation_seconds_total": 213.60131236001325,
+        "pipeline_seconds_total": 232.16670339300254,
+        "generation_throughput_images_per_hour": 16853.829034216786,
+        "pipeline_throughput_images_per_hour": 15506.099485360153,
+        "peak_allocated_bytes": 9002312192,
+        "peak_reserved_bytes": 9051308032
+      }
+    },
+    {
+      "repeat": 5,
+      "status": "complete",
+      "started_utc": "2026-09-22T20:04:49.764876+00:00",
+      "ended_utc": "2026-09-22T20:08:58.947764+00:00",
+      "elapsed_seconds": 249.18247899999915,
+      "command": [
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/.venv/bin/python3",
+        "-u",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/run_stage.py",
+        "intermediate",
+        "--input",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/manifests/performance-1000/blind_manifest.csv",
+        "--output",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/round-05/intermediate",
+        "--config",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/configs/experiments/a-4b-bf16-batch1.json",
+        "--save-json",
+        "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/round-05/stage.json"
+      ],
+      "log": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/round-05/run.log",
+      "exit_code": 0,
+      "summary": "/home/puem/Desktop/HPCP/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/pilot-matrix-20260923/local/A/4b-bf16/round-05/intermediate/summary.json",
+      "summary_sha256": "0eb5bf161bdf70ff645a8da7830d310728d7400998a233522ef91a66867ea101",
+      "prediction_status_counts": {
+        "ok": 1000
+      },
+      "performance": {
+        "timing_scope_note": "model loading, batch generation, amortized sec/image and end-to-end batch pipeline timing are reported separately",
+        "successful_measured_batches": 1000,
+        "successful_measured_images": 1000,
+        "model_loading_seconds": 1.272038145998522,
+        "batch_generation_latency_seconds": {
+          "p50": 0.21784097100135114,
+          "p95": 0.28331746430030763,
+          "minimum": 0.13278116600122303,
+          "maximum": 0.31355964799877256
+        },
+        "amortized_generation_seconds_per_image": {
+          "p50": 0.21784097100135114,
+          "p95": 0.28331746430030763,
+          "minimum": 0.13278116600122303,
+          "maximum": 0.31355964799877256
+        },
+        "batch_pipeline_latency_seconds": {
+          "p50": 0.23235646900138818,
+          "p95": 0.30161659075001807,
+          "minimum": 0.13565945599839324,
+          "maximum": 0.34052923600029317
+        },
+        "generation_seconds_total": 212.73473127091347,
+        "pipeline_seconds_total": 231.1436843279589,
+        "generation_throughput_images_per_hour": 16922.483594911784,
+        "pipeline_throughput_images_per_hour": 15574.72794667463,
+        "peak_allocated_bytes": 9002312192,
+        "peak_reserved_bytes": 9051308032
+      }
+    }
+  ],
+  "completed_repeats": 5
+}

@@ -1,0 +1,39 @@
+# Downloaded datasets stay local; use scripts/ to reproduce them.
+/data/
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+*.egg-info/
+
+# Local execution artifacts (the presentation evidence bundle is retained).
+/ai-for-research/module-06-vlm/vlm-cxr-benchmark/tmp/
+/ai-for-research/module-06-vlm/vlm-cxr-benchmark/runs/
+/ai-for-research/module-06-vlm/vlm-cxr-benchmark/logs/
+/ai-for-research/module-06-vlm/vlm-cxr-benchmark/outputs/
+/ai-for-research/module-06-vlm/vlm-cxr-benchmark/output/packages/
+/ai-for-research/module-06-vlm/vlm-cxr-benchmark/data/dataset
+
+# Credentials, model weights, archives, and local backups
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.zip
+*.tar
+*.tar.gz
+.ai/
+.DS_Store
