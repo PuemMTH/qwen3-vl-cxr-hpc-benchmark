@@ -1,4 +1,4 @@
-# HPCP
+# Qwen3-VL CXR HPC Benchmark
 
 Research materials and a reproducible Qwen3-VL chest X-ray benchmark comparing
 local NVIDIA RTX 5070 execution with NVIDIA A100 execution on LANTA HPC.
